@@ -42,6 +42,9 @@ ECHO building application...
 PUSHD binary
 CALL emcc -c -I ..\lua ..\source\main.c -o pixtoy.o
 CALL emcc -s USE_SDL=2 lua.o pixtoy.o -o pixtoy.html
+COPY ..\source\*.html *.html
+COPY ..\source\*.js *.js
+COPY ..\source\*.css *.css
 POPD
 GOTO end
 

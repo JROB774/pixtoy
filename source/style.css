@@ -1,0 +1,33 @@
+body
+{
+  padding: 0px;
+  margin: 0px;
+}
+
+.canvas-container
+{
+  margin-top: 25px;
+  margin-bottom: 50px;
+  width: 100%;
+  text-align: center;
+}
+
+#canvas
+{
+  display: inline;
+  width: 512px;
+  height: 512px;
+}
+
+#output
+{
+  background: #000;
+  color: #FFF;
+  outline: none;
+  border: none;
+  marign: 0;
+  padding: 5px 10px;
+  width: 100%;
+  height: auto;
+  min-height: 240px;
+}
