@@ -1,4 +1,4 @@
-body
+html, body
 {
   padding: 0px;
   margin: 0px;
@@ -8,8 +8,20 @@ body
 {
   margin-top: 25px;
   margin-bottom: 50px;
-  width: 100%;
+  width: 50%;
+  height: auto;
   text-align: center;
+  float: left;
+}
+
+.textedit-container
+{
+  margin-top: 25px;
+  margin-bottom: 50px;
+  width: 50%;
+  height: auto;
+  text-align: center;
+  float: left;
 }
 
 #canvas
@@ -19,14 +31,30 @@ body
   height: 512px;
 }
 
+#textedit
+{
+  font: "Liberation Mono", monospace;
+  font-weight: bold;
+  background: #CCC;
+  color: #000;
+  outline: none;
+  border: none;
+  marign: 0;
+  padding: 5px;
+  width: 100%;
+  height: 512px;
+}
+
 #output
 {
+  font: "Liberation Mono", monospace;
+  font-weight: bold;
   background: #000;
   color: #FFF;
   outline: none;
   border: none;
   marign: 0;
-  padding: 5px 10px;
+  padding: 5px;
   width: 100%;
   height: auto;
   min-height: 240px;

@@ -25,6 +25,12 @@ static SDL_Renderer* renderer;
 static SDL_Surface*  screen;
 static SDL_Texture*  target;
 
+// Function call into JS to retrieve text edit string for parsing into Lua code.
+EM_JS(void, JS_get_lua_string, (const char* out_str, size_t max_bytes),
+{
+    get_lua_string(out_str, max_bytes);
+});
+
 LUA_FUNCTION(clear)
 {
     int c = luaL_checkinteger(lua, 1);
@@ -47,8 +53,10 @@ void main_loop()
     SDL_SetRenderDrawColor(renderer, 0,0,0,255);
     SDL_RenderClear(renderer);
 
-    const char* luacode = "clear(40);pixel(10,10,255);pixel(11,10,255);pixel(12,10,255);";
-    luaL_dostring(luastate, luacode);
+    char lua_buffer[4096] = {0};
+    JS_get_lua_string(lua_buffer, 4096);
+
+    luaL_dostring(luastate, lua_buffer);
 
     SDL_UpdateTexture(target, NULL, screen->pixels, screen->pitch);
     SDL_RenderCopy(renderer, target, NULL, NULL);
@@ -59,10 +67,18 @@ int main(int argc, char** argv)
 {
     SDL_Init(SDL_INIT_VIDEO);
 
-    window = SDL_CreateWindow("pixtoy", 0,0,SCREEN_W*3,SCREEN_H*3, SDL_WINDOW_SHOWN);
+    // Stop SDL from eating all of our inputs!
+    SDL_EventState(SDL_TEXTINPUT, SDL_DISABLE);
+    SDL_EventState(SDL_KEYDOWN, SDL_DISABLE);
+    SDL_EventState(SDL_KEYUP, SDL_DISABLE);
+    SDL_EventState(SDL_MOUSEMOTION, SDL_DISABLE);
+    SDL_EventState(SDL_MOUSEBUTTONDOWN, SDL_DISABLE);
+    SDL_EventState(SDL_MOUSEBUTTONUP, SDL_DISABLE);
+
+    window = SDL_CreateWindow("pixtoy", 0,0,SCREEN_W*2,SCREEN_H*2, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    // Setup a render target for drawing into.
+    // Setup the render target for drawing into.
     u32 pixel_format = SDL_GetWindowPixelFormat(window);
     u32 r,g,b,a;
     int bpp;
@@ -70,7 +86,7 @@ int main(int argc, char** argv)
     screen = SDL_CreateRGBSurface(0, SCREEN_W,SCREEN_H, 32, r,g,b,a);
     target = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, SCREEN_W,SCREEN_H);
 
-    // Expose drawing functions to Lua.
+    // Expose the drawing functions to Lua.
     luastate = luaL_newstate();
     LUA_REGISTER(clear);
     LUA_REGISTER(pixel);
