@@ -18,35 +18,22 @@
 #define SCREEN_H 256
 
 typedef uint32_t u32;
+typedef uint8_t u8;
 
 static lua_State*    luastate;
 static SDL_Window*   window;
 static SDL_Renderer* renderer;
 static SDL_Surface*  screen;
 static SDL_Texture*  target;
+static u32*          pixels;
+
+#include "draw.c"
 
 // Function call into JS to retrieve text edit string for parsing into Lua code.
 EM_JS(void, JS_get_lua_string, (const char* out_str, size_t max_bytes),
 {
     get_lua_string(out_str, max_bytes);
 });
-
-LUA_FUNCTION(clear)
-{
-    int c = luaL_checkinteger(lua, 1);
-    memset(screen->pixels, c, SCREEN_W*SCREEN_H*4);
-    return 0;
-}
-
-LUA_FUNCTION(pixel)
-{
-    int x = luaL_checkinteger(lua, 1);
-    int y = luaL_checkinteger(lua, 2);
-    int c = luaL_checkinteger(lua, 3);
-    u32*pixels = (u32*)screen->pixels;
-    memset(&pixels[y*SCREEN_W+x], c, sizeof(u32));
-    return 0;
-}
 
 void main_loop()
 {
@@ -85,11 +72,15 @@ int main(int argc, char** argv)
     SDL_PixelFormatEnumToMasks(pixel_format, &bpp, &r,&g,&b,&a);
     screen = SDL_CreateRGBSurface(0, SCREEN_W,SCREEN_H, 32, r,g,b,a);
     target = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, SCREEN_W,SCREEN_H);
+    pixels = (u32*)screen->pixels;
 
     // Expose the drawing functions to Lua.
     luastate = luaL_newstate();
-    LUA_REGISTER(clear);
-    LUA_REGISTER(pixel);
+    LUA_REGISTER(cls);
+    LUA_REGISTER(px);
+    LUA_REGISTER(line);
+    LUA_REGISTER(rect);
+    LUA_REGISTER(circ);
 
     emscripten_set_main_loop(main_loop, -1, 1);
 

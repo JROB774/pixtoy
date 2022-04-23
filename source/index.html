@@ -8,10 +8,14 @@
       <canvas id="canvas" tabindex=-1></canvas>
     </div>
     <div class="textedit-container">
-      <textarea id="textedit">clear(40)
-pixel(10,10,255)
-pixel(11,10,255)
-pixel(12,10,255)</textarea>
+      <textarea id="textedit">cls(0)
+for iy=0,255,1
+do
+  for ix=0,255,1
+  do
+    px(ix,iy, ix,iy,127)
+  end
+end</textarea>
     </div>
     <textarea id="output" rows="8">
     </textarea>
