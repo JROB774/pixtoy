@@ -44,6 +44,7 @@ CALL emcc -c -I ..\lua ..\source\pixtoy.c -o pixtoy.o
 CALL emcc -s WASM=1 -s USE_SDL=2 lua.o pixtoy.o -o pixtoy.js
 COPY ..\source\*.html *.html
 COPY ..\source\*.js *.js
+COPY ..\source\ace\*.js *.js
 COPY ..\source\*.css *.css
 POPD
 GOTO end

@@ -8,17 +8,24 @@
       <canvas id="canvas" tabindex=-1></canvas>
     </div>
     <div class="textedit-container">
-      <textarea id="textedit">cls(0)
+      <div id="textedit">cls(0)
 for iy=0,255,1
 do
   for ix=0,255,1
   do
     px(ix,iy, ix,iy,127)
   end
-end</textarea>
+end</div>
     </div>
     <textarea id="output" rows="8">
     </textarea>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.min.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        ace.config.set('basePath', '.')
+        var editor = ace.edit("textedit");
+        editor.setTheme("ace/theme/terminal");
+        editor.session.setMode("ace/mode/lua");
+    </script>
     <script src="canvas.js"></script>
     <script src="pixtoy.js"></script>
   </body>

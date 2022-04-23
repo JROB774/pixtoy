@@ -23,8 +23,8 @@ var Module = {
 };
 
 function get_lua_string(out_str, max_bytes) {
-  var element = document.getElementById('textedit');
-  stringToUTF8(element.value, out_str, max_bytes);
+  var text = ace.edit("textedit").getValue();
+  stringToUTF8(text, out_str, max_bytes);
 }
 
 // Hijack tab handling so that the user can insert them in code: https://stackoverflow.com/a/18303822

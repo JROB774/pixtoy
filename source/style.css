@@ -33,14 +33,6 @@ html, body
 
 #textedit
 {
-  font: "Liberation Mono", monospace;
-  font-weight: bold;
-  background: #CCC;
-  color: #000;
-  outline: none;
-  border: none;
-  marign: 0;
-  padding: 5px;
   width: 100%;
   height: 512px;
 }
@@ -53,9 +45,12 @@ html, body
   color: #FFF;
   outline: none;
   border: none;
-  marign: 0;
+  margin: 0;
   padding: 5px;
   width: 100%;
   height: auto;
   min-height: 240px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
