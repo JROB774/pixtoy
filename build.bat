@@ -41,7 +41,7 @@ GOTO build_app
 ECHO building application...
 PUSHD binary
 CALL emcc -c -I ..\lua ..\source\main.c -o pixtoy.o
-CALL emcc -s USE_SDL=2 lua.o pixtoy.o -o pixtoy.html
+CALL emcc -s WASM=1 -s USE_SDL=2 lua.o pixtoy.o -o pixtoy.js
 COPY ..\source\*.html *.html
 COPY ..\source\*.js *.js
 COPY ..\source\*.css *.css
