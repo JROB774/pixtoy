@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <string.h>
 
 #include <emscripten.h>
@@ -13,6 +14,9 @@
 
 #define LUA_FUNCTION(func) int LUA_##func(lua_State* lua)
 #define LUA_REGISTER(func) lua_pushcfunction(luastate, LUA_##func); lua_setglobal(luastate, #func)
+
+#define SWAP(t,x,y) do { t tmp__ = x; x = y; y = tmp__; } while(0)
+#define CLAMP(x,lo,hi) (((x)>(hi))?(hi):(((x)<(lo))?(lo):(x)))
 
 #define SCREEN_W 256
 #define SCREEN_H 256
@@ -76,6 +80,7 @@ int main(int argc, char** argv)
 
     // Expose the drawing functions to Lua.
     luastate = luaL_newstate();
+    luaL_openlibs(luastate); // @Temporary: We will not expose libs in the future!
     LUA_REGISTER(cls);
     LUA_REGISTER(px);
     LUA_REGISTER(line);
