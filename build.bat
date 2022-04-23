@@ -1,15 +1,33 @@
 @ECHO off
-SETLOCAL
-
-IF "%~1"=="clean" GOTO clean_dir
 
 IF NOT EXIST binary MKDIR binary
+
+IF "%~1"=="clean" GOTO clean_dir
+IF "%~1"=="server" GOTO run_server
+IF "%~1"=="setup" GOTO run_setup
+
 IF NOT EXIST binary\lua.o GOTO build_lua
 GOTO build_app
 
 :clean_dir
 ECHO cleaning build...
 IF EXIST "binary" DEL binary\*.*?
+GOTO end
+
+:run_server
+ECHO starting server...
+PUSHD binary
+START python -m http.server
+POPD
+GOTO end
+
+:run_setup
+ECHO setting up emsdk...
+PUSHD emsdk
+CALL emsdk install latest
+CALL emsdk activate latest
+CALL emsdk_env.bat
+POPD
 GOTO end
 
 :build_lua
@@ -29,4 +47,3 @@ GOTO end
 
 :end
 ECHO complete!
-ENDLOCAL
