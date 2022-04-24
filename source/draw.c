@@ -15,22 +15,22 @@ static Color get_lua_color_arg(lua_State* lua, int offs)
     switch(comps)
     {
         case 1: // RRR1
-            col.r = CLAMP(luaL_checknumber(lua, offs+0),0,255);
-            col.g = CLAMP(luaL_checknumber(lua, offs+0),0,255);
-            col.b = CLAMP(luaL_checknumber(lua, offs+0),0,255);
+            col.r = luaL_checknumber(lua, offs+0);
+            col.g = luaL_checknumber(lua, offs+0);
+            col.b = luaL_checknumber(lua, offs+0);
             col.a = 255;
         break;
         case 3: // RGB1
-            col.r = CLAMP(luaL_checknumber(lua, offs+0),0,255);
-            col.g = CLAMP(luaL_checknumber(lua, offs+1),0,255);
-            col.b = CLAMP(luaL_checknumber(lua, offs+2),0,255);
+            col.r = luaL_checknumber(lua, offs+0);
+            col.g = luaL_checknumber(lua, offs+1);
+            col.b = luaL_checknumber(lua, offs+2);
             col.a = 255;
         break;
         case 4: // RGBA
-            col.r = CLAMP(luaL_checknumber(lua, offs+0),0,255);
-            col.g = CLAMP(luaL_checknumber(lua, offs+1),0,255);
-            col.b = CLAMP(luaL_checknumber(lua, offs+2),0,255);
-            col.a = CLAMP(luaL_checknumber(lua, offs+3),0,255);
+            col.r = luaL_checknumber(lua, offs+0);
+            col.g = luaL_checknumber(lua, offs+1);
+            col.b = luaL_checknumber(lua, offs+2);
+            col.a = luaL_checknumber(lua, offs+3);
         break;
     }
     return col;
