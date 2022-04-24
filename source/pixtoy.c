@@ -81,6 +81,12 @@ int main(int argc, char** argv)
     // Expose the drawing functions to Lua.
     luastate = luaL_newstate();
     luaL_openlibs(luastate); // @Temporary: We will not expose libs in the future!
+
+    lua_pushinteger(luastate, SCREEN_W);
+    lua_setglobal(luastate, "scrw");
+    lua_pushinteger(luastate, SCREEN_H);
+    lua_setglobal(luastate, "scrh");
+
     LUA_REGISTER(cls);
     LUA_REGISTER(px);
     LUA_REGISTER(line);
