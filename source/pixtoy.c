@@ -1,7 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <math.h>
 #include <stdbool.h>
+#include <time.h>
 #include <string.h>
 
 #include <emscripten.h>
@@ -32,6 +34,7 @@ static SDL_Surface*  screen;
 static SDL_Texture*  target;
 static u32*          pixels;
 
+#include "math.c"
 #include "draw.c"
 
 // Function call into JS to retrieve text edit string for parsing into Lua code.
@@ -106,10 +109,30 @@ int main(int argc, char** argv)
     target = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, SCREEN_W,SCREEN_H);
     pixels = (u32*)screen->pixels;
 
-    // Expose the drawing functions to Lua.
+    // Expose functions to Lua.
     luastate = luaL_newstate();
-    // luaL_openlibs(luastate); // @Temporary: We will not expose libs in the future!
 
+    LUA_REGISTER(abs);
+    LUA_REGISTER(acos);
+    LUA_REGISTER(asin);
+    LUA_REGISTER(atan);
+    LUA_REGISTER(round);
+    LUA_REGISTER(ceil);
+    LUA_REGISTER(floor);
+    LUA_REGISTER(deg);
+    LUA_REGISTER(rad);
+    LUA_REGISTER(exp);
+    LUA_REGISTER(fmod);
+    LUA_REGISTER(modf);
+    LUA_REGISTER(log);
+    LUA_REGISTER(min);
+    LUA_REGISTER(max);
+    LUA_REGISTER(sqrt);
+    LUA_REGISTER(cos);
+    LUA_REGISTER(sin);
+    LUA_REGISTER(tan);
+    LUA_REGISTER(seed);
+    LUA_REGISTER(rand);
     LUA_REGISTER(cls);
     LUA_REGISTER(px);
     LUA_REGISTER(line);
