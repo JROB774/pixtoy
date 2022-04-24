@@ -15,22 +15,22 @@ static Color get_lua_color_arg(lua_State* lua, int offs)
     switch(comps)
     {
         case 1: // RRR1
-            col.r = luaL_checkinteger(lua, offs+0);
-            col.g = luaL_checkinteger(lua, offs+0);
-            col.b = luaL_checkinteger(lua, offs+0);
-            col.a = 1;
+            col.r = CLAMP(luaL_checkinteger(lua, offs+0),0,255);
+            col.g = CLAMP(luaL_checkinteger(lua, offs+0),0,255);
+            col.b = CLAMP(luaL_checkinteger(lua, offs+0),0,255);
+            col.a = 255;
         break;
         case 3: // RGB1
-            col.r = luaL_checkinteger(lua, offs+0);
-            col.g = luaL_checkinteger(lua, offs+1);
-            col.b = luaL_checkinteger(lua, offs+2);
-            col.a = 1;
+            col.r = CLAMP(luaL_checkinteger(lua, offs+0),0,255);
+            col.g = CLAMP(luaL_checkinteger(lua, offs+1),0,255);
+            col.b = CLAMP(luaL_checkinteger(lua, offs+2),0,255);
+            col.a = 255;
         break;
         case 4: // RGBA
-            col.r = luaL_checkinteger(lua, offs+0);
-            col.g = luaL_checkinteger(lua, offs+1);
-            col.b = luaL_checkinteger(lua, offs+2);
-            col.a = luaL_checkinteger(lua, offs+3);
+            col.r = CLAMP(luaL_checkinteger(lua, offs+0),0,255);
+            col.g = CLAMP(luaL_checkinteger(lua, offs+1),0,255);
+            col.b = CLAMP(luaL_checkinteger(lua, offs+2),0,255);
+            col.a = CLAMP(luaL_checkinteger(lua, offs+3),0,255);
         break;
     }
     return col;
@@ -226,4 +226,20 @@ LUA_FUNCTION(circ)
     }
 
     return 0;
+}
+
+LUA_FUNCTION(get)
+{
+    int x = luaL_checkinteger(lua, 1);
+    int y = luaL_checkinteger(lua, 2);
+
+    Color c = {0};
+    if(x >= 0 && x < SCREEN_W && y >= 0 && y < SCREEN_H)
+        c.raw = pixels[y*SCREEN_W+x];
+    lua_pushnumber(lua, c.r);
+    lua_pushnumber(lua, c.g);
+    lua_pushnumber(lua, c.b);
+    lua_pushnumber(lua, c.a);
+
+    return 4;
 }

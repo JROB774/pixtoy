@@ -86,6 +86,7 @@ int main(int argc, char** argv)
     LUA_REGISTER(line);
     LUA_REGISTER(rect);
     LUA_REGISTER(circ);
+    LUA_REGISTER(get);
 
     emscripten_set_main_loop(main_loop, -1, 1);
 
