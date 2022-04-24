@@ -21,8 +21,9 @@
 #define SCREEN_W 256
 #define SCREEN_H 256
 
+typedef uint64_t u64;
 typedef uint32_t u32;
-typedef uint8_t u8;
+typedef  uint8_t  u8;
 
 static lua_State*    luastate;
 static SDL_Window*   window;
@@ -41,14 +42,41 @@ EM_JS(void, JS_get_lua_string, (const char* out_str, size_t max_bytes),
 
 void main_loop()
 {
-    SDL_SetRenderDrawColor(renderer, 0,0,0,255);
-    SDL_RenderClear(renderer);
+    static u64 perf_frequency = 0;
+    static u64 last_counter = 0;
+    static u64 end_counter = 0;
+    static u64 elapsed_counter = 0;
 
+    static float delta_time = 0.0f;
+    static float total_time = 0.0f;
+
+    perf_frequency = SDL_GetPerformanceFrequency();
+
+    // @Incomplete: Make a dynamic buffer based on text size rather than fixed size!
     char lua_buffer[4096] = {0};
     JS_get_lua_string(lua_buffer, 4096);
 
+    // @Note: Is this okay to do every fra,e or do we need to pop these?
+    lua_pushnumber(luastate, delta_time);
+    lua_setglobal(luastate, "dt");
+    lua_pushnumber(luastate, total_time);
+    lua_setglobal(luastate, "t");
+    lua_pushinteger(luastate, SCREEN_W);
+    lua_setglobal(luastate, "scrw");
+    lua_pushinteger(luastate, SCREEN_H);
+    lua_setglobal(luastate, "scrh");
+
     luaL_dostring(luastate, lua_buffer);
 
+    end_counter = SDL_GetPerformanceCounter();
+    elapsed_counter = end_counter - last_counter;
+    last_counter = SDL_GetPerformanceCounter();
+
+    delta_time = (float)elapsed_counter / (float)perf_frequency;
+    total_time += delta_time;
+
+    SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+    SDL_RenderClear(renderer);
     SDL_UpdateTexture(target, NULL, screen->pixels, screen->pitch);
     SDL_RenderCopy(renderer, target, NULL, NULL);
     SDL_RenderPresent(renderer);
@@ -80,12 +108,7 @@ int main(int argc, char** argv)
 
     // Expose the drawing functions to Lua.
     luastate = luaL_newstate();
-    luaL_openlibs(luastate); // @Temporary: We will not expose libs in the future!
-
-    lua_pushinteger(luastate, SCREEN_W);
-    lua_setglobal(luastate, "scrw");
-    lua_pushinteger(luastate, SCREEN_H);
-    lua_setglobal(luastate, "scrh");
+    // luaL_openlibs(luastate); // @Temporary: We will not expose libs in the future!
 
     LUA_REGISTER(cls);
     LUA_REGISTER(px);
