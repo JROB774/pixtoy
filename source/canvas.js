@@ -27,6 +27,17 @@ function get_lua_string(out_str, max_bytes) {
   stringToUTF8(text, out_str, max_bytes);
 }
 
+function set_error_message(err, len) {
+  var element = document.getElementById('error');
+  if(len !== 0) {
+    var errmsg = UTF8ToString(err,len);
+    element.value = errmsg;
+    element.style.display = 'block';
+  } else {
+    element.style.display = 'none';
+  }
+}
+
 // Hijack tab handling so that the user can insert them in code: https://stackoverflow.com/a/18303822
 document.getElementById("textedit").addEventListener('keydown', function(e) {
   if(e.keyCode === 9) {

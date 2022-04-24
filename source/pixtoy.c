@@ -43,7 +43,13 @@ EM_JS(void, JS_get_lua_string, (const char* out_str, size_t max_bytes),
     get_lua_string(out_str, max_bytes);
 });
 
-void main_loop()
+// Function call into JS to display a Lua error message on the webpage.
+EM_JS(void, JS_set_error_message, (const char* err, size_t len),
+{
+    set_error_message(err, len);
+});
+
+static void main_loop()
 {
     static u64 perf_frequency = 0;
     static u64 last_counter = 0;
@@ -69,7 +75,16 @@ void main_loop()
     lua_pushinteger(luastate, SCREEN_H);
     lua_setglobal(luastate, "scrh");
 
-    luaL_dostring(luastate, lua_buffer);
+    int ret = luaL_dostring(luastate, lua_buffer);
+    if(ret != LUA_OK)
+    {
+        const char* err = lua_tostring(luastate,-1);
+        JS_set_error_message(err, strlen(err));
+    }
+    else
+    {
+        JS_set_error_message(NULL,0);
+    }
 
     end_counter = SDL_GetPerformanceCounter();
     elapsed_counter = end_counter - last_counter;
