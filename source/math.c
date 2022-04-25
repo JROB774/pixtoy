@@ -167,6 +167,7 @@ LUA_FUNCTION(seed)
     return 0;
 }
 
+// @Incomplete: Arguments aren't really handled well, if we have one that should be max! If we have two then they are min,max.
 LUA_FUNCTION(rand)
 {
     float x = 0.0f;
