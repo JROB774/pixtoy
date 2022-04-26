@@ -273,7 +273,7 @@ static void draw_line(int x0, int y0, int x1, int y1, Color c)
     }
 }
 
-LUA_FUNCTION(cls)
+LUA_FUNCTION(clrs)
 {
     Color c = get_lua_color_arg(lua, 1);
     for(u32 i=0; i<SCREEN_W*SCREEN_H; ++i)
@@ -281,7 +281,7 @@ LUA_FUNCTION(cls)
     return 0;
 }
 
-LUA_FUNCTION(px)
+LUA_FUNCTION(pset)
 {
     int x = luaL_checknumber(lua, 1);
     int y = luaL_checknumber(lua, 2);
@@ -290,6 +290,21 @@ LUA_FUNCTION(px)
     return 0;
 }
 
+LUA_FUNCTION(pget)
+{
+    int x = luaL_checknumber(lua, 1);
+    int y = luaL_checknumber(lua, 2);
+
+    Color c = {0};
+    if(x >= 0 && x < SCREEN_W && y >= 0 && y < SCREEN_H)
+        c.raw = pixels[y*SCREEN_W+x];
+    lua_pushnumber(lua, c.r);
+    lua_pushnumber(lua, c.g);
+    lua_pushnumber(lua, c.b);
+    lua_pushnumber(lua, c.a);
+
+    return 4;
+}
 LUA_FUNCTION(line)
 {
     int  x0 = luaL_checknumber(lua, 1);
@@ -416,20 +431,4 @@ LUA_FUNCTION(circ)
     }
 
     return 0;
-}
-
-LUA_FUNCTION(get)
-{
-    int x = luaL_checknumber(lua, 1);
-    int y = luaL_checknumber(lua, 2);
-
-    Color c = {0};
-    if(x >= 0 && x < SCREEN_W && y >= 0 && y < SCREEN_H)
-        c.raw = pixels[y*SCREEN_W+x];
-    lua_pushnumber(lua, c.r);
-    lua_pushnumber(lua, c.g);
-    lua_pushnumber(lua, c.b);
-    lua_pushnumber(lua, c.a);
-
-    return 4;
 }
