@@ -34,8 +34,7 @@ static SDL_Surface*  screen;
 static SDL_Texture*  target;
 static u32*          pixels;
 
-#include "math.c"
-#include "draw.c"
+#include "pixapi.c"
 
 // Function call into JS to retrieve text edit string for parsing into Lua code.
 EM_JS(void, JS_get_lua_string, (const char* out_str, size_t max_bytes),
