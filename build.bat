@@ -22,8 +22,8 @@ GOTO end
 
 :run_setup
 ECHO setting up emsdk...
-CALL app\emsdk emsdk install latest
-CALL app\emsdk activate latest
+CALL app\emsdk\emsdk install latest
+CALL app\emsdk\emsdk activate latest
 CALL app\emsdk\emsdk_env.bat
 GOTO end
 
