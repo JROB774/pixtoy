@@ -1,9 +1,22 @@
 language: generic
 
+before_script:
+  - pushd app/emsdk
+  - ./emsdk install latest
+  - ./emsdk activate latest
+  - source ./emsdk_env.sh
+  - popd
+
+script:
+  - pushd web
+  - emcc -s WASM=1 -s USE_SDL=2 -I ../app/lua ../app/pixapp.c -o pixtoy.js
+  - popd
+
 deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
+  local-dir: web
   keep_history: false
   on:
     branch: master
