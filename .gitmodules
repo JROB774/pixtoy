@@ -1,6 +1,6 @@
 [submodule "emsdk"]
-	path = emsdk
+	path = app/emsdk
 	url = https://github.com/emscripten-core/emsdk.git
 [submodule "lua"]
-	path = lua
+	path = app/lua
 	url = https://github.com/lua/lua.git
