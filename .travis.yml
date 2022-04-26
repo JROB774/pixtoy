@@ -4,10 +4,10 @@ before_script:
   - pushd app/emsdk
   - ./emsdk install latest
   - ./emsdk activate latest
-  - source ./emsdk_env.sh
   - popd
 
 script:
+  - source app/emsdk/emsdk_env.sh
   - pushd web
   - emcc -s WASM=1 -s USE_SDL=2 -I ../app/lua ../app/pixapp.c -o pixtoy.js
   - popd
