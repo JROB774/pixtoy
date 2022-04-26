@@ -1,3 +1,6 @@
+#define LUA_FUNCTION(func) int LUA_##func(lua_State* lua)
+#define LUA_REGISTER(func) lua_pushcfunction(lua, LUA_##func); lua_setglobal(lua, #func)
+
 //
 // Math
 //
@@ -431,4 +434,39 @@ LUA_FUNCTION(circ)
     }
 
     return 0;
+}
+
+//
+// Register the API calls with Lua.
+//
+
+void register_api(lua_State* lua)
+{
+    LUA_REGISTER(abs);
+    LUA_REGISTER(acos);
+    LUA_REGISTER(asin);
+    LUA_REGISTER(atan);
+    LUA_REGISTER(round);
+    LUA_REGISTER(ceil);
+    LUA_REGISTER(floor);
+    LUA_REGISTER(deg);
+    LUA_REGISTER(rad);
+    LUA_REGISTER(exp);
+    LUA_REGISTER(fmod);
+    LUA_REGISTER(modf);
+    LUA_REGISTER(log);
+    LUA_REGISTER(min);
+    LUA_REGISTER(max);
+    LUA_REGISTER(sqrt);
+    LUA_REGISTER(cos);
+    LUA_REGISTER(sin);
+    LUA_REGISTER(tan);
+    LUA_REGISTER(seed);
+    LUA_REGISTER(rand);
+    LUA_REGISTER(clrs);
+    LUA_REGISTER(pset);
+    LUA_REGISTER(pget);
+    LUA_REGISTER(line);
+    LUA_REGISTER(rect);
+    LUA_REGISTER(circ);
 }

@@ -20,9 +20,6 @@ typedef uint64_t u64;
 typedef uint32_t u32;
 typedef  uint8_t  u8;
 
-#define LUA_FUNCTION(func) int LUA_##func(lua_State* lua)
-#define LUA_REGISTER(func) lua_pushcfunction(luastate, LUA_##func); lua_setglobal(luastate, #func)
-
 typedef struct lua_State lua_State; // Predeclare this so we can declare our Lua state.
 
 static SDL_Window*   window;
@@ -124,34 +121,7 @@ int main(int argc, char** argv)
 
     // Expose functions to Lua.
     luastate = luaL_newstate();
-
-    LUA_REGISTER(abs);
-    LUA_REGISTER(acos);
-    LUA_REGISTER(asin);
-    LUA_REGISTER(atan);
-    LUA_REGISTER(round);
-    LUA_REGISTER(ceil);
-    LUA_REGISTER(floor);
-    LUA_REGISTER(deg);
-    LUA_REGISTER(rad);
-    LUA_REGISTER(exp);
-    LUA_REGISTER(fmod);
-    LUA_REGISTER(modf);
-    LUA_REGISTER(log);
-    LUA_REGISTER(min);
-    LUA_REGISTER(max);
-    LUA_REGISTER(sqrt);
-    LUA_REGISTER(cos);
-    LUA_REGISTER(sin);
-    LUA_REGISTER(tan);
-    LUA_REGISTER(seed);
-    LUA_REGISTER(rand);
-    LUA_REGISTER(clrs);
-    LUA_REGISTER(pset);
-    LUA_REGISTER(pget);
-    LUA_REGISTER(line);
-    LUA_REGISTER(rect);
-    LUA_REGISTER(circ);
+    register_api(luastate);
 
     emscripten_set_main_loop(main_loop, -1, 1);
 
