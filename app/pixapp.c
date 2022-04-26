@@ -10,13 +10,6 @@
 
 #include <SDL.h>
 
-#include <lua.h>
-#include <lualib.h>
-#include <lauxlib.h>
-
-#define LUA_FUNCTION(func) int LUA_##func(lua_State* lua)
-#define LUA_REGISTER(func) lua_pushcfunction(luastate, LUA_##func); lua_setglobal(luastate, #func)
-
 #define SWAP(t,x,y) do { t tmp__ = x; x = y; y = tmp__; } while(0)
 #define CLAMP(x,lo,hi) (((x)>(hi))?(hi):(((x)<(lo))?(lo):(x)))
 
@@ -27,13 +20,19 @@ typedef uint64_t u64;
 typedef uint32_t u32;
 typedef  uint8_t  u8;
 
-static lua_State*    luastate;
+#define LUA_FUNCTION(func) int LUA_##func(lua_State* lua)
+#define LUA_REGISTER(func) lua_pushcfunction(luastate, LUA_##func); lua_setglobal(luastate, #func)
+
+typedef struct lua_State lua_State; // Predeclare this so we can declare our Lua state.
+
 static SDL_Window*   window;
 static SDL_Renderer* renderer;
 static SDL_Surface*  screen;
 static SDL_Texture*  target;
 static u32*          pixels;
+static lua_State*    luastate;
 
+#include "pixlua.c"
 #include "pixapi.c"
 
 // Function call into JS to retrieve text edit string for parsing into Lua code.

@@ -6,7 +6,6 @@ IF "%~1"=="clean" GOTO clean_dir
 IF "%~1"=="server" GOTO run_server
 IF "%~1"=="setup" GOTO run_setup
 
-IF NOT EXIST bin\lua.o GOTO build_lua
 GOTO build_app
 
 :clean_dir
@@ -30,18 +29,10 @@ CALL emsdk_env.bat
 POPD
 GOTO end
 
-:build_lua
-ECHO building lua library...
-PUSHD app\lua
-CALL emcc -c -DMAKE_LIB onelua.c -o ..\..\bin\lua.o
-POPD
-GOTO build_app
-
 :build_app
 ECHO building application...
 PUSHD bin
-CALL emcc -c -I ..\app\lua ..\app\pixapp.c -o pixapp.o
-CALL emcc -s WASM=1 -s USE_SDL=2 lua.o pixapp.o -o pixtoy.js
+CALL emcc -s WASM=1 -s USE_SDL=2 -I ..\app\lua ..\app\pixapp.c -o pixtoy.js
 COPY ..\web\*.html *.html
 COPY ..\web\*.js *.js
 COPY ..\web\ace\*.js *.js
