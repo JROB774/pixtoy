@@ -328,6 +328,7 @@ PIXINTERNAL pixCOLOR get_lua_color_arg(lua_State* lua, pixINT offs)
 // Safe function for setting pixels with bounds checking on edges.
 PIXINTERNAL pixVOID set_pixel(pixINT x, pixINT y, pixCOLOR c)
 {
+    // @Incomplete: Handle alpha blending if alpha is not 255!
     if(x < 0 || x >= PIXSCRW) return;
     if(y < 0 || y >= PIXSCRH) return;
     pix_screen[y*PIXSCRW+x] = c.raw;
