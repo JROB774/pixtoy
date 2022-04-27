@@ -1,5 +1,8 @@
 /*////////////////////////////////////////////////////////////////////////////*/
 
+// Local copy of the screen pixels for the drawing API to read and write to.
+PIXINTERNAL pixU32* pix_screen;
+
 // Expose all of the PIXAPI functions to Lua so that they can be called.
 PIXDEF pixVOID pix_register_api(lua_State* lua)
 {
@@ -40,6 +43,11 @@ PIXDEF pixVOID pix_register_api(lua_State* lua)
     PIXAPI_REGISTER(circ );
 
     #undef PIXAPI_REGISTER
+}
+
+PIXDEF pixVOID pix_set_screen(pixU32* screen)
+{
+    pix_screen = screen;
 }
 
 /*////////////////////////////////////////////////////////////////////////////*/
@@ -284,24 +292,24 @@ PIXINTERNAL pixCOLOR get_lua_color_arg(lua_State* lua, pixINT offs)
     pixINT comps = (lua_gettop(lua)+1) - offs;
     switch(comps)
     {
-        case 1: // RRR1
-            col.r = luaL_checknumber(lua, offs+0);
-            col.g = luaL_checknumber(lua, offs+0);
-            col.b = luaL_checknumber(lua, offs+0);
-            col.a = 255;
-        break;
-        case 3: // RGB1
-            col.r = luaL_checknumber(lua, offs+0);
-            col.g = luaL_checknumber(lua, offs+1);
-            col.b = luaL_checknumber(lua, offs+2);
-            col.a = 255;
-        break;
-        case 4: // RGBA
-            col.r = luaL_checknumber(lua, offs+0);
-            col.g = luaL_checknumber(lua, offs+1);
-            col.b = luaL_checknumber(lua, offs+2);
-            col.a = luaL_checknumber(lua, offs+3);
-        break;
+    case 1: // RRR1
+        col.r = luaL_checknumber(lua, offs+0);
+        col.g = luaL_checknumber(lua, offs+0);
+        col.b = luaL_checknumber(lua, offs+0);
+        col.a = 255;
+    break;
+    case 3: // RGB1
+        col.r = luaL_checknumber(lua, offs+0);
+        col.g = luaL_checknumber(lua, offs+1);
+        col.b = luaL_checknumber(lua, offs+2);
+        col.a = 255;
+    break;
+    case 4: // RGBA
+        col.r = luaL_checknumber(lua, offs+0);
+        col.g = luaL_checknumber(lua, offs+1);
+        col.b = luaL_checknumber(lua, offs+2);
+        col.a = luaL_checknumber(lua, offs+3);
+    break;
     }
     return col;
 }
@@ -311,10 +319,11 @@ PIXINTERNAL pixVOID set_pixel(pixINT x, pixINT y, pixCOLOR c)
 {
     if(x < 0 || x >= PIXSCRW) return;
     if(y < 0 || y >= PIXSCRH) return;
-    pixels[y*PIXSCRW+x] = c.raw;
+    pix_screen[y*PIXSCRW+x] = c.raw;
 }
 
-PIXINTERNAL pixVOID draw_line(pixINT x0, pixINT y0, pixINT x1, pixINT y1, pixCOLOR c)
+PIXINTERNAL pixVOID draw_line(pixINT x0, pixINT y0,
+                              pixINT x1, pixINT y1, pixCOLOR c)
 {
     // Clamp the bounds to avoid overflows.
     x0 = PIXCLAMP(x0, 0, PIXSCRW-1);
@@ -358,7 +367,7 @@ PIXAPI(clrs)
 {
     pixCOLOR c = get_lua_color_arg(lua, 1);
     for(pixU32 i=0; i<PIXSCRW*PIXSCRH; ++i)
-        pixels[i] = c.raw;
+        pix_screen[i] = c.raw;
     return 0;
 }
 
@@ -378,7 +387,7 @@ PIXAPI(pget)
 
     pixCOLOR c = {0};
     if(x >= 0 && x < PIXSCRW && y >= 0 && y < PIXSCRH)
-        c.raw = pixels[y*PIXSCRW+x];
+        c.raw = pix_screen[y*PIXSCRW+x];
     lua_pushnumber(lua, c.r);
     lua_pushnumber(lua, c.g);
     lua_pushnumber(lua, c.b);
@@ -453,7 +462,8 @@ PIXAPI(circ)
     pixINT    t = luaL_checknumber( lua, 5);
     pixCOLOR  c = get_lua_color_arg(lua, 6);
 
-    // If the user wants fill mode we just set the thickness to the radius and that will make a filled circle.
+    // If the user wants fill mode we just set the stroke
+    // to the radius and that will make a filled circle.
     if(mode == 1)
     {
         t = r+1;

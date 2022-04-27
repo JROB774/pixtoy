@@ -4,6 +4,7 @@
 #define PIXAPI(name) PIXDEF pixINT PIXAPI_##name(lua_State* lua)
 
 PIXDEF pixVOID pix_register_api(lua_State* lua);
+PIXDEF pixVOID pix_set_screen(pixU32* screen);
 
 // BITS //////
 PIXAPI(band );

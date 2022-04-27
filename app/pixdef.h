@@ -1,10 +1,10 @@
 #ifndef PIXDEF_H__ /*/////////////////////////////////////////////////////////*/
 #define PIXDEF_H__
 
-#define PIXINTERNAL  static
-#define PIXGLOBAL    static
-#define PIXPERISTENT static
-#define PIXDEF       static
+#define PIXINTERNAL   static
+#define PIXGLOBAL     static
+#define PIXPERSISTENT static
+#define PIXDEF        static
 
 #define PIXFALSE 0
 #define PIXTRUE  1
