@@ -2,6 +2,37 @@
 #define LUA_REGISTER(func) lua_pushcfunction(lua, LUA_##func); lua_setglobal(lua, #func)
 
 //
+// Bitwise
+//
+
+LUA_FUNCTION(band)
+{
+    int x = luaL_checkinteger(lua, 1);
+    int y = luaL_checkinteger(lua, 2);
+    int z = x & y;
+    lua_pushinteger(lua, z);
+    return 1;
+}
+
+LUA_FUNCTION(bor)
+{
+    int x = luaL_checkinteger(lua, 1);
+    int y = luaL_checkinteger(lua, 2);
+    int z = x | y;
+    lua_pushinteger(lua, z);
+    return 1;
+}
+
+LUA_FUNCTION(bxor)
+{
+    int x = luaL_checkinteger(lua, 1);
+    int y = luaL_checkinteger(lua, 2);
+    int z = x ^ y;
+    lua_pushinteger(lua, z);
+    return 1;
+}
+
+//
 // Math
 //
 
@@ -442,6 +473,9 @@ LUA_FUNCTION(circ)
 
 void register_api(lua_State* lua)
 {
+    LUA_REGISTER(band);
+    LUA_REGISTER(bor);
+    LUA_REGISTER(bxor);
     LUA_REGISTER(abs);
     LUA_REGISTER(acos);
     LUA_REGISTER(asin);
