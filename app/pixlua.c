@@ -1,8 +1,5 @@
 /*////////////////////////////////////////////////////////////////////////////*/
 
-#include <lprefix.h>
-#include <luaconf.h>
-
 #include <lzio.c>
 #include <lctype.c>
 #include <lopcodes.c>

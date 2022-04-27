@@ -1,50 +1,19 @@
-#include <stdint.h>
-#include <stdbool.h>
-#include <string.h>
-#include <time.h>
-#include <assert.h>
-#include <ctype.h>
-#include <errno.h>
-#include <float.h>
-#include <limits.h>
-#include <locale.h>
-#include <math.h>
-#include <setjmp.h>
-#include <signal.h>
-#include <stdarg.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
+/*////////////////////////////////////////////////////////////////////////////*/
+
+#include "pixapp.h"
 
 #include <emscripten.h>
 
 #include <SDL.h>
 
-#define PIXDEF      static
-#define PIXINTERNAL static
-
-typedef int      PIXINT;
-typedef uint32_t PIXU32;
-typedef uint8_t  PIXU8;
-
-#define SWAP(t,x,y) do { t tmp__ = x; x = y; y = tmp__; } while(0)
-#define CLAMP(x,lo,hi) (((x)>(hi))?(hi):(((x)<(lo))?(lo):(x)))
-
 #define SCREEN_W 256
 #define SCREEN_H 256
-
-typedef uint64_t u64;
-typedef uint32_t u32;
-typedef  uint8_t  u8;
-
-#include "pixlua.h"
-#include "pixapi.h"
 
 static SDL_Window*   window;
 static SDL_Renderer* renderer;
 static SDL_Surface*  screen;
 static SDL_Texture*  target;
-static u32*          pixels;
+static pixU32*       pixels;
 static lua_State*    luastate;
 
 #include "pixlua.c"
@@ -64,10 +33,10 @@ EM_JS(void, JS_set_error_message, (const char* err, size_t len),
 
 static void main_loop()
 {
-    static u64 perf_frequency = 0;
-    static u64 last_counter = 0;
-    static u64 end_counter = 0;
-    static u64 elapsed_counter = 0;
+    static pixU64 perf_frequency = 0;
+    static pixU64 last_counter = 0;
+    static pixU64 end_counter = 0;
+    static pixU64 elapsed_counter = 0;
 
     static float delta_time = 0.0f;
     static float total_time = 0.0f;
@@ -129,19 +98,21 @@ int main(int argc, char** argv)
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     // Setup the render target for drawing into.
-    u32 pixel_format = SDL_GetWindowPixelFormat(window);
-    u32 r,g,b,a;
+    pixU32 pixel_format = SDL_GetWindowPixelFormat(window);
+    pixU32 r,g,b,a;
     int bpp;
     SDL_PixelFormatEnumToMasks(pixel_format, &bpp, &r,&g,&b,&a);
     screen = SDL_CreateRGBSurface(0, SCREEN_W,SCREEN_H, 32, r,g,b,a);
     target = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, SCREEN_W,SCREEN_H);
-    pixels = (u32*)screen->pixels;
+    pixels = (pixU32*)screen->pixels;
 
     // Expose functions to Lua.
     luastate = luaL_newstate();
-    register_api(luastate);
+    pix_register_api(luastate);
 
     emscripten_set_main_loop(main_loop, -1, 1);
 
     return 0;
 }
+
+/*////////////////////////////////////////////////////////////////////////////*/

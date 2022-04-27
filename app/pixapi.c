@@ -1,7 +1,7 @@
 /*////////////////////////////////////////////////////////////////////////////*/
 
 // Expose all of the PIXAPI functions to Lua so that they can be called.
-PIXDEF void pix_register_api(lua_State* lua)
+PIXDEF pixVOID pix_register_api(lua_State* lua)
 {
     #define PIXAPI_REGISTER(name)          \
     lua_pushcfunction(lua, PIXAPI_##name); \
@@ -276,19 +276,11 @@ PIXAPI(rand)
 // DRAW
 //
 
-// Union for colors as it makes accessing individual color components easier.
-typedef union PIXCOL
-{
-    struct { PIXU8 b,g,r,a; }; // @Incomplete: Handle big endian?
-    PIXU32 raw;
-}
-PIXCOL;
-
 // Colors can be passed in using a number of different formats, this function
 // handles the logic for parsing the Lua function arguments into a final color.
-PIXINTERNAL PIXCOL get_lua_color_arg(lua_State* lua, int offs)
+PIXINTERNAL pixCOLOR get_lua_color_arg(lua_State* lua, int offs)
 {
-    PIXCOL col = {0};
+    pixCOLOR col = {0};
     int comps = (lua_gettop(lua)+1) - offs;
     switch(comps)
     {
@@ -315,32 +307,32 @@ PIXINTERNAL PIXCOL get_lua_color_arg(lua_State* lua, int offs)
 }
 
 // Safe function for setting pixels with bounds checking on edges.
-PIXINTERNAL void set_pixel(int x, int y, PIXCOL c)
+PIXINTERNAL pixVOID set_pixel(int x, int y, pixCOLOR c)
 {
     if(x < 0 || x >= SCREEN_W) return;
     if(y < 0 || y >= SCREEN_H) return;
     pixels[y*SCREEN_W+x] = c.raw;
 }
 
-PIXINTERNAL void draw_line(int x0, int y0, int x1, int y1, PIXCOL c)
+PIXINTERNAL pixVOID draw_line(int x0, int y0, int x1, int y1, pixCOLOR c)
 {
     // Clamp the bounds to avoid overflows.
-    x0 = CLAMP(x0, 0, SCREEN_W-1);
-    y0 = CLAMP(y0, 0, SCREEN_H-1);
-    x1 = CLAMP(x1, 0, SCREEN_W-1);
-    y1 = CLAMP(y1, 0, SCREEN_H-1);
+    x0 = PIXCLAMP(x0, 0, SCREEN_W-1);
+    y0 = PIXCLAMP(y0, 0, SCREEN_H-1);
+    x1 = PIXCLAMP(x1, 0, SCREEN_W-1);
+    y1 = PIXCLAMP(y1, 0, SCREEN_H-1);
 
     bool steep = false;
     if(abs(x0-x1)<abs(y0-y1))
     {
-        SWAP(int, x0, y0);
-        SWAP(int, x1, y1);
+        PIXSWAP(int, x0, y0);
+        PIXSWAP(int, x1, y1);
         steep = true;
     }
     if(x0>x1)
     {
-        SWAP(int, x0, x1);
-        SWAP(int, y0, y1);
+        PIXSWAP(int, x0, x1);
+        PIXSWAP(int, y0, y1);
     }
     int dx = x1-x0;
     int dy = y1-y0;
@@ -363,8 +355,8 @@ PIXINTERNAL void draw_line(int x0, int y0, int x1, int y1, PIXCOL c)
 
 PIXAPI(clrs)
 {
-    PIXCOL c = get_lua_color_arg(lua, 1);
-    for(u32 i=0; i<SCREEN_W*SCREEN_H; ++i)
+    pixCOLOR c = get_lua_color_arg(lua, 1);
+    for(pixU32 i=0; i<SCREEN_W*SCREEN_H; ++i)
         pixels[i] = c.raw;
     return 0;
 }
@@ -373,7 +365,7 @@ PIXAPI(pset)
 {
     int x = luaL_checknumber(lua, 1);
     int y = luaL_checknumber(lua, 2);
-    PIXCOL c = get_lua_color_arg(lua, 3);
+    pixCOLOR c = get_lua_color_arg(lua, 3);
       set_pixel(x,y,c);
     return 0;
 }
@@ -383,7 +375,7 @@ PIXAPI(pget)
     int x = luaL_checknumber(lua, 1);
     int y = luaL_checknumber(lua, 2);
 
-    PIXCOL c = {0};
+    pixCOLOR c = {0};
     if(x >= 0 && x < SCREEN_W && y >= 0 && y < SCREEN_H)
         c.raw = pixels[y*SCREEN_W+x];
     lua_pushnumber(lua, c.r);
@@ -399,7 +391,7 @@ PIXAPI(line)
     int  y0 = luaL_checknumber(lua, 2);
     int  x1 = luaL_checknumber(lua, 3);
     int  y1 = luaL_checknumber(lua, 4);
-    PIXCOL c = get_lua_color_arg(lua, 5);
+    pixCOLOR c = get_lua_color_arg(lua, 5);
 
     draw_line(x0,y0,x1,y1, c);
 
@@ -413,7 +405,7 @@ PIXAPI(rect)
     int    y = luaL_checknumber(lua, 3);
     int    w = luaL_checknumber(lua, 4);
     int    h = luaL_checknumber(lua, 5);
-    PIXCOL  c = get_lua_color_arg(lua, 6);
+    pixCOLOR  c = get_lua_color_arg(lua, 6);
 
     // Don't even bother rendering if we're offscreen.
     if(x >= SCREEN_W) return 0;
@@ -434,10 +426,10 @@ PIXAPI(rect)
     if(mode == 1) // Fill
     {
         // Clamp the bounds to avoid overflows.
-        x0 = CLAMP(x0, 0, SCREEN_W-1);
-        y0 = CLAMP(y0, 0, SCREEN_H-1);
-        x1 = CLAMP(x1, 0, SCREEN_W-1);
-        y1 = CLAMP(y1, 0, SCREEN_H-1);
+        x0 = PIXCLAMP(x0, 0, SCREEN_W-1);
+        y0 = PIXCLAMP(y0, 0, SCREEN_H-1);
+        x1 = PIXCLAMP(x1, 0, SCREEN_W-1);
+        y1 = PIXCLAMP(y1, 0, SCREEN_H-1);
 
         for(int iy=y0; iy<=y1; ++iy)
         {
@@ -458,7 +450,7 @@ PIXAPI(circ)
     int    y = luaL_checknumber(lua, 3);
     int    r = luaL_checknumber(lua, 4);
     int    t = luaL_checknumber(lua, 5);
-    PIXCOL  c = get_lua_color_arg(lua, 6);
+    pixCOLOR  c = get_lua_color_arg(lua, 6);
 
     // If the user wants fill mode we just set the thickness to the radius and that will make a filled circle.
     if(mode == 1)
@@ -466,7 +458,7 @@ PIXAPI(circ)
         t = r+1;
     }
 
-    t = CLAMP(t,0,r+1);
+    t = PIXCLAMP(t,0,r+1);
 
     int outer = r;
     int inner = outer-t+1;
@@ -519,14 +511,6 @@ PIXAPI(circ)
     }
 
     return 0;
-}
-
-//
-// Register the API calls with Lua.
-//
-
-void register_api(lua_State* lua)
-{
 }
 
 /*////////////////////////////////////////////////////////////////////////////*/

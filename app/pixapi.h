@@ -1,9 +1,9 @@
 #ifndef PIXAPI_H__ /*/////////////////////////////////////////////////////////*/
 #define PIXAPI_H__
 
-#define PIXAPI(name) PIXDEF PIXINT PIXAPI_##name(lua_State* lua)
+#define PIXAPI(name) PIXDEF pixINT PIXAPI_##name(lua_State* lua)
 
-PIXDEF void pix_register_api(lua_State* lua);
+PIXDEF pixVOID pix_register_api(lua_State* lua);
 
 // BITS //////
 PIXAPI(band );
