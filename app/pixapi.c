@@ -309,18 +309,18 @@ PIXINTERNAL pixCOLOR get_lua_color_arg(lua_State* lua, pixINT offs)
 // Safe function for setting pixels with bounds checking on edges.
 PIXINTERNAL pixVOID set_pixel(pixINT x, pixINT y, pixCOLOR c)
 {
-    if(x < 0 || x >= SCREEN_W) return;
-    if(y < 0 || y >= SCREEN_H) return;
-    pixels[y*SCREEN_W+x] = c.raw;
+    if(x < 0 || x >= PIXSCRW) return;
+    if(y < 0 || y >= PIXSCRH) return;
+    pixels[y*PIXSCRW+x] = c.raw;
 }
 
 PIXINTERNAL pixVOID draw_line(pixINT x0, pixINT y0, pixINT x1, pixINT y1, pixCOLOR c)
 {
     // Clamp the bounds to avoid overflows.
-    x0 = PIXCLAMP(x0, 0, SCREEN_W-1);
-    y0 = PIXCLAMP(y0, 0, SCREEN_H-1);
-    x1 = PIXCLAMP(x1, 0, SCREEN_W-1);
-    y1 = PIXCLAMP(y1, 0, SCREEN_H-1);
+    x0 = PIXCLAMP(x0, 0, PIXSCRW-1);
+    y0 = PIXCLAMP(y0, 0, PIXSCRH-1);
+    x1 = PIXCLAMP(x1, 0, PIXSCRW-1);
+    y1 = PIXCLAMP(y1, 0, PIXSCRH-1);
 
     pixBOOL steep = PIXFALSE;
     if(abs(x0-x1)<abs(y0-y1))
@@ -334,6 +334,7 @@ PIXINTERNAL pixVOID draw_line(pixINT x0, pixINT y0, pixINT x1, pixINT y1, pixCOL
         PIXSWAP(pixINT, x0, x1);
         PIXSWAP(pixINT, y0, y1);
     }
+
     pixINT dx = x1-x0;
     pixINT dy = y1-y0;
     pixINT derror2 = abs(dy)*2;
@@ -356,7 +357,7 @@ PIXINTERNAL pixVOID draw_line(pixINT x0, pixINT y0, pixINT x1, pixINT y1, pixCOL
 PIXAPI(clrs)
 {
     pixCOLOR c = get_lua_color_arg(lua, 1);
-    for(pixU32 i=0; i<SCREEN_W*SCREEN_H; ++i)
+    for(pixU32 i=0; i<PIXSCRW*PIXSCRH; ++i)
         pixels[i] = c.raw;
     return 0;
 }
@@ -376,8 +377,8 @@ PIXAPI(pget)
     pixINT y = luaL_checknumber(lua, 2);
 
     pixCOLOR c = {0};
-    if(x >= 0 && x < SCREEN_W && y >= 0 && y < SCREEN_H)
-        c.raw = pixels[y*SCREEN_W+x];
+    if(x >= 0 && x < PIXSCRW && y >= 0 && y < PIXSCRH)
+        c.raw = pixels[y*PIXSCRW+x];
     lua_pushnumber(lua, c.r);
     lua_pushnumber(lua, c.g);
     lua_pushnumber(lua, c.b);
@@ -408,8 +409,8 @@ PIXAPI(rect)
     pixCOLOR  c = get_lua_color_arg(lua, 6);
 
     // Don't even bother rendering if we're offscreen.
-    if(x >= SCREEN_W) return 0;
-    if(y >= SCREEN_H) return 0;
+    if(x >= PIXSCRW) return 0;
+    if(y >= PIXSCRH) return 0;
 
     pixINT x0 = x;
     pixINT y0 = y;
@@ -426,10 +427,10 @@ PIXAPI(rect)
     if(mode == 1) // Fill
     {
         // Clamp the bounds to avoid overflows.
-        x0 = PIXCLAMP(x0, 0, SCREEN_W-1);
-        y0 = PIXCLAMP(y0, 0, SCREEN_H-1);
-        x1 = PIXCLAMP(x1, 0, SCREEN_W-1);
-        y1 = PIXCLAMP(y1, 0, SCREEN_H-1);
+        x0 = PIXCLAMP(x0, 0, PIXSCRW-1);
+        y0 = PIXCLAMP(y0, 0, PIXSCRH-1);
+        x1 = PIXCLAMP(x1, 0, PIXSCRW-1);
+        y1 = PIXCLAMP(y1, 0, PIXSCRH-1);
 
         for(pixINT iy=y0; iy<=y1; ++iy)
         {

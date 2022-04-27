@@ -6,9 +6,6 @@
 
 #include <SDL.h>
 
-#define SCREEN_W 256
-#define SCREEN_H 256
-
 static SDL_Window*   window;
 static SDL_Renderer* renderer;
 static SDL_Surface*  screen;
@@ -52,9 +49,9 @@ static void main_loop()
     lua_setglobal(luastate, "dt");
     lua_pushnumber(luastate, total_time);
     lua_setglobal(luastate, "t");
-    lua_pushinteger(luastate, SCREEN_W);
+    lua_pushinteger(luastate, PIXSCRW);
     lua_setglobal(luastate, "scrw");
-    lua_pushinteger(luastate, SCREEN_H);
+    lua_pushinteger(luastate, PIXSCRH);
     lua_setglobal(luastate, "scrh");
 
     pixINT ret = luaL_dostring(luastate, lua_buffer);
@@ -94,7 +91,7 @@ pixINT main(pixINT argc, pixCHAR** argv)
     SDL_EventState(SDL_MOUSEBUTTONDOWN, SDL_DISABLE);
     SDL_EventState(SDL_MOUSEBUTTONUP, SDL_DISABLE);
 
-    window = SDL_CreateWindow("pixtoy", 0,0,SCREEN_W*2,SCREEN_H*2, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("pixtoy", 0,0,PIXSCRW*2,PIXSCRH*2, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     // Setup the render target for drawing into.
@@ -102,8 +99,8 @@ pixINT main(pixINT argc, pixCHAR** argv)
     pixU32 r,g,b,a;
     pixINT bpp;
     SDL_PixelFormatEnumToMasks(pixel_format, &bpp, &r,&g,&b,&a);
-    screen = SDL_CreateRGBSurface(0, SCREEN_W,SCREEN_H, 32, r,g,b,a);
-    target = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, SCREEN_W,SCREEN_H);
+    screen = SDL_CreateRGBSurface(0, PIXSCRW,PIXSCRH, 32, r,g,b,a);
+    target = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, PIXSCRW,PIXSCRH);
     pixels = (pixU32*)screen->pixels;
 
     // Expose functions to Lua.

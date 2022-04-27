@@ -10,6 +10,9 @@
 #define PIXTRUE  1
 #define PIXTRUE  1
 
+#define PIXSCRW 256
+#define PIXSCRH 256
+
 typedef void     pixVOID;
 typedef char     pixCHAR;
 typedef unsigned pixUINT;
