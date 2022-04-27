@@ -52,35 +52,35 @@ PIXDEF pixVOID pix_register_api(lua_State* lua)
 
 PIXAPI(band)
 {
-    int x = luaL_checkinteger(lua, 1);
-    int y = luaL_checkinteger(lua, 2);
-    int z = x & y;
+    pixINT x = luaL_checkinteger(lua, 1);
+    pixINT y = luaL_checkinteger(lua, 2);
+    pixINT z = x & y;
     lua_pushinteger(lua, z);
     return 1;
 }
 
 PIXAPI(bor)
 {
-    int x = luaL_checkinteger(lua, 1);
-    int y = luaL_checkinteger(lua, 2);
-    int z = x | y;
+    pixINT x = luaL_checkinteger(lua, 1);
+    pixINT y = luaL_checkinteger(lua, 2);
+    pixINT z = x | y;
     lua_pushinteger(lua, z);
     return 1;
 }
 
 PIXAPI(bxor)
 {
-    int x = luaL_checkinteger(lua, 1);
-    int y = luaL_checkinteger(lua, 2);
-    int z = x ^ y;
+    pixINT x = luaL_checkinteger(lua, 1);
+    pixINT y = luaL_checkinteger(lua, 2);
+    pixINT z = x ^ y;
     lua_pushinteger(lua, z);
     return 1;
 }
 
 PIXAPI(bnot)
 {
-    int x = luaL_checkinteger(lua, 1);
-    int y = ~x;
+    pixINT x = luaL_checkinteger(lua, 1);
+    pixINT y = ~x;
     lua_pushinteger(lua, y);
     return 1;
 }
@@ -91,7 +91,7 @@ PIXAPI(bnot)
 
 PIXAPI(abs)
 {
-    float x = luaL_checknumber(lua, 1);
+    pixFLOAT x = luaL_checknumber(lua, 1);
     x = fabsf(x);
     lua_pushnumber(lua, x);
     return 1;
@@ -99,7 +99,7 @@ PIXAPI(abs)
 
 PIXAPI(acos)
 {
-    float x = luaL_checknumber(lua, 1);
+    pixFLOAT x = luaL_checknumber(lua, 1);
     x = acos(x);
     lua_pushnumber(lua, x);
     return 1;
@@ -107,7 +107,7 @@ PIXAPI(acos)
 
 PIXAPI(asin)
 {
-    float x = luaL_checknumber(lua, 1);
+    pixFLOAT x = luaL_checknumber(lua, 1);
     x = asin(x);
     lua_pushnumber(lua, x);
     return 1;
@@ -115,18 +115,18 @@ PIXAPI(asin)
 
 PIXAPI(atan)
 {
-    float y = luaL_checknumber(lua, 1);
-    float x = 1.0f;
+    pixFLOAT y = luaL_checknumber(lua, 1);
+    pixFLOAT x = 1.0f;
     if(lua_gettop(lua) == 2)
         x = luaL_checknumber(lua, 2);
-    float r = atan2(y,x);
+    pixFLOAT r = atan2(y,x);
     lua_pushnumber(lua, r);
     return 1;
 }
 
 PIXAPI(round)
 {
-    float x = luaL_checknumber(lua, 1);
+    pixFLOAT x = luaL_checknumber(lua, 1);
     x = round(x);
     lua_pushnumber(lua, x);
     return 1;
@@ -134,7 +134,7 @@ PIXAPI(round)
 
 PIXAPI(ceil)
 {
-    float x = luaL_checknumber(lua, 1);
+    pixFLOAT x = luaL_checknumber(lua, 1);
     x = ceil(x);
     lua_pushnumber(lua, x);
     return 1;
@@ -142,7 +142,7 @@ PIXAPI(ceil)
 
 PIXAPI(floor)
 {
-    float x = luaL_checknumber(lua, 1);
+    pixFLOAT x = luaL_checknumber(lua, 1);
     x = floor(x);
     lua_pushnumber(lua, x);
     return 1;
@@ -150,23 +150,23 @@ PIXAPI(floor)
 
 PIXAPI(deg)
 {
-    float rad = luaL_checknumber(lua, 1);
-    float deg = (rad * 180.0f) / (float)M_PI;
+    pixFLOAT rad = luaL_checknumber(lua, 1);
+    pixFLOAT deg = (rad * 180.0f) / (pixFLOAT)M_PI;
     lua_pushnumber(lua, deg);
     return 1;
 }
 
 PIXAPI(rad)
 {
-    float deg = luaL_checknumber(lua, 1);
-    float rad = (deg * (float)M_PI) / 180.0f;
+    pixFLOAT deg = luaL_checknumber(lua, 1);
+    pixFLOAT rad = (deg * (pixFLOAT)M_PI) / 180.0f;
     lua_pushnumber(lua, rad);
     return 1;
 }
 
 PIXAPI(exp)
 {
-    float x = luaL_checknumber(lua, 1);
+    pixFLOAT x = luaL_checknumber(lua, 1);
     x = exp(x);
     lua_pushnumber(lua, x);
     return 1;
@@ -174,17 +174,17 @@ PIXAPI(exp)
 
 PIXAPI(fmod)
 {
-    float x = luaL_checknumber(lua, 1);
-    float y = luaL_checknumber(lua, 2);
-    float r = fmod(x,y);
+    pixFLOAT x = luaL_checknumber(lua, 1);
+    pixFLOAT y = luaL_checknumber(lua, 2);
+    pixFLOAT r = fmod(x,y);
     lua_pushnumber(lua, r);
     return 1;
 }
 
 PIXAPI(modf)
 {
-    float x = luaL_checknumber(lua, 1);
-    float y;
+    pixFLOAT x = luaL_checknumber(lua, 1);
+    pixFLOAT y;
     x = modff(x, &y);
     lua_pushnumber(lua, x);
     lua_pushnumber(lua, y);
@@ -193,7 +193,7 @@ PIXAPI(modf)
 
 PIXAPI(log)
 {
-    float x = luaL_checknumber(lua, 1);
+    pixFLOAT x = luaL_checknumber(lua, 1);
     x = log(x);
     lua_pushnumber(lua, x);
     return 1;
@@ -201,25 +201,25 @@ PIXAPI(log)
 
 PIXAPI(min)
 {
-    float x = luaL_checknumber(lua, 1);
-    float y = luaL_checknumber(lua, 2);
-    float r = (((x)<(y))?(x):(y));
+    pixFLOAT x = luaL_checknumber(lua, 1);
+    pixFLOAT y = luaL_checknumber(lua, 2);
+    pixFLOAT r = (((x)<(y))?(x):(y));
     lua_pushnumber(lua, r);
     return 1;
 }
 
 PIXAPI(max)
 {
-    float x = luaL_checknumber(lua, 1);
-    float y = luaL_checknumber(lua, 2);
-    float r = (((x)>(y))?(x):(y));
+    pixFLOAT x = luaL_checknumber(lua, 1);
+    pixFLOAT y = luaL_checknumber(lua, 2);
+    pixFLOAT r = (((x)>(y))?(x):(y));
     lua_pushnumber(lua, r);
     return 1;
 }
 
 PIXAPI(sqrt)
 {
-    float x = luaL_checknumber(lua, 1);
+    pixFLOAT x = luaL_checknumber(lua, 1);
     x = sqrt(x);
     lua_pushnumber(lua, x);
     return 1;
@@ -227,7 +227,7 @@ PIXAPI(sqrt)
 
 PIXAPI(cos)
 {
-    float x = luaL_checknumber(lua, 1);
+    pixFLOAT x = luaL_checknumber(lua, 1);
     x = cos(x);
     lua_pushnumber(lua, x);
     return 1;
@@ -235,7 +235,7 @@ PIXAPI(cos)
 
 PIXAPI(sin)
 {
-    float x = luaL_checknumber(lua, 1);
+    pixFLOAT x = luaL_checknumber(lua, 1);
     x = sin(x);
     lua_pushnumber(lua, x);
     return 1;
@@ -243,7 +243,7 @@ PIXAPI(sin)
 
 PIXAPI(tan)
 {
-    float x = luaL_checknumber(lua, 1);
+    pixFLOAT x = luaL_checknumber(lua, 1);
     x = tan(x);
     lua_pushnumber(lua, x);
     return 1;
@@ -251,7 +251,7 @@ PIXAPI(tan)
 
 PIXAPI(seed)
 {
-    float x = time(NULL);
+    pixFLOAT x = time(NULL);
     if(lua_gettop(lua) >= 1)
         x = luaL_checknumber(lua, 1);
     srand(x);
@@ -262,12 +262,12 @@ PIXAPI(seed)
 // one that should be max! If we have two then they are min,max.
 PIXAPI(rand)
 {
-    float x = 0.0f;
-    float y = (float)RAND_MAX;
-    int args = lua_gettop(lua);
+    pixFLOAT x = 0.0f;
+    pixFLOAT y = (pixFLOAT)RAND_MAX;
+    pixINT args = lua_gettop(lua);
     if(args >= 1) x = luaL_checknumber(lua, 1);
     if(args >= 2) y = luaL_checknumber(lua, 2);
-    float r = (x + ((float)rand())) / (((float)RAND_MAX)/(y-x));
+    pixFLOAT r = (x + ((pixFLOAT)rand())) / (((pixFLOAT)RAND_MAX)/(y-x));
     lua_pushnumber(lua, r);
     return 1;
 }
@@ -278,10 +278,10 @@ PIXAPI(rand)
 
 // Colors can be passed in using a number of different formats, this function
 // handles the logic for parsing the Lua function arguments into a final color.
-PIXINTERNAL pixCOLOR get_lua_color_arg(lua_State* lua, int offs)
+PIXINTERNAL pixCOLOR get_lua_color_arg(lua_State* lua, pixINT offs)
 {
     pixCOLOR col = {0};
-    int comps = (lua_gettop(lua)+1) - offs;
+    pixINT comps = (lua_gettop(lua)+1) - offs;
     switch(comps)
     {
         case 1: // RRR1
@@ -307,14 +307,14 @@ PIXINTERNAL pixCOLOR get_lua_color_arg(lua_State* lua, int offs)
 }
 
 // Safe function for setting pixels with bounds checking on edges.
-PIXINTERNAL pixVOID set_pixel(int x, int y, pixCOLOR c)
+PIXINTERNAL pixVOID set_pixel(pixINT x, pixINT y, pixCOLOR c)
 {
     if(x < 0 || x >= SCREEN_W) return;
     if(y < 0 || y >= SCREEN_H) return;
     pixels[y*SCREEN_W+x] = c.raw;
 }
 
-PIXINTERNAL pixVOID draw_line(int x0, int y0, int x1, int y1, pixCOLOR c)
+PIXINTERNAL pixVOID draw_line(pixINT x0, pixINT y0, pixINT x1, pixINT y1, pixCOLOR c)
 {
     // Clamp the bounds to avoid overflows.
     x0 = PIXCLAMP(x0, 0, SCREEN_W-1);
@@ -322,25 +322,25 @@ PIXINTERNAL pixVOID draw_line(int x0, int y0, int x1, int y1, pixCOLOR c)
     x1 = PIXCLAMP(x1, 0, SCREEN_W-1);
     y1 = PIXCLAMP(y1, 0, SCREEN_H-1);
 
-    bool steep = false;
+    pixBOOL steep = PIXFALSE;
     if(abs(x0-x1)<abs(y0-y1))
     {
-        PIXSWAP(int, x0, y0);
-        PIXSWAP(int, x1, y1);
-        steep = true;
+        PIXSWAP(pixINT, x0, y0);
+        PIXSWAP(pixINT, x1, y1);
+        steep = PIXTRUE;
     }
     if(x0>x1)
     {
-        PIXSWAP(int, x0, x1);
-        PIXSWAP(int, y0, y1);
+        PIXSWAP(pixINT, x0, x1);
+        PIXSWAP(pixINT, y0, y1);
     }
-    int dx = x1-x0;
-    int dy = y1-y0;
-    int derror2 = abs(dy)*2;
-    int error2 = 0;
-    int iy = y0;
+    pixINT dx = x1-x0;
+    pixINT dy = y1-y0;
+    pixINT derror2 = abs(dy)*2;
+    pixINT error2 = 0;
+    pixINT iy = y0;
 
-    for(int ix=x0; ix<=x1; ++ix)
+    for(pixINT ix=x0; ix<=x1; ++ix)
     {
         if(steep) set_pixel(iy,ix,c);
         else set_pixel(ix,iy,c);
@@ -363,8 +363,8 @@ PIXAPI(clrs)
 
 PIXAPI(pset)
 {
-    int x = luaL_checknumber(lua, 1);
-    int y = luaL_checknumber(lua, 2);
+    pixINT x = luaL_checknumber(lua, 1);
+    pixINT y = luaL_checknumber(lua, 2);
     pixCOLOR c = get_lua_color_arg(lua, 3);
       set_pixel(x,y,c);
     return 0;
@@ -372,8 +372,8 @@ PIXAPI(pset)
 
 PIXAPI(pget)
 {
-    int x = luaL_checknumber(lua, 1);
-    int y = luaL_checknumber(lua, 2);
+    pixINT x = luaL_checknumber(lua, 1);
+    pixINT y = luaL_checknumber(lua, 2);
 
     pixCOLOR c = {0};
     if(x >= 0 && x < SCREEN_W && y >= 0 && y < SCREEN_H)
@@ -387,10 +387,10 @@ PIXAPI(pget)
 }
 PIXAPI(line)
 {
-    int  x0 = luaL_checknumber(lua, 1);
-    int  y0 = luaL_checknumber(lua, 2);
-    int  x1 = luaL_checknumber(lua, 3);
-    int  y1 = luaL_checknumber(lua, 4);
+    pixINT  x0 = luaL_checknumber( lua, 1);
+    pixINT  y0 = luaL_checknumber( lua, 2);
+    pixINT  x1 = luaL_checknumber( lua, 3);
+    pixINT  y1 = luaL_checknumber( lua, 4);
     pixCOLOR c = get_lua_color_arg(lua, 5);
 
     draw_line(x0,y0,x1,y1, c);
@@ -400,21 +400,21 @@ PIXAPI(line)
 
 PIXAPI(rect)
 {
-    int mode = luaL_checknumber(lua, 1);
-    int    x = luaL_checknumber(lua, 2);
-    int    y = luaL_checknumber(lua, 3);
-    int    w = luaL_checknumber(lua, 4);
-    int    h = luaL_checknumber(lua, 5);
+    pixINT mode = luaL_checknumber( lua, 1);
+    pixINT    x = luaL_checknumber( lua, 2);
+    pixINT    y = luaL_checknumber( lua, 3);
+    pixINT    w = luaL_checknumber( lua, 4);
+    pixINT    h = luaL_checknumber( lua, 5);
     pixCOLOR  c = get_lua_color_arg(lua, 6);
 
     // Don't even bother rendering if we're offscreen.
     if(x >= SCREEN_W) return 0;
     if(y >= SCREEN_H) return 0;
 
-    int x0 = x;
-    int y0 = y;
-    int x1 = x+w-1;
-    int y1 = y+h-1;
+    pixINT x0 = x;
+    pixINT y0 = y;
+    pixINT x1 = x+w-1;
+    pixINT y1 = y+h-1;
 
     if(mode == 0) // Outline
     {
@@ -431,9 +431,9 @@ PIXAPI(rect)
         x1 = PIXCLAMP(x1, 0, SCREEN_W-1);
         y1 = PIXCLAMP(y1, 0, SCREEN_H-1);
 
-        for(int iy=y0; iy<=y1; ++iy)
+        for(pixINT iy=y0; iy<=y1; ++iy)
         {
-            for(int ix=x0; ix<=x1; ++ix)
+            for(pixINT ix=x0; ix<=x1; ++ix)
             {
                 set_pixel(ix,iy,c);
             }
@@ -445,11 +445,11 @@ PIXAPI(rect)
 
 PIXAPI(circ)
 {
-    int mode = luaL_checknumber(lua, 1);
-    int    x = luaL_checknumber(lua, 2);
-    int    y = luaL_checknumber(lua, 3);
-    int    r = luaL_checknumber(lua, 4);
-    int    t = luaL_checknumber(lua, 5);
+    pixINT mode = luaL_checknumber( lua, 1);
+    pixINT    x = luaL_checknumber( lua, 2);
+    pixINT    y = luaL_checknumber( lua, 3);
+    pixINT    r = luaL_checknumber( lua, 4);
+    pixINT    t = luaL_checknumber( lua, 5);
     pixCOLOR  c = get_lua_color_arg(lua, 6);
 
     // If the user wants fill mode we just set the thickness to the radius and that will make a filled circle.
@@ -460,16 +460,16 @@ PIXAPI(circ)
 
     t = PIXCLAMP(t,0,r+1);
 
-    int outer = r;
-    int inner = outer-t+1;
+    pixINT outer = r;
+    pixINT inner = outer-t+1;
 
-    int xo   = outer;
-    int xi   = inner;
-    int yy   = 0;
-    int erro = 1-xo;
-    int erri = 1-xi;
+    pixINT xo   = outer;
+    pixINT xi   = inner;
+    pixINT yy   = 0;
+    pixINT erro = 1-xo;
+    pixINT erri = 1-xi;
 
-    while (xo >= yy)
+    while(xo >= yy)
     {
         draw_line(x+xi, y+yy, x+xo, y+yy, c);
         draw_line(x+yy, y+xi, x+yy, y+xo, c);

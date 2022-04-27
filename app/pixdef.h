@@ -6,6 +6,10 @@
 #define PIXPERISTENT static
 #define PIXDEF       static
 
+#define PIXFALSE 0
+#define PIXTRUE  1
+#define PIXTRUE  1
+
 typedef void     pixVOID;
 typedef char     pixCHAR;
 typedef unsigned pixUINT;

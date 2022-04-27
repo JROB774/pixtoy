@@ -20,13 +20,13 @@ static lua_State*    luastate;
 #include "pixapi.c"
 
 // Function call into JS to retrieve text edit string for parsing into Lua code.
-EM_JS(void, JS_get_lua_string, (const char* out_str, size_t max_bytes),
+EM_JS(void, JS_get_lua_string, (const pixCHAR* out_str, pixU64 max_bytes),
 {
     get_lua_string(out_str, max_bytes);
 });
 
 // Function call into JS to display a Lua error message on the webpage.
-EM_JS(void, JS_set_error_message, (const char* err, size_t len),
+EM_JS(void, JS_set_error_message, (const pixCHAR* err, pixU64 len),
 {
     set_error_message(err, len);
 });
@@ -38,13 +38,13 @@ static void main_loop()
     static pixU64 end_counter = 0;
     static pixU64 elapsed_counter = 0;
 
-    static float delta_time = 0.0f;
-    static float total_time = 0.0f;
+    static pixFLOAT delta_time = 0.0f;
+    static pixFLOAT total_time = 0.0f;
 
     perf_frequency = SDL_GetPerformanceFrequency();
 
     // @Incomplete: Make a dynamic buffer based on text size rather than fixed size!
-    char lua_buffer[4096] = {0};
+    pixCHAR lua_buffer[4096] = {0};
     JS_get_lua_string(lua_buffer, 4096);
 
     // @Note: Is this okay to do every fra,e or do we need to pop these?
@@ -57,10 +57,10 @@ static void main_loop()
     lua_pushinteger(luastate, SCREEN_H);
     lua_setglobal(luastate, "scrh");
 
-    int ret = luaL_dostring(luastate, lua_buffer);
+    pixINT ret = luaL_dostring(luastate, lua_buffer);
     if(ret != LUA_OK)
     {
-        const char* err = lua_tostring(luastate,-1);
+        const pixCHAR* err = lua_tostring(luastate,-1);
         JS_set_error_message(err, strlen(err));
     }
     else
@@ -72,7 +72,7 @@ static void main_loop()
     elapsed_counter = end_counter - last_counter;
     last_counter = SDL_GetPerformanceCounter();
 
-    delta_time = (float)elapsed_counter / (float)perf_frequency;
+    delta_time = (pixFLOAT)elapsed_counter / (pixFLOAT)perf_frequency;
     total_time += delta_time;
 
     SDL_SetRenderDrawColor(renderer, 0,0,0,255);
@@ -82,7 +82,7 @@ static void main_loop()
     SDL_RenderPresent(renderer);
 }
 
-int main(int argc, char** argv)
+pixINT main(pixINT argc, pixCHAR** argv)
 {
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -100,7 +100,7 @@ int main(int argc, char** argv)
     // Setup the render target for drawing into.
     pixU32 pixel_format = SDL_GetWindowPixelFormat(window);
     pixU32 r,g,b,a;
-    int bpp;
+    pixINT bpp;
     SDL_PixelFormatEnumToMasks(pixel_format, &bpp, &r,&g,&b,&a);
     screen = SDL_CreateRGBSurface(0, SCREEN_W,SCREEN_H, 32, r,g,b,a);
     target = SDL_CreateTexture(renderer, pixel_format, SDL_TEXTUREACCESS_STREAMING, SCREEN_W,SCREEN_H);
