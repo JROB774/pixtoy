@@ -1,14 +1,31 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include <stdint.h>
-#include <math.h>
 #include <stdbool.h>
-#include <time.h>
 #include <string.h>
+#include <time.h>
+#include <assert.h>
+#include <ctype.h>
+#include <errno.h>
+#include <float.h>
+#include <limits.h>
+#include <locale.h>
+#include <math.h>
+#include <setjmp.h>
+#include <signal.h>
+#include <stdarg.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include <emscripten.h>
 
 #include <SDL.h>
+
+#define PIXDEF      static
+#define PIXINTERNAL static
+
+typedef int      PIXINT;
+typedef uint32_t PIXU32;
+typedef uint8_t  PIXU8;
 
 #define SWAP(t,x,y) do { t tmp__ = x; x = y; y = tmp__; } while(0)
 #define CLAMP(x,lo,hi) (((x)>(hi))?(hi):(((x)<(lo))?(lo):(x)))
@@ -20,7 +37,8 @@ typedef uint64_t u64;
 typedef uint32_t u32;
 typedef  uint8_t  u8;
 
-typedef struct lua_State lua_State; // Predeclare this so we can declare our Lua state.
+#include "pixlua.h"
+#include "pixapi.h"
 
 static SDL_Window*   window;
 static SDL_Renderer* renderer;

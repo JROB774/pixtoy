@@ -1,35 +1,7 @@
+/*////////////////////////////////////////////////////////////////////////////*/
+
 #include <lprefix.h>
-
-#include <assert.h>
-#include <ctype.h>
-#include <errno.h>
-#include <float.h>
-#include <limits.h>
-#include <locale.h>
-#include <math.h>
-#include <setjmp.h>
-#include <signal.h>
-#include <stdarg.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-
-#define LUA_CORE
-#define LUA_LIB
-#define ltable_c
-#define lvm_c
-
 #include <luaconf.h>
-
-#undef LUAI_FUNC
-#undef LUAI_DDEC
-#undef LUAI_DDEF
-
-#define LUAI_FUNC static
-#define LUAI_DDEC(def)
-#define LUAI_DDEF static
 
 #include <lzio.c>
 #include <lctype.c>
@@ -65,3 +37,5 @@
 #include <ltablib.c>
 #include <lutf8lib.c>
 #include <linit.c>
+
+/*////////////////////////////////////////////////////////////////////////////*/

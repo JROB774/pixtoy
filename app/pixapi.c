@@ -1,11 +1,56 @@
-#define LUA_FUNCTION(func) int LUA_##func(lua_State* lua)
-#define LUA_REGISTER(func) lua_pushcfunction(lua, LUA_##func); lua_setglobal(lua, #func)
+/*////////////////////////////////////////////////////////////////////////////*/
+
+// Expose all of the PIXAPI functions to Lua so that they can be called.
+PIXDEF void pix_register_api(lua_State* lua)
+{
+    #define PIXAPI_REGISTER(name)          \
+    lua_pushcfunction(lua, PIXAPI_##name); \
+    lua_setglobal(lua, #name)
+
+    PIXAPI_REGISTER(band );
+    PIXAPI_REGISTER(bor  );
+    PIXAPI_REGISTER(bxor );
+    PIXAPI_REGISTER(bnot );
+    PIXAPI_REGISTER(abs  );
+    PIXAPI_REGISTER(acos );
+    PIXAPI_REGISTER(asin );
+    PIXAPI_REGISTER(atan );
+    PIXAPI_REGISTER(round);
+    PIXAPI_REGISTER(ceil );
+    PIXAPI_REGISTER(floor);
+    PIXAPI_REGISTER(deg  );
+    PIXAPI_REGISTER(rad  );
+    PIXAPI_REGISTER(exp  );
+    PIXAPI_REGISTER(fmod );
+    PIXAPI_REGISTER(modf );
+    PIXAPI_REGISTER(log  );
+    PIXAPI_REGISTER(min  );
+    PIXAPI_REGISTER(max  );
+    PIXAPI_REGISTER(sqrt );
+    PIXAPI_REGISTER(cos  );
+    PIXAPI_REGISTER(sin  );
+    PIXAPI_REGISTER(tan  );
+    PIXAPI_REGISTER(seed );
+    PIXAPI_REGISTER(rand );
+    PIXAPI_REGISTER(clrs );
+    PIXAPI_REGISTER(pset );
+    PIXAPI_REGISTER(pget );
+    PIXAPI_REGISTER(line );
+    PIXAPI_REGISTER(rect );
+    PIXAPI_REGISTER(circ );
+
+    #undef PIXAPI_REGISTER
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*//////////////////////////// API IMPLEMENTATION ////////////////////////////*/
+/*////////////////////////////////////////////////////////////////////////////*/
 
 //
-// Bitwise
+// BITS
 //
 
-LUA_FUNCTION(band)
+PIXAPI(band)
 {
     int x = luaL_checkinteger(lua, 1);
     int y = luaL_checkinteger(lua, 2);
@@ -14,7 +59,7 @@ LUA_FUNCTION(band)
     return 1;
 }
 
-LUA_FUNCTION(bor)
+PIXAPI(bor)
 {
     int x = luaL_checkinteger(lua, 1);
     int y = luaL_checkinteger(lua, 2);
@@ -23,7 +68,7 @@ LUA_FUNCTION(bor)
     return 1;
 }
 
-LUA_FUNCTION(bxor)
+PIXAPI(bxor)
 {
     int x = luaL_checkinteger(lua, 1);
     int y = luaL_checkinteger(lua, 2);
@@ -32,7 +77,7 @@ LUA_FUNCTION(bxor)
     return 1;
 }
 
-LUA_FUNCTION(bnot)
+PIXAPI(bnot)
 {
     int x = luaL_checkinteger(lua, 1);
     int y = ~x;
@@ -41,10 +86,10 @@ LUA_FUNCTION(bnot)
 }
 
 //
-// Math
+// MATH
 //
 
-LUA_FUNCTION(abs)
+PIXAPI(abs)
 {
     float x = luaL_checknumber(lua, 1);
     x = fabsf(x);
@@ -52,7 +97,7 @@ LUA_FUNCTION(abs)
     return 1;
 }
 
-LUA_FUNCTION(acos)
+PIXAPI(acos)
 {
     float x = luaL_checknumber(lua, 1);
     x = acos(x);
@@ -60,7 +105,7 @@ LUA_FUNCTION(acos)
     return 1;
 }
 
-LUA_FUNCTION(asin)
+PIXAPI(asin)
 {
     float x = luaL_checknumber(lua, 1);
     x = asin(x);
@@ -68,7 +113,7 @@ LUA_FUNCTION(asin)
     return 1;
 }
 
-LUA_FUNCTION(atan)
+PIXAPI(atan)
 {
     float y = luaL_checknumber(lua, 1);
     float x = 1.0f;
@@ -79,7 +124,7 @@ LUA_FUNCTION(atan)
     return 1;
 }
 
-LUA_FUNCTION(round)
+PIXAPI(round)
 {
     float x = luaL_checknumber(lua, 1);
     x = round(x);
@@ -87,7 +132,7 @@ LUA_FUNCTION(round)
     return 1;
 }
 
-LUA_FUNCTION(ceil)
+PIXAPI(ceil)
 {
     float x = luaL_checknumber(lua, 1);
     x = ceil(x);
@@ -95,7 +140,7 @@ LUA_FUNCTION(ceil)
     return 1;
 }
 
-LUA_FUNCTION(floor)
+PIXAPI(floor)
 {
     float x = luaL_checknumber(lua, 1);
     x = floor(x);
@@ -103,7 +148,7 @@ LUA_FUNCTION(floor)
     return 1;
 }
 
-LUA_FUNCTION(deg)
+PIXAPI(deg)
 {
     float rad = luaL_checknumber(lua, 1);
     float deg = (rad * 180.0f) / (float)M_PI;
@@ -111,7 +156,7 @@ LUA_FUNCTION(deg)
     return 1;
 }
 
-LUA_FUNCTION(rad)
+PIXAPI(rad)
 {
     float deg = luaL_checknumber(lua, 1);
     float rad = (deg * (float)M_PI) / 180.0f;
@@ -119,7 +164,7 @@ LUA_FUNCTION(rad)
     return 1;
 }
 
-LUA_FUNCTION(exp)
+PIXAPI(exp)
 {
     float x = luaL_checknumber(lua, 1);
     x = exp(x);
@@ -127,7 +172,7 @@ LUA_FUNCTION(exp)
     return 1;
 }
 
-LUA_FUNCTION(fmod)
+PIXAPI(fmod)
 {
     float x = luaL_checknumber(lua, 1);
     float y = luaL_checknumber(lua, 2);
@@ -136,7 +181,7 @@ LUA_FUNCTION(fmod)
     return 1;
 }
 
-LUA_FUNCTION(modf)
+PIXAPI(modf)
 {
     float x = luaL_checknumber(lua, 1);
     float y;
@@ -146,7 +191,7 @@ LUA_FUNCTION(modf)
     return 2;
 }
 
-LUA_FUNCTION(log)
+PIXAPI(log)
 {
     float x = luaL_checknumber(lua, 1);
     x = log(x);
@@ -154,7 +199,7 @@ LUA_FUNCTION(log)
     return 1;
 }
 
-LUA_FUNCTION(min)
+PIXAPI(min)
 {
     float x = luaL_checknumber(lua, 1);
     float y = luaL_checknumber(lua, 2);
@@ -163,7 +208,7 @@ LUA_FUNCTION(min)
     return 1;
 }
 
-LUA_FUNCTION(max)
+PIXAPI(max)
 {
     float x = luaL_checknumber(lua, 1);
     float y = luaL_checknumber(lua, 2);
@@ -172,7 +217,7 @@ LUA_FUNCTION(max)
     return 1;
 }
 
-LUA_FUNCTION(sqrt)
+PIXAPI(sqrt)
 {
     float x = luaL_checknumber(lua, 1);
     x = sqrt(x);
@@ -180,7 +225,7 @@ LUA_FUNCTION(sqrt)
     return 1;
 }
 
-LUA_FUNCTION(cos)
+PIXAPI(cos)
 {
     float x = luaL_checknumber(lua, 1);
     x = cos(x);
@@ -188,7 +233,7 @@ LUA_FUNCTION(cos)
     return 1;
 }
 
-LUA_FUNCTION(sin)
+PIXAPI(sin)
 {
     float x = luaL_checknumber(lua, 1);
     x = sin(x);
@@ -196,7 +241,7 @@ LUA_FUNCTION(sin)
     return 1;
 }
 
-LUA_FUNCTION(tan)
+PIXAPI(tan)
 {
     float x = luaL_checknumber(lua, 1);
     x = tan(x);
@@ -204,7 +249,7 @@ LUA_FUNCTION(tan)
     return 1;
 }
 
-LUA_FUNCTION(seed)
+PIXAPI(seed)
 {
     float x = time(NULL);
     if(lua_gettop(lua) >= 1)
@@ -213,8 +258,9 @@ LUA_FUNCTION(seed)
     return 0;
 }
 
-// @Incomplete: Arguments aren't really handled well, if we have one that should be max! If we have two then they are min,max.
-LUA_FUNCTION(rand)
+// @Incomplete: Arguments aren't really handled well, if we have
+// one that should be max! If we have two then they are min,max.
+PIXAPI(rand)
 {
     float x = 0.0f;
     float y = (float)RAND_MAX;
@@ -227,23 +273,23 @@ LUA_FUNCTION(rand)
 }
 
 //
-// Drawing
+// DRAW
 //
 
-// Union for colors as it makes accessing individual color components easier without bitwise ops.
-typedef union Color
+// Union for colors as it makes accessing individual color components easier.
+typedef union PIXCOL
 {
-    struct { u8 b,g,r,a; }; // @Incomplete: Handle big endian?
-    u32 raw;
+    struct { PIXU8 b,g,r,a; }; // @Incomplete: Handle big endian?
+    PIXU32 raw;
 }
-Color;
+PIXCOL;
 
 // Colors can be passed in using a number of different formats, this function
 // handles the logic for parsing the Lua function arguments into a final color.
-static Color get_lua_color_arg(lua_State* lua, int offs)
+PIXINTERNAL PIXCOL get_lua_color_arg(lua_State* lua, int offs)
 {
+    PIXCOL col = {0};
     int comps = (lua_gettop(lua)+1) - offs;
-    Color col = {0};
     switch(comps)
     {
         case 1: // RRR1
@@ -269,14 +315,14 @@ static Color get_lua_color_arg(lua_State* lua, int offs)
 }
 
 // Safe function for setting pixels with bounds checking on edges.
-static void set_pixel(int x, int y, Color c)
+PIXINTERNAL void set_pixel(int x, int y, PIXCOL c)
 {
     if(x < 0 || x >= SCREEN_W) return;
     if(y < 0 || y >= SCREEN_H) return;
     pixels[y*SCREEN_W+x] = c.raw;
 }
 
-static void draw_line(int x0, int y0, int x1, int y1, Color c)
+PIXINTERNAL void draw_line(int x0, int y0, int x1, int y1, PIXCOL c)
 {
     // Clamp the bounds to avoid overflows.
     x0 = CLAMP(x0, 0, SCREEN_W-1);
@@ -315,29 +361,29 @@ static void draw_line(int x0, int y0, int x1, int y1, Color c)
     }
 }
 
-LUA_FUNCTION(clrs)
+PIXAPI(clrs)
 {
-    Color c = get_lua_color_arg(lua, 1);
+    PIXCOL c = get_lua_color_arg(lua, 1);
     for(u32 i=0; i<SCREEN_W*SCREEN_H; ++i)
         pixels[i] = c.raw;
     return 0;
 }
 
-LUA_FUNCTION(pset)
+PIXAPI(pset)
 {
     int x = luaL_checknumber(lua, 1);
     int y = luaL_checknumber(lua, 2);
-    Color c = get_lua_color_arg(lua, 3);
+    PIXCOL c = get_lua_color_arg(lua, 3);
       set_pixel(x,y,c);
     return 0;
 }
 
-LUA_FUNCTION(pget)
+PIXAPI(pget)
 {
     int x = luaL_checknumber(lua, 1);
     int y = luaL_checknumber(lua, 2);
 
-    Color c = {0};
+    PIXCOL c = {0};
     if(x >= 0 && x < SCREEN_W && y >= 0 && y < SCREEN_H)
         c.raw = pixels[y*SCREEN_W+x];
     lua_pushnumber(lua, c.r);
@@ -347,27 +393,27 @@ LUA_FUNCTION(pget)
 
     return 4;
 }
-LUA_FUNCTION(line)
+PIXAPI(line)
 {
     int  x0 = luaL_checknumber(lua, 1);
     int  y0 = luaL_checknumber(lua, 2);
     int  x1 = luaL_checknumber(lua, 3);
     int  y1 = luaL_checknumber(lua, 4);
-    Color c = get_lua_color_arg(lua, 5);
+    PIXCOL c = get_lua_color_arg(lua, 5);
 
     draw_line(x0,y0,x1,y1, c);
 
     return 0;
 }
 
-LUA_FUNCTION(rect)
+PIXAPI(rect)
 {
     int mode = luaL_checknumber(lua, 1);
     int    x = luaL_checknumber(lua, 2);
     int    y = luaL_checknumber(lua, 3);
     int    w = luaL_checknumber(lua, 4);
     int    h = luaL_checknumber(lua, 5);
-    Color  c = get_lua_color_arg(lua, 6);
+    PIXCOL  c = get_lua_color_arg(lua, 6);
 
     // Don't even bother rendering if we're offscreen.
     if(x >= SCREEN_W) return 0;
@@ -405,14 +451,14 @@ LUA_FUNCTION(rect)
     return 0;
 }
 
-LUA_FUNCTION(circ)
+PIXAPI(circ)
 {
     int mode = luaL_checknumber(lua, 1);
     int    x = luaL_checknumber(lua, 2);
     int    y = luaL_checknumber(lua, 3);
     int    r = luaL_checknumber(lua, 4);
     int    t = luaL_checknumber(lua, 5);
-    Color  c = get_lua_color_arg(lua, 6);
+    PIXCOL  c = get_lua_color_arg(lua, 6);
 
     // If the user wants fill mode we just set the thickness to the radius and that will make a filled circle.
     if(mode == 1)
@@ -481,38 +527,6 @@ LUA_FUNCTION(circ)
 
 void register_api(lua_State* lua)
 {
-    // Bitwise
-    LUA_REGISTER(band);
-    LUA_REGISTER(bor);
-    LUA_REGISTER(bxor);
-    LUA_REGISTER(bnot);
-    // Math
-    LUA_REGISTER(abs);
-    LUA_REGISTER(acos);
-    LUA_REGISTER(asin);
-    LUA_REGISTER(atan);
-    LUA_REGISTER(round);
-    LUA_REGISTER(ceil);
-    LUA_REGISTER(floor);
-    LUA_REGISTER(deg);
-    LUA_REGISTER(rad);
-    LUA_REGISTER(exp);
-    LUA_REGISTER(fmod);
-    LUA_REGISTER(modf);
-    LUA_REGISTER(log);
-    LUA_REGISTER(min);
-    LUA_REGISTER(max);
-    LUA_REGISTER(sqrt);
-    LUA_REGISTER(cos);
-    LUA_REGISTER(sin);
-    LUA_REGISTER(tan);
-    LUA_REGISTER(seed);
-    LUA_REGISTER(rand);
-    // Drawing
-    LUA_REGISTER(clrs);
-    LUA_REGISTER(pset);
-    LUA_REGISTER(pget);
-    LUA_REGISTER(line);
-    LUA_REGISTER(rect);
-    LUA_REGISTER(circ);
 }
+
+/*////////////////////////////////////////////////////////////////////////////*/

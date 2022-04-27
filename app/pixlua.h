@@ -1,0 +1,11 @@
+#ifndef PIXLUA_H__ /*/////////////////////////////////////////////////////////*/
+#define PIXLUA_H__
+
+#define LUA_CORE
+#define LUA_LIB
+
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+
+#endif /* PIXLUA_H__ /////////////////////////////////////////////////////////*/
