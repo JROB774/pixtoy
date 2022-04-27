@@ -11,9 +11,9 @@
 
 typedef struct pixCONTEXT
 {
-    lua_State*    luastate;
+    lua_State*    lstate;
     SDL_Window*   window;
-    SDL_Renderer* renderer;
+    SDL_Renderer* render;
     SDL_Surface*  screen;
     SDL_Texture*  target;
 }
@@ -50,19 +50,19 @@ PIXINTERNAL pixVOID main_loop(pixVOID)
     JS_get_lua_string(lua_buffer, 4096);
 
     // @Note: Is this okay to do every fra,e or do we need to pop these?
-    lua_pushnumber(pix_context.luastate, delta_time);
-    lua_setglobal(pix_context.luastate, "dt");
-    lua_pushnumber(pix_context.luastate, total_time);
-    lua_setglobal(pix_context.luastate, "t");
-    lua_pushinteger(pix_context.luastate, PIXSCRW);
-    lua_setglobal(pix_context.luastate, "scrw");
-    lua_pushinteger(pix_context.luastate, PIXSCRH);
-    lua_setglobal(pix_context.luastate, "scrh");
+    lua_pushnumber(pix_context.lstate, delta_time);
+    lua_setglobal(pix_context.lstate, "dt");
+    lua_pushnumber(pix_context.lstate, total_time);
+    lua_setglobal(pix_context.lstate, "t");
+    lua_pushinteger(pix_context.lstate, PIXSCRW);
+    lua_setglobal(pix_context.lstate, "scrw");
+    lua_pushinteger(pix_context.lstate, PIXSCRH);
+    lua_setglobal(pix_context.lstate, "scrh");
 
-    pixINT ret = luaL_dostring(pix_context.luastate, lua_buffer);
+    pixINT ret = luaL_dostring(pix_context.lstate, lua_buffer);
     if(ret != LUA_OK)
     {
-        const pixCHAR* err = lua_tostring(pix_context.luastate,-1);
+        const pixCHAR* err = lua_tostring(pix_context.lstate,-1);
         JS_set_error_message(err, strlen(err));
     }
     else
@@ -80,11 +80,11 @@ PIXINTERNAL pixVOID main_loop(pixVOID)
     pixU32* pixels = pix_context.screen->pixels;
     pixINT pitch = pix_context.screen->pitch;
 
-    SDL_SetRenderDrawColor(pix_context.renderer, 0,0,0,255);
-    SDL_RenderClear(pix_context.renderer);
+    SDL_SetRenderDrawColor(pix_context.render, 0,0,0,255);
+    SDL_RenderClear(pix_context.render);
     SDL_UpdateTexture(pix_context.target, NULL, pixels, pitch);
-    SDL_RenderCopy(pix_context.renderer, pix_context.target, NULL, NULL);
-    SDL_RenderPresent(pix_context.renderer);
+    SDL_RenderCopy(pix_context.render, pix_context.target, NULL, NULL);
+    SDL_RenderPresent(pix_context.render);
 }
 
 pixINT main(pixINT argc, pixCHAR** argv)
@@ -104,7 +104,7 @@ pixINT main(pixINT argc, pixCHAR** argv)
 
     pix_context.window = SDL_CreateWindow("pixtoy",
         0,0,ww,wh, SDL_WINDOW_SHOWN);
-    pix_context.renderer = SDL_CreateRenderer(pix_context.window,
+    pix_context.render = SDL_CreateRenderer(pix_context.window,
         -1, SDL_RENDERER_ACCELERATED);
 
     // Setup the render target for drawing into.
@@ -113,13 +113,13 @@ pixINT main(pixINT argc, pixCHAR** argv)
     pixINT bpp;
     SDL_PixelFormatEnumToMasks(pixel_format, &bpp, &r,&g,&b,&a);
     pix_context.screen = SDL_CreateRGBSurface(0, PIXSCRW,PIXSCRH, 32, r,g,b,a);
-    pix_context.target = SDL_CreateTexture(pix_context.renderer, pixel_format,
+    pix_context.target = SDL_CreateTexture(pix_context.render, pixel_format,
         SDL_TEXTUREACCESS_STREAMING, PIXSCRW,PIXSCRH);
 
     // Expose functions to Lua.
-    pix_context.luastate = luaL_newstate();
+    pix_context.lstate = luaL_newstate();
     pix_set_screen(pix_context.screen->pixels);
-    pix_register_api(pix_context.luastate);
+    pix_register_api(pix_context.lstate);
 
     emscripten_set_main_loop(main_loop, -1, 1);
 
