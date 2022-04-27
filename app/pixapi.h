@@ -31,6 +31,7 @@ PIXAPI(sqrt );
 PIXAPI(cos  );
 PIXAPI(sin  );
 PIXAPI(tan  );
+PIXAPI(clamp);
 PIXAPI(seed );
 PIXAPI(rand );
 // DRAW //////

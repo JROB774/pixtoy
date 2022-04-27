@@ -33,6 +33,7 @@ PIXDEF pixVOID pix_register_api(lua_State* lua)
     PIXAPI_REGISTER(cos  );
     PIXAPI_REGISTER(sin  );
     PIXAPI_REGISTER(tan  );
+    PIXAPI_REGISTER(clamp);
     PIXAPI_REGISTER(seed );
     PIXAPI_REGISTER(rand );
     PIXAPI_REGISTER(clrs );
@@ -253,6 +254,16 @@ PIXAPI(tan)
 {
     pixFLOAT x = luaL_checknumber(lua, 1);
     x = tan(x);
+    lua_pushnumber(lua, x);
+    return 1;
+}
+
+PIXAPI(clamp)
+{
+    pixFLOAT x = luaL_checknumber(lua, 1);
+    pixFLOAT y = luaL_checknumber(lua, 2);
+    pixFLOAT z = luaL_checknumber(lua, 3);
+    x = PIXCLAMP(x,y,z);
     lua_pushnumber(lua, x);
     return 1;
 }
