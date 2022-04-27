@@ -32,6 +32,14 @@ LUA_FUNCTION(bxor)
     return 1;
 }
 
+LUA_FUNCTION(bnot)
+{
+    int x = luaL_checkinteger(lua, 1);
+    int y = ~x;
+    lua_pushinteger(lua, y);
+    return 1;
+}
+
 //
 // Math
 //
@@ -473,9 +481,12 @@ LUA_FUNCTION(circ)
 
 void register_api(lua_State* lua)
 {
+    // Bitwise
     LUA_REGISTER(band);
     LUA_REGISTER(bor);
     LUA_REGISTER(bxor);
+    LUA_REGISTER(bnot);
+    // Math
     LUA_REGISTER(abs);
     LUA_REGISTER(acos);
     LUA_REGISTER(asin);
@@ -497,6 +508,7 @@ void register_api(lua_State* lua)
     LUA_REGISTER(tan);
     LUA_REGISTER(seed);
     LUA_REGISTER(rand);
+    // Drawing
     LUA_REGISTER(clrs);
     LUA_REGISTER(pset);
     LUA_REGISTER(pget);
