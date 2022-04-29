@@ -55,21 +55,3 @@ html, body
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-
-#output
-{
-  font: "Liberation Mono", monospace;
-  font-weight: bold;
-  background: #000;
-  color: #FFF;
-  outline: none;
-  border: none;
-  margin: 0;
-  padding: 5px;
-  width: 100%;
-  height: auto;
-  min-height: 240px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}

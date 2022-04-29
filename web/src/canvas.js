@@ -3,19 +3,19 @@ window.onclick = function () { window.focus(); }
 
 var Module = {
   print: (function() {
-    var element = document.getElementById('output');
-    if(element) element.value = ''; // Clear browser cache.
     return function(text) {
-      if(arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+      if(arguments.length > 1)
+        text = Array.prototype.slice.call(arguments).join(' ');
       console.log(text);
-      if(element) {
-        element.value += text + "\n";
-        element.scrollTop = element.scrollHeight; // Focus on bottom.
-      }
     };
   })(),
-  printErr: function(text) {
-  },
+  printErr: (function(text) {
+    return function(text) {
+      if(arguments.length > 1)
+        text = Array.prototype.slice.call(arguments).join(' ');
+      console.error(text);
+    };
+  })(),
   canvas: (function() {
     var canvas = document.getElementById('canvas');
     return canvas;
