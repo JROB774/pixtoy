@@ -5,19 +5,19 @@ var Module = {
   print: (function() {
     return function(text) {
       if(arguments.length > 1)
-        text = Array.prototype.slice.call(arguments).join(' ');
+        text = Array.prototype.slice.call(arguments).join(" ");
       console.log(text);
     };
   })(),
   printErr: (function(text) {
     return function(text) {
       if(arguments.length > 1)
-        text = Array.prototype.slice.call(arguments).join(' ');
+        text = Array.prototype.slice.call(arguments).join(" ");
       console.error(text);
     };
   })(),
   canvas: (function() {
-    var canvas = document.getElementById('canvas');
+    var canvas = document.getElementById("canvas");
     return canvas;
   })()
 };
@@ -28,18 +28,18 @@ function get_lua_string(out_str, max_bytes) {
 }
 
 function set_error_message(err, len) {
-  var element = document.getElementById('error');
+  var element = document.getElementById("error");
   if(len !== 0) {
     var errmsg = UTF8ToString(err,len);
     element.value = errmsg;
-    element.style.display = 'block';
+    element.style.display = "block";
   } else {
-    element.style.display = 'none';
+    element.style.display = "none";
   }
 }
 
 // Hijack tab handling so that the user can insert them in code: https://stackoverflow.com/a/18303822
-document.getElementById("textedit").addEventListener('keydown', function(e) {
+document.getElementById("textedit").addEventListener("keydown", function(e) {
   if(e.keyCode === 9) {
     var start = this.selectionStart;
     var end = this.selectionEnd;
