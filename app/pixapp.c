@@ -11,8 +11,8 @@
 
 typedef struct pixCONTEXT
 {
-    lua_State*    lstate;
-    SDL_Window*   window;
+    lua_State*    lstate; // @Incomplete: Pull out into pixlua as this is not
+    SDL_Window*   window; // platform-specific code so it can be more generic.
     SDL_Renderer* render;
     SDL_Surface*  screen;
     SDL_Texture*  target;
