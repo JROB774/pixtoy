@@ -55,3 +55,8 @@ document.getElementById("textedit").addEventListener("keydown", function(e) {
     e.preventDefault();
   }
 },false);
+
+ace.config.set("basePath", ".")
+var editor = ace.edit("textedit");
+editor.setTheme("ace/theme/terminal");
+editor.session.setMode("ace/mode/lua");
