@@ -21,17 +21,29 @@ pixCONTEXT;
 
 PIXINTERNAL pixCONTEXT pix_context;
 
+// Function call into JS to display an error message in a webpage alert box.
+EM_JS(pixVOID, JS_display_error, (const pixCHAR* err, pixU64 len),
+{
+    display_error(err, len);
+});
 // Function call into JS to retrieve text edit string for parsing into Lua code.
 EM_JS(pixVOID, JS_get_lua_string, (const pixCHAR* out_str, pixU64 max_bytes),
 {
     get_lua_string(out_str, max_bytes);
 });
-
 // Function call into JS to display a Lua error message on the webpage.
 EM_JS(pixVOID, JS_set_error_message, (const pixCHAR* err, pixU64 len),
 {
     set_error_message(err, len);
 });
+
+PIXINTERNAL pixVOID sdl_fatal_error(const pixCHAR* message)
+{
+    pixCHAR buffer[512] = {0};
+    snprintf(buffer, PIXARRSIZE(buffer), "%s\n(%s)", message, SDL_GetError());
+    JS_display_error(buffer, strlen(buffer));
+    abort();
+}
 
 PIXINTERNAL pixVOID main_loop(pixVOID)
 {
@@ -89,35 +101,54 @@ PIXINTERNAL pixVOID main_loop(pixVOID)
 
 pixINT main(pixINT argc, pixCHAR** argv)
 {
-    SDL_Init(SDL_INIT_VIDEO);
+    if(SDL_Init(SDL_INIT_VIDEO) < 0)
+    {
+        sdl_fatal_error("Failed to initialize SDL video system.");
+    }
 
-    // Stop SDL from eating all of our inputs!
-    SDL_EventState(SDL_TEXTINPUT, SDL_DISABLE);
-    SDL_EventState(SDL_KEYDOWN, SDL_DISABLE);
-    SDL_EventState(SDL_KEYUP, SDL_DISABLE);
-    SDL_EventState(SDL_MOUSEMOTION, SDL_DISABLE);
+    // Disable all of these events to stop SDL from eating all of our inputs.
+    // The program itself doesn't need any user input but the webpage does.
+    SDL_EventState(SDL_TEXTINPUT,       SDL_DISABLE);
+    SDL_EventState(SDL_KEYDOWN,         SDL_DISABLE);
+    SDL_EventState(SDL_KEYUP,           SDL_DISABLE);
+    SDL_EventState(SDL_MOUSEMOTION,     SDL_DISABLE);
     SDL_EventState(SDL_MOUSEBUTTONDOWN, SDL_DISABLE);
-    SDL_EventState(SDL_MOUSEBUTTONUP, SDL_DISABLE);
+    SDL_EventState(SDL_MOUSEBUTTONUP,   SDL_DISABLE);
 
     pixINT ww = PIXSCRW*2;
     pixINT wh = PIXSCRH*2;
 
     pix_context.window = SDL_CreateWindow("pixtoy",
         0,0,ww,wh, SDL_WINDOW_SHOWN);
+    if(!pix_context.window)
+        sdl_fatal_error("Failed to create window.");
     pix_context.render = SDL_CreateRenderer(pix_context.window,
         -1, SDL_RENDERER_ACCELERATED);
+    if(!pix_context.render)
+        sdl_fatal_error("Failed to create renderer.");
 
     // Setup the render target for drawing into.
     pixU32 pixel_format = SDL_GetWindowPixelFormat(pix_context.window);
     pixU32 r,g,b,a;
     pixINT bpp;
-    SDL_PixelFormatEnumToMasks(pixel_format, &bpp, &r,&g,&b,&a);
+    if(!SDL_PixelFormatEnumToMasks(pixel_format, &bpp, &r,&g,&b,&a))
+        sdl_fatal_error("Failed to convert format.");
     pix_context.screen = SDL_CreateRGBSurface(0, PIXSCRW,PIXSCRH, 32, r,g,b,a);
+    if(!pix_context.screen)
+        sdl_fatal_error("Failed to create screen.");
     pix_context.target = SDL_CreateTexture(pix_context.render, pixel_format,
         SDL_TEXTUREACCESS_STREAMING, PIXSCRW,PIXSCRH);
+    if(!pix_context.target)
+        sdl_fatal_error("Failed to create target.");
 
-    // Expose functions to Lua.
+    // @Improve: Don't really want to call SDL_GetError on this.
     pix_context.lstate = luaL_newstate();
+    if(!pix_context.lstate)
+    {
+        sdl_fatal_error("Failed to create Lua state.");
+    }
+
+    // Setup the API for Lua to use.
     pix_set_screen(pix_context.screen->pixels);
     pix_register_api(pix_context.lstate);
 

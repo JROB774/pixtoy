@@ -22,6 +22,11 @@ var Module = {
   })()
 };
 
+function display_error(err, len) {
+  var errmsg = UTF8ToString(err,len);
+  alert(errmsg);
+}
+
 function get_lua_string(out_str, max_bytes) {
   var text = ace.edit("textedit").getValue();
   stringToUTF8(text, out_str, max_bytes);
