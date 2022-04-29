@@ -465,6 +465,7 @@ PIXAPI(rect)
     return 0;
 }
 
+// @Improve; Issue when drawing outline circles that clip off-screen!
 PIXAPI(circ)
 {
     pixINT mode = luaL_checknumber( lua, 1);
