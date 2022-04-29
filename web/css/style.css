@@ -2,57 +2,78 @@
 
 html, body
 {
-  padding: 0px;
-  margin: 0px;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .canvas-container
 {
-  margin-top: 25px;
-  margin-bottom: 25px;
+  display: inline-block;
+  position: relative;
+  height: 100%;
   width: 50%;
-  height: auto;
   text-align: center;
   float: left;
 }
 
 .textedit-container
 {
-  margin-top: 25px;
-  margin-bottom: 25px;
+  display: inline-block;
+  position: relative;
+  height: 100%;
   width: 50%;
-  height: auto;
   text-align: center;
   float: left;
 }
 
 #canvas
 {
-  display: inline;
-  width: 512px;
+  display: block;
   height: 512px;
+  width: 512px;
+  padding: 0;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 #textedit
 {
   width: 100%;
-  height: 512px;
+  height: 100%;
 }
 
 #error
 {
   font: "Liberation Mono", monospace;
   font-weight: bold;
+
   display: none;
+  height: 2em;
+  width: 100%;
+  padding: 5px;
+  margin: 0;
+
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
   background: #F00;
   color: #FFF;
+
   text-align: center;
+
+  resize: none;
   outline: none;
   border: none;
-  margin-bottom: 25px;
-  padding: 5px;
-  width: 100%;
-  height: 2em;
+
+  z-index: 100;
+
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
