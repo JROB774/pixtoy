@@ -115,8 +115,8 @@ pixINT main(pixINT argc, pixCHAR** argv)
     SDL_EventState(SDL_MOUSEBUTTONDOWN, SDL_DISABLE);
     SDL_EventState(SDL_MOUSEBUTTONUP,   SDL_DISABLE);
 
-    pixINT ww = PIXSCRW*2;
-    pixINT wh = PIXSCRH*2;
+    pixINT ww = PIXSCRW*3;
+    pixINT wh = PIXSCRH*3;
 
     pix_context.window = SDL_CreateWindow("pixtoy",
         0,0,ww,wh, SDL_WINDOW_SHOWN);

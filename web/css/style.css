@@ -16,6 +16,7 @@ html, body
   width: 50%;
   text-align: center;
   float: left;
+  background: #3E32A2;
 }
 
 .textedit-container
@@ -24,15 +25,15 @@ html, body
   position: relative;
   height: 100%;
   width: 50%;
-  text-align: center;
   float: left;
+  text-align: center;
 }
 
 #canvas
 {
   display: block;
-  height: 512px;
-  width: 512px;
+  height: auto;
+  width: auto;
   padding: 0;
   margin: auto;
   position: absolute;
@@ -44,6 +45,8 @@ html, body
 
 #textedit
 {
+  font: "Liberation Mono", monospace;
+  font-weight: bold;
   width: 100%;
   height: 100%;
 }

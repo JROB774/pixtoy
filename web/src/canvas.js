@@ -58,5 +58,5 @@ document.getElementById("textedit").addEventListener("keydown", function(e) {
 
 ace.config.set("basePath", ".")
 var editor = ace.edit("textedit");
-editor.setTheme("ace/theme/terminal");
+editor.setTheme("ace/theme/cobalt");
 editor.session.setMode("ace/mode/lua");
