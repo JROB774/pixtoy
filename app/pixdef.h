@@ -37,6 +37,7 @@ typedef union pixCOLOR
 }
 pixCOLOR;
 
+#define PIXARRSIZE(arr) (sizeof(arr)/sizeof((arr)[0]))
 #define PIXSWAP(t,x,y) do { t t_ = x; x = y; y = t_; } while(0)
 #define PIXCLAMP(x,l,h) (((x)>(h))?(h):(((x)<(l))?(l):(x)))
 
