@@ -1,19 +1,20 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <title>pixtoy</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"/>
   </head>
   <body>
     <div class="canvas-container">
-      <canvas id="canvas" tabindex=-1></canvas>
+      <canvas id="canvas" tabindex=-1>
+      </canvas>
     </div>
     <div class="textedit-container">
-      <div id="textedit">clrs(0)
-for iy=0,scrw,1 do
-  for ix=0,scrh,1 do
-    pset(ix,iy, ix,iy,127)
-  end
-end</div>
+      <div id="textedit"></div>
     </div>
     <textarea id="error">
     </textarea>
