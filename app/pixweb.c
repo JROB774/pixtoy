@@ -80,28 +80,11 @@ PIXINTERNAL pixVOID main_loop(pixVOID)
 
     // @Incomplete: Make a dynamic buffer based on text size rather than fixed!
     pixCHAR lua_buffer[4096] = {0};
-    JS_get_lua_string(lua_buffer, 4096);
-
-    // @Note: Is this okay to do every fra,e or do we need to pop these?
-    lua_pushnumber(pix_context.lstate, delta_time);
-    lua_setglobal(pix_context.lstate, "dt");
-    lua_pushnumber(pix_context.lstate, total_time);
-    lua_setglobal(pix_context.lstate, "t");
-    lua_pushinteger(pix_context.lstate, PIXSCRW);
-    lua_setglobal(pix_context.lstate, "scrw");
-    lua_pushinteger(pix_context.lstate, PIXSCRH);
-    lua_setglobal(pix_context.lstate, "scrh");
-
-    pixINT ret = luaL_dostring(pix_context.lstate, lua_buffer);
-    if(ret != LUA_OK)
-    {
-        const pixCHAR* err = lua_tostring(pix_context.lstate,-1);
-        JS_set_error_message(err, strlen(err));
-    }
-    else
-    {
-        JS_set_error_message(NULL,0);
-    }
+    JS_get_lua_string(lua_buffer, PIXARRSIZE(lua_buffer));
+    const pixCHAR* err = pix_run(lua_buffer, pix_context.lstate,
+        delta_time, total_time);
+    if(!err) JS_set_error_message(NULL, 0);
+    else JS_set_error_message(err, strlen(err));
 
     end_counter = SDL_GetPerformanceCounter();
     elapsed_counter = end_counter - last_counter;
