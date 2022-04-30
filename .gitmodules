@@ -5,5 +5,5 @@
 	path = app/lua
 	url = https://github.com/lua/lua.git
 [submodule "web/ace-builds"]
-	path = web/ace
+	path = web/src/ace
 	url = https://github.com/ajaxorg/ace-builds.git
