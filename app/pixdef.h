@@ -8,7 +8,6 @@
 
 #define PIXFALSE 0
 #define PIXTRUE  1
-#define PIXTRUE  1
 
 #define PIXSCRW 128
 #define PIXSCRH 128
