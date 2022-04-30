@@ -36,8 +36,8 @@ function set_error_message(err, len) {
   var element = document.getElementById("error");
   if(len !== 0) {
     var errmsg = UTF8ToString(err,len);
-    element.value = errmsg;
-    element.style.display = "block";
+    element.textContent = errmsg;
+    element.style.display = "flex";
   } else {
     element.style.display = "none";
   }
