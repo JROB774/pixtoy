@@ -40,8 +40,10 @@ PIXDEF pixVOID pix_register_api(lua_State* lua)
     PIXAPI_REGISTER(pset );
     PIXAPI_REGISTER(pget );
     PIXAPI_REGISTER(line );
-    PIXAPI_REGISTER(rect );
-    PIXAPI_REGISTER(circ );
+    PIXAPI_REGISTER(recto);
+    PIXAPI_REGISTER(rectf);
+    PIXAPI_REGISTER(circo);
+    PIXAPI_REGISTER(circf);
 
     #undef PIXAPI_REGISTER
 }
@@ -318,7 +320,6 @@ PIXINTERNAL pixCOLOR get_lua_color_arg(lua_State* lua, pixINT offs)
 // Safe function for setting pixels with bounds checking on edges.
 PIXINTERNAL pixVOID set_pixel(pixINT x, pixINT y, pixCOLOR c)
 {
-    // @Incomplete: Handle alpha blending if alpha is not 255!
     if(x < 0 || x >= PIXSCRW) return;
     if(y < 0 || y >= PIXSCRH) return;
     pix_screen[y*PIXSCRW+x] = c.raw;
@@ -359,112 +360,9 @@ PIXINTERNAL pixVOID draw_line(pixINT x0, pixINT y0,
     }
 }
 
-PIXAPI(clrs)
+PIXINTERNAL pixVOID draw_circle(pixFLOAT x, pixFLOAT y, pixFLOAT r, pixFLOAT t,
+                                pixCOLOR c)
 {
-    pixCOLOR c = get_lua_color_arg(lua, 1);
-    for(pixU32 i=0; i<PIXSCRW*PIXSCRH; ++i)
-        pix_screen[i] = c.raw;
-    return 0;
-}
-
-PIXAPI(pset)
-{
-    pixINT x = luaL_checknumber(lua, 1);
-    pixINT y = luaL_checknumber(lua, 2);
-    pixCOLOR c = get_lua_color_arg(lua, 3);
-      set_pixel(x,y,c);
-    return 0;
-}
-
-PIXAPI(pget)
-{
-    pixINT x = luaL_checknumber(lua, 1);
-    pixINT y = luaL_checknumber(lua, 2);
-
-    pixCOLOR c = {0};
-    if(x >= 0 && x < PIXSCRW && y >= 0 && y < PIXSCRH)
-        c.raw = pix_screen[y*PIXSCRW+x];
-    lua_pushnumber(lua, c.r);
-    lua_pushnumber(lua, c.g);
-    lua_pushnumber(lua, c.b);
-
-    return 3;
-}
-
-PIXAPI(line)
-{
-    pixINT  x0 = luaL_checknumber( lua, 1);
-    pixINT  y0 = luaL_checknumber( lua, 2);
-    pixINT  x1 = luaL_checknumber( lua, 3);
-    pixINT  y1 = luaL_checknumber( lua, 4);
-    pixCOLOR c = get_lua_color_arg(lua, 5);
-
-    draw_line(x0,y0,x1,y1, c);
-
-    return 0;
-}
-
-PIXAPI(rect)
-{
-    pixINT mode = luaL_checknumber( lua, 1);
-    pixINT    x = luaL_checknumber( lua, 2);
-    pixINT    y = luaL_checknumber( lua, 3);
-    pixINT    w = luaL_checknumber( lua, 4);
-    pixINT    h = luaL_checknumber( lua, 5);
-    pixCOLOR  c = get_lua_color_arg(lua, 6);
-
-    // Don't even bother rendering if we're offscreen.
-    if(x >= PIXSCRW) return 0;
-    if(y >= PIXSCRH) return 0;
-
-    pixINT x0 = x;
-    pixINT y0 = y;
-    pixINT x1 = x+w-1;
-    pixINT y1 = y+h-1;
-
-    if(mode == 0) // Outline
-    {
-        draw_line(x1,y0,x1,y1, c); // Right
-        draw_line(x0,y0,x0,y1, c); // Left
-        draw_line(x0,y0,x1,y0, c); // Top
-        draw_line(x0,y1,x1,y1, c); // Bottom
-    }
-    if(mode == 1) // Fill
-    {
-        // Clamp the bounds to avoid overflows.
-        x0 = PIXCLAMP(x0, 0, PIXSCRW-1);
-        y0 = PIXCLAMP(y0, 0, PIXSCRH-1);
-        x1 = PIXCLAMP(x1, 0, PIXSCRW-1);
-        y1 = PIXCLAMP(y1, 0, PIXSCRH-1);
-
-        for(pixINT iy=y0; iy<=y1; ++iy)
-        {
-            for(pixINT ix=x0; ix<=x1; ++ix)
-            {
-                set_pixel(ix,iy,c);
-            }
-        }
-    }
-
-    return 0;
-}
-
-PIXAPI(circ)
-{
-    pixINT mode = luaL_checknumber( lua, 1);
-    pixINT    x = luaL_checknumber( lua, 2);
-    pixINT    y = luaL_checknumber( lua, 3);
-    pixINT    r = luaL_checknumber( lua, 4);
-    pixINT    t = luaL_checknumber( lua, 5);
-    pixCOLOR  c = get_lua_color_arg(lua, 6);
-
-    // If the user wants fill mode we just set the stroke
-    // to the radius and that will make a filled circle.
-    if(mode == 1)
-    {
-        t = r+1;
-    }
-
     t = PIXCLAMP(t,0,r+1);
 
     pixINT outer = r;
@@ -516,6 +414,134 @@ PIXAPI(circ)
             }
         }
     }
+}
+
+PIXAPI(clrs)
+{
+    pixCOLOR c = get_lua_color_arg(lua, 1);
+    for(pixU32 i=0; i<PIXSCRW*PIXSCRH; ++i)
+        pix_screen[i] = c.raw;
+    return 0;
+}
+
+PIXAPI(pset)
+{
+    pixINT x = luaL_checknumber(lua, 1);
+    pixINT y = luaL_checknumber(lua, 2);
+    pixCOLOR c = get_lua_color_arg(lua, 3);
+      set_pixel(x,y,c);
+    return 0;
+}
+
+PIXAPI(pget)
+{
+    pixINT x = luaL_checknumber(lua, 1);
+    pixINT y = luaL_checknumber(lua, 2);
+
+    pixCOLOR c = {0};
+    if(x >= 0 && x < PIXSCRW && y >= 0 && y < PIXSCRH)
+        c.raw = pix_screen[y*PIXSCRW+x];
+    lua_pushnumber(lua, c.r);
+    lua_pushnumber(lua, c.g);
+    lua_pushnumber(lua, c.b);
+
+    return 3;
+}
+
+PIXAPI(line)
+{
+    pixINT  x0 = luaL_checknumber( lua, 1);
+    pixINT  y0 = luaL_checknumber( lua, 2);
+    pixINT  x1 = luaL_checknumber( lua, 3);
+    pixINT  y1 = luaL_checknumber( lua, 4);
+    pixCOLOR c = get_lua_color_arg(lua, 5);
+
+    draw_line(x0,y0,x1,y1, c);
+
+    return 0;
+}
+
+PIXAPI(recto)
+{
+    pixINT   x = luaL_checknumber( lua, 1);
+    pixINT   y = luaL_checknumber( lua, 2);
+    pixINT   w = luaL_checknumber( lua, 3);
+    pixINT   h = luaL_checknumber( lua, 4);
+    pixCOLOR c = get_lua_color_arg(lua, 5);
+
+    // Don't even bother rendering if we're offscreen.
+    if(x >= PIXSCRW) return 0;
+    if(y >= PIXSCRH) return 0;
+
+    pixINT x0 = x;
+    pixINT y0 = y;
+    pixINT x1 = x+w-1;
+    pixINT y1 = y+h-1;
+
+    draw_line(x1,y0,x1,y1, c); // Right
+    draw_line(x0,y0,x0,y1, c); // Left
+    draw_line(x0,y0,x1,y0, c); // Top
+    draw_line(x0,y1,x1,y1, c); // Bottom
+
+    return 0;
+}
+
+PIXAPI(rectf)
+{
+    pixINT   x = luaL_checknumber( lua, 1);
+    pixINT   y = luaL_checknumber( lua, 2);
+    pixINT   w = luaL_checknumber( lua, 3);
+    pixINT   h = luaL_checknumber( lua, 4);
+    pixCOLOR c = get_lua_color_arg(lua, 5);
+
+    // Don't even bother rendering if we're offscreen.
+    if(x >= PIXSCRW) return 0;
+    if(y >= PIXSCRH) return 0;
+
+    pixINT x0 = x;
+    pixINT y0 = y;
+    pixINT x1 = x+w-1;
+    pixINT y1 = y+h-1;
+
+    // Clamp the bounds to avoid overflows.
+    x0 = PIXCLAMP(x0, 0, PIXSCRW-1);
+    y0 = PIXCLAMP(y0, 0, PIXSCRH-1);
+    x1 = PIXCLAMP(x1, 0, PIXSCRW-1);
+    y1 = PIXCLAMP(y1, 0, PIXSCRH-1);
+
+    for(pixINT iy=y0; iy<=y1; ++iy)
+    {
+        for(pixINT ix=x0; ix<=x1; ++ix)
+        {
+            set_pixel(ix,iy,c);
+        }
+    }
+
+    return 0;
+}
+
+PIXAPI(circo)
+{
+    pixINT   x = luaL_checknumber( lua, 1);
+    pixINT   y = luaL_checknumber( lua, 2);
+    pixINT   r = luaL_checknumber( lua, 3);
+    pixINT   t = luaL_checknumber( lua, 4);
+    pixCOLOR c = get_lua_color_arg(lua, 5);
+
+    draw_circle(x,y,r,t,c);
+
+    return 0;
+}
+
+PIXAPI(circf)
+{
+    pixINT   x = luaL_checknumber( lua, 1);
+    pixINT   y = luaL_checknumber( lua, 2);
+    pixINT   r = luaL_checknumber( lua, 3);
+    pixCOLOR c = get_lua_color_arg(lua, 4);
+
+    // Set the thickness big enough to fill the circle.
+    draw_circle(x,y,r,r+1,c);
 
     return 0;
 }

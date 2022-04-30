@@ -39,7 +39,9 @@ PIXAPI(clrs ); // c              :: clears the screen with color c
 PIXAPI(pset ); // x,y,c          :: sets screen pixel at x,y to color c
 PIXAPI(pget ); // x,y     -> c   :: returns screen pixel color at x,y
 PIXAPI(line ); // x,y,z,w,c      :: draws line from point x,y to z,w
-PIXAPI(rect ); // m,x,y,w,h,c    :: draws a rect with bounds x,y,w,h
-PIXAPI(circ ); // m,x,y,r,t,c    :: draws a circle with radius r at x,y
+PIXAPI(recto); // x,y,w,h,c      :: draws a rect outline with bounds x,y,w,h
+PIXAPI(rectf); // x,y,w,h,c      :: draws a rect fill with bounds x,y,w,h
+PIXAPI(circo); // x,y,r,t,c      :: draws a circle outline with radius r at x,y
+PIXAPI(circf); // x,y,r,c        :: draws a circle fill with raiuds r at x,y
 
 #endif /* PIXAPI_H__ /////////////////////////////////////////////////////////*/
