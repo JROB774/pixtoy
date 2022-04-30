@@ -9,7 +9,7 @@ before_script:
 script:
   - source app/emsdk/emsdk_env.sh
   - mkdir web/app
-  - emcc -s WASM=1 -s USE_SDL=2 -I app/lua app/pixapp.c -o web/app/pixtoy.js
+  - emcc -s WASM=1 -s USE_SDL=2 -I app/lua app/pixweb.c -o web/app/pixtoy.js
 
 deploy:
   provider: pages
