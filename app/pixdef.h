@@ -18,7 +18,7 @@ typedef unsigned pixUINT;
 typedef int      pixINT;
 typedef float    pixFLOAT;
 typedef double   pixDOUBLE;
-typedef bool     pixBOOL;
+typedef int8_t   pixBOOL;
 typedef uint8_t  pixU8;
 typedef uint16_t pixU16;
 typedef uint32_t pixU32;
