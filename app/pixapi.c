@@ -277,15 +277,13 @@ PIXAPI(seed)
     return 0;
 }
 
-// @Incomplete: Arguments aren't really handled well, if we have
-// one that should be max! If we have two then they are min,max.
 PIXAPI(rand)
 {
     pixFLOAT x = 0.0f;
     pixFLOAT y = (pixFLOAT)RAND_MAX;
     pixINT args = lua_gettop(lua);
-    if(args >= 1) x = luaL_checknumber(lua, 1);
-    if(args >= 2) y = luaL_checknumber(lua, 2);
+    if(args >= 2) x = luaL_checknumber(lua, 1), y = luaL_checknumber(lua, 2);
+    if(args == 1) y = luaL_checknumber(lua, 1);
     pixFLOAT r = (x + ((pixFLOAT)rand())) / (((pixFLOAT)RAND_MAX)/(y-x));
     lua_pushnumber(lua, r);
     return 1;
