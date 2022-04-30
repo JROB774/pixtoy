@@ -337,12 +337,6 @@ PIXINTERNAL pixVOID set_pixel(pixINT x, pixINT y, pixCOLOR c)
 PIXINTERNAL pixVOID draw_line(pixINT x0, pixINT y0,
                               pixINT x1, pixINT y1, pixCOLOR c)
 {
-    // Clamp the bounds to avoid overflows.
-    x0 = PIXCLAMP(x0, 0, PIXSCRW-1);
-    y0 = PIXCLAMP(y0, 0, PIXSCRH-1);
-    x1 = PIXCLAMP(x1, 0, PIXSCRW-1);
-    y1 = PIXCLAMP(y1, 0, PIXSCRH-1);
-
     pixBOOL steep = PIXFALSE;
     if(abs(x0-x1)<abs(y0-y1))
     {
@@ -465,7 +459,6 @@ PIXAPI(rect)
     return 0;
 }
 
-// @Improve; Issue when drawing outline circles that clip off-screen!
 PIXAPI(circ)
 {
     pixINT mode = luaL_checknumber( lua, 1);
