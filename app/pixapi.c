@@ -301,23 +301,15 @@ PIXINTERNAL pixCOLOR get_lua_color_arg(lua_State* lua, pixINT offs)
     pixINT comps = (lua_gettop(lua)+1) - offs;
     switch(comps)
     {
-    case 1: // RRR1
+    case 1: // RRR
         col.r = luaL_checknumber(lua, offs+0);
         col.g = luaL_checknumber(lua, offs+0);
         col.b = luaL_checknumber(lua, offs+0);
-        col.a = 255;
     break;
-    case 3: // RGB1
+    case 3: // RGB
         col.r = luaL_checknumber(lua, offs+0);
         col.g = luaL_checknumber(lua, offs+1);
         col.b = luaL_checknumber(lua, offs+2);
-        col.a = 255;
-    break;
-    case 4: // RGBA
-        col.r = luaL_checknumber(lua, offs+0);
-        col.g = luaL_checknumber(lua, offs+1);
-        col.b = luaL_checknumber(lua, offs+2);
-        col.a = luaL_checknumber(lua, offs+3);
     break;
     }
     return col;
@@ -395,10 +387,10 @@ PIXAPI(pget)
     lua_pushnumber(lua, c.r);
     lua_pushnumber(lua, c.g);
     lua_pushnumber(lua, c.b);
-    lua_pushnumber(lua, c.a);
 
-    return 4;
+    return 3;
 }
+
 PIXAPI(line)
 {
     pixINT  x0 = luaL_checknumber( lua, 1);
