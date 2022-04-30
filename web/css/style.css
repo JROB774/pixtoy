@@ -19,7 +19,7 @@ html, body
   background: #3E32A2;
 }
 
-.textedit-container
+.editor-container
 {
   display: inline-block;
   position: relative;
@@ -43,7 +43,7 @@ html, body
   right: 0;
 }
 
-#textedit
+#editor
 {
   font: "Liberation Mono", monospace;
   font-weight: bold;

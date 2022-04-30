@@ -28,7 +28,7 @@ function display_error(err, len) {
 }
 
 function get_lua_string(out_str, max_bytes) {
-  var text = ace.edit("textedit").getValue();
+  var text = ace.edit("editor").getValue();
   stringToUTF8(text, out_str, max_bytes);
 }
 
@@ -44,7 +44,7 @@ function set_error_message(err, len) {
 }
 
 // Hijack tab handling so that the user can insert them in code: https://stackoverflow.com/a/18303822
-document.getElementById("textedit").addEventListener("keydown", function(e) {
+document.getElementById("editor").addEventListener("keydown", function(e) {
   if(e.keyCode === 9) {
     var start = this.selectionStart;
     var end = this.selectionEnd;
@@ -57,6 +57,6 @@ document.getElementById("textedit").addEventListener("keydown", function(e) {
 },false);
 
 ace.config.set("basePath", ".")
-var editor = ace.edit("textedit");
+var editor = ace.edit("editor");
 editor.setTheme("ace/theme/cobalt");
 editor.session.setMode("ace/mode/lua");
