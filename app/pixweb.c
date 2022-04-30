@@ -90,7 +90,8 @@ PIXINTERNAL pixVOID main_loop(pixVOID)
     elapsed_counter = end_counter - last_counter;
     last_counter = SDL_GetPerformanceCounter();
 
-    delta_time = (pixFLOAT)elapsed_counter / (pixFLOAT)perf_frequency;
+    delta_time = PIXCAST(pixFLOAT,elapsed_counter) /
+                 PIXCAST(pixFLOAT,perf_frequency);
     total_time += delta_time;
 
     pixU32* pixels = pix_context.screen->pixels;

@@ -162,7 +162,7 @@ PIXAPI(floor)
 PIXAPI(deg)
 {
     pixFLOAT rad = luaL_checknumber(lua, 1);
-    pixFLOAT deg = (rad * 180.0f) / (pixFLOAT)M_PI;
+    pixFLOAT deg = (rad * 180.0f) / PIXCAST(pixFLOAT,M_PI);
     lua_pushnumber(lua, deg);
     return 1;
 }
@@ -170,7 +170,7 @@ PIXAPI(deg)
 PIXAPI(rad)
 {
     pixFLOAT deg = luaL_checknumber(lua, 1);
-    pixFLOAT rad = (deg * (pixFLOAT)M_PI) / 180.0f;
+    pixFLOAT rad = (deg * PIXCAST(pixFLOAT,M_PI)) / 180.0f;
     lua_pushnumber(lua, rad);
     return 1;
 }
@@ -282,11 +282,13 @@ PIXAPI(seed)
 PIXAPI(rand)
 {
     pixFLOAT x = 0.0f;
-    pixFLOAT y = (pixFLOAT)RAND_MAX;
+    pixFLOAT y = PIXCAST(pixFLOAT,RAND_MAX);
     pixINT args = lua_gettop(lua);
     if(args >= 2) x = luaL_checknumber(lua, 1), y = luaL_checknumber(lua, 2);
     if(args == 1) y = luaL_checknumber(lua, 1);
-    pixFLOAT r = (x + ((pixFLOAT)rand())) / (((pixFLOAT)RAND_MAX)/(y-x));
+    pixFLOAT rv = PIXCAST(pixFLOAT,rand());
+    pixFLOAT rm = PIXCAST(pixFLOAT,RAND_MAX);
+    pixFLOAT r = (x+rv)/(rm/(y-x));
     lua_pushnumber(lua, r);
     return 1;
 }
