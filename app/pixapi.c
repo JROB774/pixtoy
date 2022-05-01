@@ -434,6 +434,8 @@ PIXINTERNAL pixVOID draw_circle(pixINT x, pixINT y, pixINT r, pixINT t,
 
 PIXINTERNAL pixVOID draw_text_char(pixINT x, pixINT y, pixCHAR chr, pixCOLOR c)
 {
+    // Avoid reading out of the bounds of the fixed charset memory array.
+    if((chr < 0) || (chr > 127)) return;
     const pixU8* pixels = PIXCHARSET+(chr*(PIXCHRW*PIXCHRH));
     pixINT offset = 0;
     for(pixINT iy=0; iy<PIXCHRH; ++iy)
