@@ -18,6 +18,7 @@
 #include <stdlib.h>
 
 #include "pixdef.h"
+#include "pixchr.h"
 #include "pixlua.h"
 #include "pixapi.h"
 #include "pixapp.h"
