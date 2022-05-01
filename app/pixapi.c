@@ -10,6 +10,7 @@ PIXDEF pixVOID pix_register_api(lua_State* lua)
     lua_pushcfunction(lua, PIXAPI_##name); \
     lua_setglobal(lua, #name)
 
+    PIXAPI_REGISTER(chr  );
     PIXAPI_REGISTER(band );
     PIXAPI_REGISTER(bor  );
     PIXAPI_REGISTER(bxor );
@@ -44,6 +45,7 @@ PIXDEF pixVOID pix_register_api(lua_State* lua)
     PIXAPI_REGISTER(rectf);
     PIXAPI_REGISTER(circo);
     PIXAPI_REGISTER(circf);
+    PIXAPI_REGISTER(text );
 
     #undef PIXAPI_REGISTER
 }
@@ -56,6 +58,18 @@ PIXDEF pixVOID pix_set_screen(pixU32* screen)
 /*////////////////////////////////////////////////////////////////////////////*/
 /*//////////////////////////// API IMPLEMENTATION ////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////*/
+
+//
+//
+//
+
+PIXAPI(chr)
+{
+    pixINT x = luaL_checkinteger(lua, 1);
+    pixCHAR c = x;
+    lua_pushlstring(lua, &c, 1);
+    return 1;
+}
 
 //
 // BITS
@@ -362,7 +376,7 @@ PIXINTERNAL pixVOID draw_line(pixINT x0, pixINT y0,
     }
 }
 
-PIXINTERNAL pixVOID draw_circle(pixFLOAT x, pixFLOAT y, pixFLOAT r, pixFLOAT t,
+PIXINTERNAL pixVOID draw_circle(pixINT x, pixINT y, pixINT r, pixINT t,
                                 pixCOLOR c)
 {
     t = PIXCLAMP(t,0,r+1);
@@ -414,6 +428,21 @@ PIXINTERNAL pixVOID draw_circle(pixFLOAT x, pixFLOAT y, pixFLOAT r, pixFLOAT t,
                 xi--;
                 erri += 2*(yy-xi+1);
             }
+        }
+    }
+}
+
+PIXINTERNAL pixVOID draw_text_char(pixINT x, pixINT y, pixCHAR chr, pixCOLOR c)
+{
+    const pixU8* pixels = PIXCHARSET+(chr*(PIXCHRW*PIXCHRH));
+    pixINT offset = 0;
+    for(pixINT iy=0; iy<PIXCHRH; ++iy)
+    {
+        for(pixINT ix=0; ix<PIXCHRW; ++ix)
+        {
+            if(pixels[offset] == 0xFF)
+                set_pixel(x+ix,y+iy,c);
+            offset++;
         }
     }
 }
@@ -544,6 +573,34 @@ PIXAPI(circf)
 
     // Set the thickness big enough to fill the circle.
     draw_circle(x,y,r,r+1,c);
+
+    return 0;
+}
+
+PIXAPI(text)
+{
+    pixINT         x   = luaL_checknumber( lua, 1);
+    pixINT         y   = luaL_checknumber( lua, 2);
+    const pixCHAR* str = luaL_checkstring( lua, 3);
+    pixCOLOR       c   = get_lua_color_arg(lua, 4);
+
+    pixINT sx = x;
+    pixINT sy = y;
+
+    for(const pixCHAR* chrp=str; *chrp; ++chrp)
+    {
+        pixCHAR chr = *chrp;
+        switch(chr)
+        {
+            case '\n': x = sx, y += PIXCHRH; break;
+            case '\t': x += (PIXCHRW*2); break;
+            default:
+            {
+                draw_text_char(x,y,chr,c);
+                x += PIXCHRW;
+            } break;
+        }
+    }
 
     return 0;
 }

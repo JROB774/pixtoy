@@ -6,6 +6,8 @@
 PIXDEF pixVOID pix_register_api(lua_State* lua);
 PIXDEF pixVOID pix_set_screen(pixU32* screen);
 
+// UTIL //////
+PIXAPI(chr  ); // x       -> c   :: converts ascii code x to a character
 // BITS //////
 PIXAPI(band ); // a,b     -> x   :: the bitwise AND operation of a and b
 PIXAPI(bor  ); // a,b     -> x   :: the bitwise OR operation of a and b
@@ -43,5 +45,6 @@ PIXAPI(recto); // x,y,w,h,c      :: draws a rect outline with bounds x,y,w,h
 PIXAPI(rectf); // x,y,w,h,c      :: draws a rect fill with bounds x,y,w,h
 PIXAPI(circo); // x,y,r,t,c      :: draws a circle outline with radius r at x,y
 PIXAPI(circf); // x,y,r,c        :: draws a circle fill with raiuds r at x,y
+PIXAPI(text ); // x,y,t,c        :: draws text string t at position x,y
 
 #endif /* PIXAPI_H__ /////////////////////////////////////////////////////////*/
