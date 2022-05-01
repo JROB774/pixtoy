@@ -1,6 +1,6 @@
 /*////////////////////////////////////////////////////////////////////////////*/
 
-PIXDEF const pixCHAR* pix_run(const pixCHAR* program, lua_State* lua,
+PIXDEF const pixCHAR* pix_run(pixCHAR* program, lua_State* lua,
                               pixFLOAT dt, pixFLOAT t)
 {
     // @Note: Is this okay to do every frame or do we need to pop these?
@@ -13,6 +13,9 @@ PIXDEF const pixCHAR* pix_run(const pixCHAR* program, lua_State* lua,
     lua_pushinteger(lua, PIXSCRH);
     lua_setglobal(lua, "scrh");
 
+    // Make the program fully lowercase so that we're case-insensitive.
+    for(pixCHAR* c=program; *c; ++c)
+        *c = tolower(*c);
     pixINT ret = luaL_dostring(lua, program);
     if(ret != LUA_OK)
         return lua_tostring(lua,-1);
