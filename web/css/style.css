@@ -8,9 +8,10 @@
 
 :root
 {
-  --xcolor: #C6E4FF;
-  --lcolor: #A5A5FF;
-  --dcolor: #4242E7;
+  --xlcolor: #C6E4FF;
+  --mlcolor: #A5A5FF;
+  --mdcolor: #4242E7;
+  --xdcolor: #2E2D87;
 }
 
 html, body
@@ -31,7 +32,7 @@ html, body
   width: 50%;
   text-align: center;
   float: left;
-  background: var(--dcolor);
+  background: var(--mdcolor);
 }
 
 .editor-container
@@ -93,7 +94,7 @@ html, body
   display: block;
   height: 48px;
   width: 100%;
-  background: var(--lcolor);
+  background: var(--mlcolor);
   position: absolute;
   top: 0;
   left: 0;
@@ -107,7 +108,7 @@ html, body
   display: flex;
   height: 48px;
   width: 100%;
-  background: var(--lcolor);
+  background: var(--mlcolor);
   position: absolute;
   bottom: 0;
   left: 0;
