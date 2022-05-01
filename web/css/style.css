@@ -2,8 +2,8 @@
 
 @font-face
 {
-  font-family: Emulogic;
-  src: url(../fnt/emulogic.ttf);
+  font-family: "Emulogic";
+  src: url("../fnt/emulogic.ttf");
 }
 
 :root
