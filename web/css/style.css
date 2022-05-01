@@ -8,6 +8,7 @@
 
 :root
 {
+  --xcolor: #C6E4FF;
   --lcolor: #A5A5FF;
   --dcolor: #4242E7;
 }
@@ -43,6 +44,23 @@ html, body
   text-align: center;
 }
 
+.img-button
+{
+  margin-right: 8px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 34px;
+  height: 34px;
+}
+.img-button:last-child
+{
+  margin-right: 0;
+}
+.img-button:hover
+{
+  background: var(--xcolor);
+}
+
 #canvas
 {
   display: block;
@@ -73,13 +91,17 @@ html, body
 
 #btmbar
 {
-  display: block;
+  display: flex;
   height: 48px;
   width: 100%;
   background: var(--lcolor);
   position: absolute;
   bottom: 0;
   left: 0;
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
+  align-content: center;
   -webkit-box-shadow: 0px -8px rgba(0,0,0,0.4);
   -moz-box-shadow: 0px -8px rgba(0,0,0,0.4);
   box-shadow: 0px -8px rgba(0,0,0,0.4);
