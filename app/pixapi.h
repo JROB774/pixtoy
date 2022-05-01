@@ -17,7 +17,7 @@ PIXAPI(bnot ); // x       -> x   :: the bitwise NOT operation of a
 PIXAPI(abs  ); // x       -> x   :: returns absolute value of x
 PIXAPI(acos ); // x       -> x   :: returns arc cosine of x
 PIXAPI(asin ); // x       -> x   :: returns arc sine of x
-PIXAPI(atan ); // y,[x]   -> x   :: returns arc tangent of either  y or y/x
+PIXAPI(atan ); // y,[x]   -> x   :: returns arc tangent of either y or y/x
 PIXAPI(round); // x       -> x   :: rounds x to the nearest whole number
 PIXAPI(ceil ); // x       -> x   :: rounds x up to the nearest whole number
 PIXAPI(floor); // x       -> x   :: rounds x down to the nearest while number
