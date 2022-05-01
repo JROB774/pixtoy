@@ -56,7 +56,18 @@ document.getElementById("editor").addEventListener("keydown", function(e) {
   }
 },false);
 
-ace.config.set("basePath", ".")
 var editor = ace.edit("editor");
-editor.setTheme("ace/theme/cobalt");
-editor.session.setMode("ace/mode/lua");
+ace.config.set("basePath", ".");
+editor.setOptions({
+  navigateWithinSoftTabs: false,
+  useSoftTabs: true
+});
+editor.session.setOptions({
+  mode: "ace/mode/lua",
+  tabSize: 2
+});
+editor.renderer.setOptions({
+  theme: "ace/theme/cobalt",
+  showPrintMargin: false,
+  displayIndentGuides: false
+});

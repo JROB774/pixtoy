@@ -156,3 +156,25 @@ html, body
   -moz-box-shadow: 0px -8px rgba(0,0,0,0.4);
   box-shadow: 0px -8px rgba(0,0,0,0.4);
 }
+
+/* Ace Editor Style Overrides */
+
+.ace_gutter-cell.ace_error
+{
+  background-image: none;
+}
+
+.ace_tooltip
+{
+  display: none !important;
+}
+
+.ace_cursor
+{
+  border: none;
+  background: rgba(255,255,0,0.5);
+}
+.ace_hidden-cursors .ace_cursor
+{
+  background: rgba(255,255,0,1.0);
+}
