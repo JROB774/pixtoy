@@ -42,32 +42,3 @@ function set_error_message(err, len) {
     element.style.display = "none";
   }
 }
-
-// Hijack tab handling so that the user can insert them in code: https://stackoverflow.com/a/18303822
-document.getElementById("editor").addEventListener("keydown", function(e) {
-  if(e.keyCode === 9) {
-    var start = this.selectionStart;
-    var end = this.selectionEnd;
-    var target = e.target;
-    var value = target.value;
-    target.value = value.substring(0, start) + "  " + value.substring(end);
-    this.selectionStart = this.selectionEnd = start + 2; // +2 == length of inserted text.
-    e.preventDefault();
-  }
-},false);
-
-var editor = ace.edit("editor");
-ace.config.set("basePath", ".");
-editor.setOptions({
-  navigateWithinSoftTabs: false,
-  useSoftTabs: true
-});
-editor.session.setOptions({
-  mode: "ace/mode/lua",
-  tabSize: 2
-});
-editor.renderer.setOptions({
-  theme: "ace/theme/cobalt",
-  showPrintMargin: false,
-  displayIndentGuides: false
-});
