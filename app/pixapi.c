@@ -1,10 +1,6 @@
 /*////////////////////////////////////////////////////////////////////////////*/
 
-// Local copy of the screen pixels for the drawing API to read and write to.
-PIXINTERNAL pixU32* pix_screen;
-
-// Expose all of the PIXAPI functions to Lua so that they can be called.
-PIXDEF pixVOID pix_register_api(lua_State* lua)
+PIXDEF pixVOID pix_api_register(lua_State* lua)
 {
     #define PIXAPI_REGISTER(name)          \
     lua_pushcfunction(lua, PIXAPI_##name); \
@@ -50,17 +46,12 @@ PIXDEF pixVOID pix_register_api(lua_State* lua)
     #undef PIXAPI_REGISTER
 }
 
-PIXDEF pixVOID pix_set_screen(pixU32* screen)
-{
-    pix_screen = screen;
-}
-
 /*////////////////////////////////////////////////////////////////////////////*/
 /*//////////////////////////// API IMPLEMENTATION ////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////*/
 
 //
-//
+// UTIL
 //
 
 PIXAPI(chr)
@@ -338,7 +329,8 @@ PIXINTERNAL pixVOID set_pixel(pixINT x, pixINT y, pixCOLOR c)
 {
     if(x < 0 || x >= PIXSCRW) return;
     if(y < 0 || y >= PIXSCRH) return;
-    pix_screen[y*PIXSCRW+x] = c.raw;
+    pixU32* screen = pix_app_get_screen();
+    screen[y*PIXSCRW+x] = c.raw;
 }
 
 PIXINTERNAL pixVOID draw_line(pixINT x0, pixINT y0,
@@ -452,8 +444,9 @@ PIXINTERNAL pixVOID draw_text_char(pixINT x, pixINT y, pixCHAR chr, pixCOLOR c)
 PIXAPI(clrs)
 {
     pixCOLOR c = get_lua_color_arg(lua, 1);
+    pixU32* screen = pix_app_get_screen();
     for(pixU32 i=0; i<PIXSCRW*PIXSCRH; ++i)
-        pix_screen[i] = c.raw;
+        screen[i] = c.raw;
     return 0;
 }
 
@@ -471,9 +464,10 @@ PIXAPI(pget)
     pixINT x = luaL_checknumber(lua, 1);
     pixINT y = luaL_checknumber(lua, 2);
 
+    pixU32* screen = pix_app_get_screen();
     pixCOLOR c = {0};
     if(x >= 0 && x < PIXSCRW && y >= 0 && y < PIXSCRH)
-        c.raw = pix_screen[y*PIXSCRW+x];
+        c.raw = screen[y*PIXSCRW+x];
     lua_pushnumber(lua, c.r);
     lua_pushnumber(lua, c.g);
     lua_pushnumber(lua, c.b);

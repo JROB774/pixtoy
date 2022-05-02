@@ -3,8 +3,7 @@
 
 #define PIXAPI(name) PIXDEF pixINT PIXAPI_##name(lua_State* lua)
 
-PIXDEF pixVOID pix_register_api(lua_State* lua);
-PIXDEF pixVOID pix_set_screen(pixU32* screen);
+PIXDEF pixVOID pix_api_register(lua_State* lua);
 
 // UTIL //////
 PIXAPI(chr  ); // x       -> c   :: converts ascii code x to a character
