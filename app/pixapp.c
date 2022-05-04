@@ -48,7 +48,7 @@ PIXDEF pixVOID pix_app_tick(pixFLOAT dt)
 
 PIXDEF const pixCHAR* pix_app_build(pixCHAR* src)
 {
-    pixapp.playing = PIXTRUE;
+    pixapp.playing = PIXFALSE;
     pixapp.built = PIXFALSE;
 
     pixapp.t = 0.0f;
