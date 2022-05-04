@@ -1,6 +1,7 @@
 #ifndef PIXDEF_H__ /*/////////////////////////////////////////////////////////*/
 #define PIXDEF_H__
 
+#define PIXEXTERNAL   extern
 #define PIXINTERNAL   static
 #define PIXGLOBAL     static
 #define PIXPERSISTENT static
