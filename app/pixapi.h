@@ -33,7 +33,7 @@ PIXAPI(cos  ); // x       -> x   :: returns cosine of x
 PIXAPI(sin  ); // x       -> x   :: returns sine of x
 PIXAPI(tan  ); // x       -> x   :: returns tan of x
 PIXAPI(clamp); // x,l,h   -> x   :: returns x clamped between l and h
-PIXAPI(seed ); // [x]     -> x   :: uses current time or x as new random seed
+PIXAPI(seed ); // [x]            :: uses current time or x as new random seed
 PIXAPI(rand ); // [x,[y]] -> x   :: generate a random number within a range
 // DRAW //////
 PIXAPI(clrs ); // c              :: clears the screen with color c
