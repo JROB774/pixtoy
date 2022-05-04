@@ -27,9 +27,9 @@
 #include "pixapi.c"
 #include "pixapp.c"
 
-#include <emscripten.h>
-
 #include <SDL.h>
+
+#include <emscripten.h>
 
 PIXINTERNAL struct pixCONTEXT
 {
@@ -40,27 +40,38 @@ PIXINTERNAL struct pixCONTEXT
 }
 pixctx;
 
-// Function call into JS to display an error message in a webpage alert box.
-EM_JS(pixVOID, JS_display_error, (const pixCHAR* err, pixU64 len),
+EM_JS(pixVOID, JSFUNC_display_error_msg, (const pixCHAR* err, pixU64 len),
 {
-    display_error(err, len);
+    var errmsg = UTF8ToString(err,len);
+    alert(errmsg);
 });
-// Function call into JS to retrieve text edit string for parsing into Lua code.
-EM_JS(pixVOID, JS_get_lua_string, (const pixCHAR* out_str, pixU64 max_bytes),
+
+EM_JS(pixVOID, JSFUNC_get_source, (const pixCHAR* src, pixU64 len),
 {
-    get_lua_string(out_str, max_bytes);
+    var text = ace.edit("editor").getValue();
+    stringToUTF8(text, src, len);
 });
-// Function call into JS to display a Lua error message on the webpage.
-EM_JS(pixVOID, JS_set_error_message, (const pixCHAR* err, pixU64 len),
+
+EM_JS(pixVOID, JSFUNC_set_error_msg, (const pixCHAR* err, pixU64 len),
 {
-    set_error_message(err, len);
+    var element = document.getElementById("error");
+    if(len !== 0)
+    {
+        var errmsg = UTF8ToString(err,len);
+        element.textContent = errmsg;
+        element.style.display = "flex";
+    }
+    else
+    {
+        element.style.display = "none";
+    }
 });
 
 PIXINTERNAL pixVOID sdl_fatal_error(const pixCHAR* message)
 {
     pixCHAR buffer[512] = {0};
     snprintf(buffer, PIXARRSIZE(buffer), "%s\n(%s)", message, SDL_GetError());
-    JS_display_error(buffer, strlen(buffer));
+    JSFUNC_display_error_msg(buffer, strlen(buffer));
     abort();
 }
 
@@ -78,10 +89,10 @@ PIXINTERNAL pixVOID main_loop(pixVOID)
     // @Incomplete: Make a dynamic buffer based on text size rather than fixed!
     // @Incomplete: Only build when the build button has been pressed...
     pixCHAR lua_buffer[4096] = {0};
-    JS_get_lua_string(lua_buffer, PIXARRSIZE(lua_buffer));
+    JSFUNC_get_source(lua_buffer, PIXARRSIZE(lua_buffer));
     const pixCHAR* err = pix_app_build(lua_buffer);
-    if(!err) JS_set_error_message(NULL, 0);
-    else JS_set_error_message(err, strlen(err));
+    if(!err) JSFUNC_set_error_msg(NULL, 0);
+    else JSFUNC_set_error_msg(err, strlen(err));
 
     pix_app_tick(delta_time);
 
