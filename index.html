@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>pixtoy</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"/>
+  </head>
+  <body>
+    <div class="canvas-container">
+      <canvas id="canvas" tabindex=-1></canvas>
+      <div id="topbar"></div>
+      <div id="btmbar">
+        <a class="img-button" title="Build" id="build" href="javascript:ccall('app_build')"></a>
+        <a class="img-button" title="Reset" id="reset" href="javascript:ccall('app_reset')"></a>
+        <a class="img-button" title="Start" id="start" href="javascript:ccall('app_start')"></a>
+        <a class="img-button" title="Video" id="video" href="javascript:ccall('app_video')"></a>
+      </div>
+    </div>
+    <div class="editor-container">
+      <div id="error"></div>
+      <div id="editor"></div>
+    </div>
+    <script src="src/ace/src/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="src/canvas.js" type="text/javascript" charset="utf-8"></script>
+    <script src="src/editor.js" type="text/javascript" charset="utf-8"></script>
+    <script src="app/pixtoy.js" type="text/javascript" charset="utf-8"></script>
+  </body>
+</html>
