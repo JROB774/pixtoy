@@ -30,7 +30,7 @@ GOTO end
 :build_app
 ECHO building application...
 IF NOT EXIST web\app MKDIR web\app
-CALL emcc -s WASM=1 -s USE_SDL=2 -I app\lua app\pixweb.c -o web\app\pixtoy.js
+CALL emcc -s EXPORTED_FUNCTIONS=_main,_app_build,_app_reset,_app_start,_app_video -s WASM=1 -s USE_SDL=2 -I app\lua app\pixweb.c -o web\app\pixtoy.js
 GOTO end
 
 :end

@@ -40,19 +40,19 @@ PIXINTERNAL struct pixCONTEXT
 }
 pixctx;
 
-EM_JS(pixVOID, JSFUNC_display_error_msg, (const pixCHAR* err, pixU64 len),
+EM_JS(pixVOID, get_editor_text, (const pixCHAR* output, pixU64 max_len),
+{
+    var text = ace.edit("editor").getValue();
+    stringToUTF8(text,output,max_len);
+});
+
+EM_JS(pixVOID, error_message_box, (const pixCHAR* err, pixU64 len),
 {
     var errmsg = UTF8ToString(err,len);
     alert(errmsg);
 });
 
-EM_JS(pixVOID, JSFUNC_get_source, (const pixCHAR* src, pixU64 len),
-{
-    var text = ace.edit("editor").getValue();
-    stringToUTF8(text, src, len);
-});
-
-EM_JS(pixVOID, JSFUNC_set_error_msg, (const pixCHAR* err, pixU64 len),
+EM_JS(pixVOID, set_lua_error_message, (const pixCHAR* err, pixU64 len),
 {
     var element = document.getElementById("error");
     if(len !== 0)
@@ -67,11 +67,37 @@ EM_JS(pixVOID, JSFUNC_set_error_msg, (const pixCHAR* err, pixU64 len),
     }
 });
 
+PIXEXTERNAL pixVOID app_build(pixVOID)
+{
+    // @Incomplete: Make a dynamic buffer based on text size rather than fixed!
+    pixCHAR source_code[4096] = {0};
+    get_editor_text(source_code, PIXARRSIZE(source_code));
+    const pixCHAR* err = pix_app_build(source_code);
+    if(!err) set_lua_error_message(NULL, 0);
+    else set_lua_error_message(err, strlen(err));
+}
+
+PIXEXTERNAL pixVOID app_reset(pixVOID)
+{
+    pix_app_reset();
+}
+
+PIXEXTERNAL pixVOID app_start(pixVOID)
+{
+    if(pix_app_is_playing()) pix_app_pause();
+    else pix_app_start();
+}
+
+PIXEXTERNAL pixVOID app_video(pixVOID)
+{
+    // @Incomplete: Need to implement video recording...
+}
+
 PIXINTERNAL pixVOID sdl_fatal_error(const pixCHAR* message)
 {
     pixCHAR buffer[512] = {0};
     snprintf(buffer, PIXARRSIZE(buffer), "%s\n(%s)", message, SDL_GetError());
-    JSFUNC_display_error_msg(buffer, strlen(buffer));
+    error_message_box(buffer, strlen(buffer));
     abort();
 }
 
@@ -85,14 +111,6 @@ PIXINTERNAL pixVOID main_loop(pixVOID)
     PIXPERSISTENT pixFLOAT delta_time = 0.0f;
 
     perf_frequency = SDL_GetPerformanceFrequency();
-
-    // @Incomplete: Make a dynamic buffer based on text size rather than fixed!
-    // @Incomplete: Only build when the build button has been pressed...
-    pixCHAR lua_buffer[4096] = {0};
-    JSFUNC_get_source(lua_buffer, PIXARRSIZE(lua_buffer));
-    const pixCHAR* err = pix_app_build(lua_buffer);
-    if(!err) JSFUNC_set_error_msg(NULL, 0);
-    else JSFUNC_set_error_msg(err, strlen(err));
 
     pix_app_tick(delta_time);
 
