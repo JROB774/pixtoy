@@ -173,6 +173,9 @@ pixINT main(pixINT argc, pixCHAR** argv)
 
     pix_app_init(pixctx.screen->pixels);
 
+    app_build();
+    app_start();
+
     emscripten_set_main_loop(main_loop, -1, 1);
 
     return 0;

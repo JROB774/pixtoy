@@ -11,17 +11,44 @@
   <body>
     <div class="canvas-container">
       <canvas id="canvas" tabindex=-1></canvas>
-      <div id="topbar"></div>
+      <div id="topbar">
+        <a class="button" title="Help" href="reference.html" target="_blank">Help</a>
+      </div>
       <div id="btmbar">
-        <a class="img-button" title="Build" id="build" href="javascript:ccall('app_build')"></a>
-        <a class="img-button" title="Reset" id="reset" href="javascript:ccall('app_reset')"></a>
-        <a class="img-button" title="Start" id="start" href="javascript:ccall('app_start')"></a>
-        <a class="img-button" title="Video" id="video" href="javascript:ccall('app_video')"></a>
+        <a class="button" title="Build" href="javascript:ccall('app_build')">Build</a>
+        <a class="button" title="Start" href="javascript:ccall('app_start')">Start</a>
+        <a class="button" title="Reset" href="javascript:ccall('app_reset')">Reset</a>
       </div>
     </div>
     <div class="editor-container">
       <div id="error"></div>
-      <div id="editor"></div>
+      <div id="editor">function draw()
+  -- draw background noise
+  for _=0,1000,1 do
+    r=rand(127)
+    g=rand(0)
+    b=rand(255)
+    x=rand(scrw)
+    y=rand(scrh)
+    pset(x,y,r,g,b)
+  end
+  -- fade old text
+  for x=0,scrw,1 do
+    for y=0,scrh,1 do
+      r,G,B = pGet(x,y)
+      if g>0 then
+        r=r-15
+        g=g-31
+        pset(x,y,r,g,b)
+      end
+    end
+  end
+  -- draw the new text
+  tx=(scrw-(6*8))/2 + (cos(t*3)*24)
+  Ty=(scrh-(2*8))/2 + (sin(t*3)*32)
+  text(tx+6,Ty+0,"Hello", 255,255,255)
+  text(tx+0,TY+8,"PIXTOY!", 255,255,255)
+end</div>
     </div>
     <script src="src/ace/src/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="src/canvas.js" type="text/javascript" charset="utf-8"></script>
