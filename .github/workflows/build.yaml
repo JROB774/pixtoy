@@ -22,3 +22,13 @@ jobs:
         run: |
           source ./build setup
           ./build
+  build-linux:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+      - name: build
+        run: |
+          source ./build setup
+          ./build
