@@ -67,6 +67,13 @@ EM_JS(pixVOID, set_lua_error_message, (const pixCHAR* err, pixU64 len),
     }
 });
 
+EM_JS(pixVOID, set_start_button_text, (pixBOOL running),
+{
+    var element = document.getElementById("start");
+    if(running) element.textContent = "Pause";
+    else element.textContent = "Start";
+});
+
 PIXEXTERNAL pixVOID app_build(pixVOID)
 {
     // @Incomplete: Make a dynamic buffer based on text size rather than fixed!
@@ -75,6 +82,7 @@ PIXEXTERNAL pixVOID app_build(pixVOID)
     const pixCHAR* err = pix_app_build(source_code);
     if(!err) set_lua_error_message(NULL, 0);
     else set_lua_error_message(err, strlen(err));
+    set_start_button_text(pix_app_is_playing());
 }
 
 PIXEXTERNAL pixVOID app_reset(pixVOID)
@@ -86,6 +94,7 @@ PIXEXTERNAL pixVOID app_start(pixVOID)
 {
     if(pix_app_is_playing()) pix_app_pause();
     else pix_app_start();
+    set_start_button_text(pix_app_is_playing());
 }
 
 PIXEXTERNAL pixVOID app_video(pixVOID)
