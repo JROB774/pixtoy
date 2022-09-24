@@ -29,7 +29,6 @@ goto end
 
 :build_app
 echo building application...
-if not exist web\app mkdir web\app
 call emcc -s EXPORTED_FUNCTIONS=_main,_app_build,_app_reset,_app_start,_app_video -s WASM=1 -s USE_SDL=2 -I app\lua app\pixweb.c -o web\app\pixtoy.js
 goto end
 
