@@ -24,7 +24,7 @@
       <div id="error"></div>
       <div id="editor">function draw()
   -- draw background noise
-  for _=0,1000,1 do
+  for _=0,500,1 do
     r=rand(127)
     g=rand(0)
     b=rand(255)
@@ -46,8 +46,10 @@
   -- draw the new text
   tx=(scrw-(6*8))/2 + (cos(t*3)*24)
   Ty=(scrh-(2*8))/2 + (sin(t*3)*32)
-  text(tx+6,Ty+0,"Hello", 255,255,255)
-  text(tx+0,TY+8,"PIXTOY!", 255,255,255)
+  text(tx+7,Ty+1,"Hello", 0,0,63)
+  text(tx+1,TY+9,"PIXTOY!", 0,0,63)
+  text(tx+6,Ty+0,"Hello", 255,191,255)
+  text(tx+0,TY+8,"PIXTOY!", 255,191,255)
 end</div>
     </div>
     <script src="src/ace/src/ace.js" type="text/javascript" charset="utf-8"></script>
