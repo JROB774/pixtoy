@@ -1,0 +1,24 @@
+name: build
+on: [push, pull_request]
+jobs:
+  build-win32:
+    runs-on: windows-2019
+    steps:
+      - uses: seanmiddleditch/gha-setup-vsdevenv@master
+      - uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+      - name: build
+        run: |
+          build setuo
+          build
+  build-osx:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+      - name: build
+        run: |
+          source build setup
+          build
