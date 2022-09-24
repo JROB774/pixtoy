@@ -10,8 +10,8 @@ jobs:
           submodules: "recursive"
       - name: build
         run: |
-          build.bat setup
-          build.bat
+          .\build.bat setup
+          .\build.bat
   build-osx:
     runs-on: macOS-latest
     steps:
