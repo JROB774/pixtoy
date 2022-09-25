@@ -423,7 +423,7 @@ PIXAPI(clrs)
     pixU8 c = luaL_checknumber(lua, 1);
     pixU8* screen = pix_app_get_screen();
     for(pixU32 i=0; i<PIXSCRW*PIXSCRH; ++i)
-        screen[i] = c;
+        screen[i] = (c % PIXARRSIZE(PIXPAL));
     return 0;
 }
 
