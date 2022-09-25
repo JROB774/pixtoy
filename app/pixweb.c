@@ -85,11 +85,6 @@ PIXEXTERNAL pixVOID app_build(pixVOID)
     set_start_button_text(pix_app_is_playing());
 }
 
-PIXEXTERNAL pixVOID app_reset(pixVOID)
-{
-    pix_app_reset();
-}
-
 PIXEXTERNAL pixVOID app_start(pixVOID)
 {
     if(pix_app_is_playing()) pix_app_pause();

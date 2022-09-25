@@ -48,9 +48,7 @@ PIXDEF pixVOID pix_app_tick(pixFLOAT dt)
 
 PIXDEF const pixCHAR* pix_app_build(pixCHAR* src)
 {
-    pixapp.playing = PIXFALSE;
     pixapp.built = PIXFALSE;
-
     pixapp.t = 0.0f;
 
     // Make the program fully lowercase so that we're case-insensitive.
@@ -73,11 +71,6 @@ PIXDEF pixVOID pix_app_pause(pixVOID)
 {
     if(!pixapp.built) return;
     pixapp.playing = PIXFALSE;
-}
-
-PIXDEF pixVOID pix_app_reset(pixVOID)
-{
-    pixapp.t = 0.0f;
 }
 
 PIXDEF pixBOOL pix_app_is_playing(pixVOID)
