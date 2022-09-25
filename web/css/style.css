@@ -166,6 +166,12 @@ hr
   color: var(--xdcolor);
 }
 
+.api-content p.global-desc
+{
+  padding: 4px 4px 8px 4px;
+  margin: 0;
+}
+
 .button
 {
   display: flex;
