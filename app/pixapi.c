@@ -540,7 +540,7 @@ PIXAPI(circf)
     pixINT x = luaL_checknumber(lua, 1);
     pixINT y = luaL_checknumber(lua, 2);
     pixINT r = luaL_checknumber(lua, 3);
-    pixU8  c = luaL_checknumber(lua, 5);
+    pixU8  c = luaL_checknumber(lua, 4);
 
     // Set the thickness big enough to fill the circle.
     draw_circle(x,y,r,r+1,c);
