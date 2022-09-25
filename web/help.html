@@ -16,168 +16,209 @@
       <h3>Globals</h3>
       <button type="button" class="api-header">scrw</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Contains the width of the screen in pixels (always 128).</p>
       </div>
       <button type="button" class="api-header">scrh</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Contains the height of the screen in pixels (always 128).</p>
       </div>
       <button type="button" class="api-header">t</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Return the total elapsed time in seconds since the program started.</p>
       </div>
       <button type="button" class="api-header">dt</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Returns the delta time for the current draw frame.</p>
       </div>
       <h3>Drawing</h3>
       <button type="button" class="api-header">clrs</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Clears the entire screen with the specified color.</p>
       </div>
       <button type="button" class="api-header">pset</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Sets the pixel at x,y to the specified color.</p>
       </div>
       <button type="button" class="api-header">pget</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Gets the color value at the pixel coordinate x,y.</p>
       </div>
       <button type="button" class="api-header">line</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Draws a line starting at x1,y1 and ending at x2,y2, in the specified color.</p>
       </div>
       <button type="button" class="api-header">recto</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Draws a box outline of size w,h at coordinates x,y in the specified color.</p>
       </div>
       <button type="button" class="api-header">rectf</button>
       <div class="api-content">
-        <p>Hello there!</p>
+      <p>Draws a filled box of size w,h at coordinates x,y in the specified color.</p>
       </div>
       <button type="button" class="api-header">circo</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Draws a circle outline centered at x,y in the specified color.</p>
       </div>
       <button type="button" class="api-header">circf</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Draws a filled circle centered at x,y in the specified color.</p>
       </div>
       <button type="button" class="api-header">text</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>
+          Draws the desired text starting at x,y in the specified color. Use the
+          special character '\n' to insert new lines and the special character '\t'
+          to insert tabs (tabs are output with a width of two characters).
+        </p>
       </div>
       <h3>Math</h3>
       <button type="button" class="api-header">abs</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Returns the absolute value of the argument x.</p>
       </div>
       <button type="button" class="api-header">acos</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Returns the arc cosine of the argument x.</p>
       </div>
       <button type="button" class="api-header">asin</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Returns the arc sine of the argument x.</p>
       </div>
       <button type="button" class="api-header">atan</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>
+          Returns the arc tangent of y/x. If the optional x parameter is not
+          provided then the x value is automatically filled in equal to 1.
+        </p>
       </div>
       <button type="button" class="api-header">round</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>
+          Returns the result of rounding x to the nearest whole number. If the
+          decimal portion of x is less than 0.5 then the value will be rounded
+          down otherwise the value will be rounded up.
+        </p>
       </div>
       <button type="button" class="api-header">ceil</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Returns the result of rounding x up to the nearest whole number.</p>
       </div>
       <button type="button" class="api-header">floor</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Returns the result of rounding x down to the nearest whole number.</p>
       </div>
       <button type="button" class="api-header">deg</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Converts the radians value r to the equivalent value in degrees.</p>
       </div>
       <button type="button" class="api-header">rad</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Converts the degrees value d to the equivalent value in radians.</p>
       </div>
       <button type="button" class="api-header">exp</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Calculates the base-e exponential of the value x.</p>
       </div>
       <button type="button" class="api-header">fmod</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Returns the remainder of the operation n/d.</p>
       </div>
       <button type="button" class="api-header">modf</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Splits x into its separate integral and fractional components.</p>
       </div>
       <button type="button" class="api-header">log</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Calculates the base-e logarithm of the value x.</p>
       </div>
       <button type="button" class="api-header">min</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Takes in arguments a,b and returns the smaller of the two values.</p>
       </div>
       <button type="button" class="api-header">max</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Takes in arguments a,b and returns the larger of the two values.</p>
       </div>
       <button type="button" class="api-header">sqrt</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Calculates the square root of the value x.</p>
       </div>
       <button type="button" class="api-header">cos</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Returns the cosine of the argument x.</p>
       </div>
       <button type="button" class="api-header">sin</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Returns the sine of the argument x.</p>
       </div>
       <button type="button" class="api-header">tan</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Returns the tangent of the argument x.</p>
       </div>
       <button type="button" class="api-header">clamp</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>
+          Returns the value of x clamped within the lower and upper bounds. If x
+          is greater than the upper bound, then h is returned. If x is lower than
+          the lower bound then l is returned. Otherwise x is returned unchanged.
+        </p>
       </div>
       <h3>Random</h3>
       <button type="button" class="api-header">seed</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>
+          Calculates a new random number generation seed. If x is provided then
+          that value becomes the new seed. If no arguments are provided then the
+          current time is used as the new seed value.
+        </p>
       </div>
       <button type="button" class="api-header">rand</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>
+          Generates a new random number within the specified range. If no arguments
+          are provided then a random value between 0 and the maximum random value
+          will be generated. If just x is provided then a random number will be
+          generated between 0 and x. If x,y is provided then a random number will
+          be generated between x and y.
+        </p>
       </div>
       <h3>Bitwise</h3>
       <button type="button" class="api-header">band</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>
+          Takes the arguments a,b and returns the result of performing the
+          bitwise AND operation on the two values. Both arguments are expected to
+          be integers, if either is not their decimal value will be truncated.
+        </p>
       </div>
       <button type="button" class="api-header">bor</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>
+          Takes the arguments a,b and returns the result of performing the
+          bitwise OR operation on the two values. Both arguments are expected to
+          be integers, if either is not their decimal value will be truncated.
+        </p>
       </div>
       <button type="button" class="api-header">bxor</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>
+          Takes the arguments a,b and returns the result of performing the
+          bitwise XOR operation on the two values. Both arguments are expected to
+          be integers, if either is not their decimal value will be truncated.
+        </p>
       </div>
       <button type="button" class="api-header">bnot</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>
+          Takes the argument x and returns the result of performing the bitwise
+          NOT operation on the value. The argument is expected to be an integer,
+          if it is not then its decimal value will be truncated.
+        </p>
       </div>
       <h3>Misc</h3>
       <button type="button" class="api-header">chr</button>
       <div class="api-content">
-        <p>Hello there!</p>
+        <p>Converts the ASCII code x to its character representation and returns it.</p>
       </div>
     </div>
     <script>
