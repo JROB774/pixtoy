@@ -29,14 +29,6 @@ typedef int16_t  pixS16;
 typedef int32_t  pixS32;
 typedef int64_t  pixS64;
 
-// @Incomplete: Handle big endian?
-typedef union pixCOLOR
-{
-    struct { pixU8 b,g,r,a; };
-    pixU32 raw;
-}
-pixCOLOR;
-
 #define PIXARRSIZE(arr) (sizeof(arr)/sizeof((arr)[0]))
 #define PIXSWAP(t,x,y) do { t t_=x; x=y; y=t_; } while(0)
 #define PIXCLAMP(x,l,h) (((x)>(h))?(h):(((x)<(l))?(l):(x)))

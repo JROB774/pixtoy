@@ -302,39 +302,16 @@ PIXAPI(rand)
 // DRAW
 //
 
-// Colors can be passed in using a number of different formats, this function
-// handles the logic for parsing the Lua function arguments into a final color.
-PIXINTERNAL pixCOLOR get_lua_color_arg(lua_State* lua, pixINT offs)
-{
-    pixCOLOR col = {0};
-    pixINT comps = (lua_gettop(lua)+1) - offs;
-    switch(comps)
-    {
-    case 1: // RRR
-        col.r = luaL_checknumber(lua, offs+0);
-        col.g = luaL_checknumber(lua, offs+0);
-        col.b = luaL_checknumber(lua, offs+0);
-    break;
-    case 3: // RGB
-        col.r = luaL_checknumber(lua, offs+0);
-        col.g = luaL_checknumber(lua, offs+1);
-        col.b = luaL_checknumber(lua, offs+2);
-    break;
-    }
-    return col;
-}
-
 // Safe function for setting pixels with bounds checking on edges.
-PIXINTERNAL pixVOID set_pixel(pixINT x, pixINT y, pixCOLOR c)
+PIXINTERNAL pixVOID set_pixel(pixINT x, pixINT y, pixU8 c)
 {
-    if(x < 0 || x >= PIXSCRW) return;
-    if(y < 0 || y >= PIXSCRH) return;
-    pixU32* screen = pix_app_get_screen();
-    screen[y*PIXSCRW+x] = c.raw;
+    if(x < 0 || x >= PIXSCRW || y < 0 || y >= PIXSCRH) return;
+    pixU8* screen = pix_app_get_screen();
+    screen[y*PIXSCRW+x] = (c % PIXARRSIZE(PIXPAL));
 }
 
 PIXINTERNAL pixVOID draw_line(pixINT x0, pixINT y0,
-                              pixINT x1, pixINT y1, pixCOLOR c)
+                              pixINT x1, pixINT y1, pixU8 c)
 {
     pixBOOL steep = PIXFALSE;
     if(abs(x0-x1)<abs(y0-y1))
@@ -369,7 +346,7 @@ PIXINTERNAL pixVOID draw_line(pixINT x0, pixINT y0,
 }
 
 PIXINTERNAL pixVOID draw_circle(pixINT x, pixINT y, pixINT r, pixINT t,
-                                pixCOLOR c)
+                                pixU8 c)
 {
     t = PIXCLAMP(t,0,r+1);
 
@@ -424,7 +401,7 @@ PIXINTERNAL pixVOID draw_circle(pixINT x, pixINT y, pixINT r, pixINT t,
     }
 }
 
-PIXINTERNAL pixVOID draw_text_char(pixINT x, pixINT y, pixCHAR chr, pixCOLOR c)
+PIXINTERNAL pixVOID draw_text_char(pixINT x, pixINT y, pixCHAR chr, pixU8 c)
 {
     // Avoid reading out of the bounds of the fixed charset memory array.
     if((chr < 0) || (chr > 127)) return;
@@ -443,10 +420,10 @@ PIXINTERNAL pixVOID draw_text_char(pixINT x, pixINT y, pixCHAR chr, pixCOLOR c)
 
 PIXAPI(clrs)
 {
-    pixCOLOR c = get_lua_color_arg(lua, 1);
-    pixU32* screen = pix_app_get_screen();
+    pixU8 c = luaL_checknumber(lua, 1);
+    pixU8* screen = pix_app_get_screen();
     for(pixU32 i=0; i<PIXSCRW*PIXSCRH; ++i)
-        screen[i] = c.raw;
+        screen[i] = c;
     return 0;
 }
 
@@ -454,7 +431,7 @@ PIXAPI(pset)
 {
     pixINT x = luaL_checknumber(lua, 1);
     pixINT y = luaL_checknumber(lua, 2);
-    pixCOLOR c = get_lua_color_arg(lua, 3);
+    pixU8  c = luaL_checknumber(lua, 3);
       set_pixel(x,y,c);
     return 0;
 }
@@ -464,24 +441,22 @@ PIXAPI(pget)
     pixINT x = luaL_checknumber(lua, 1);
     pixINT y = luaL_checknumber(lua, 2);
 
-    pixU32* screen = pix_app_get_screen();
-    pixCOLOR c = {0};
+    pixU8* screen = pix_app_get_screen();
+    pixU8 c;
     if(x >= 0 && x < PIXSCRW && y >= 0 && y < PIXSCRH)
-        c.raw = screen[y*PIXSCRW+x];
-    lua_pushnumber(lua, c.r);
-    lua_pushnumber(lua, c.g);
-    lua_pushnumber(lua, c.b);
+        c = screen[y*PIXSCRW+x];
+    lua_pushnumber(lua, c);
 
-    return 3;
+    return 1;
 }
 
 PIXAPI(line)
 {
-    pixINT  x0 = luaL_checknumber( lua, 1);
-    pixINT  y0 = luaL_checknumber( lua, 2);
-    pixINT  x1 = luaL_checknumber( lua, 3);
-    pixINT  y1 = luaL_checknumber( lua, 4);
-    pixCOLOR c = get_lua_color_arg(lua, 5);
+    pixINT x0 = luaL_checknumber(lua, 1);
+    pixINT y0 = luaL_checknumber(lua, 2);
+    pixINT x1 = luaL_checknumber(lua, 3);
+    pixINT y1 = luaL_checknumber(lua, 4);
+    pixU8  c  = luaL_checknumber(lua, 5);
 
     draw_line(x0,y0,x1,y1, c);
 
@@ -490,11 +465,11 @@ PIXAPI(line)
 
 PIXAPI(recto)
 {
-    pixINT   x = luaL_checknumber( lua, 1);
-    pixINT   y = luaL_checknumber( lua, 2);
-    pixINT   w = luaL_checknumber( lua, 3);
-    pixINT   h = luaL_checknumber( lua, 4);
-    pixCOLOR c = get_lua_color_arg(lua, 5);
+    pixINT x = luaL_checknumber(lua, 1);
+    pixINT y = luaL_checknumber(lua, 2);
+    pixINT w = luaL_checknumber(lua, 3);
+    pixINT h = luaL_checknumber(lua, 4);
+    pixU8  c = luaL_checknumber(lua, 5);
 
     // Don't even bother rendering if we're offscreen.
     if(x >= PIXSCRW) return 0;
@@ -515,11 +490,11 @@ PIXAPI(recto)
 
 PIXAPI(rectf)
 {
-    pixINT   x = luaL_checknumber( lua, 1);
-    pixINT   y = luaL_checknumber( lua, 2);
-    pixINT   w = luaL_checknumber( lua, 3);
-    pixINT   h = luaL_checknumber( lua, 4);
-    pixCOLOR c = get_lua_color_arg(lua, 5);
+    pixINT x = luaL_checknumber(lua, 1);
+    pixINT y = luaL_checknumber(lua, 2);
+    pixINT w = luaL_checknumber(lua, 3);
+    pixINT h = luaL_checknumber(lua, 4);
+    pixU8  c = luaL_checknumber(lua, 5);
 
     // Don't even bother rendering if we're offscreen.
     if(x >= PIXSCRW) return 0;
@@ -549,11 +524,11 @@ PIXAPI(rectf)
 
 PIXAPI(circo)
 {
-    pixINT   x = luaL_checknumber( lua, 1);
-    pixINT   y = luaL_checknumber( lua, 2);
-    pixINT   r = luaL_checknumber( lua, 3);
-    pixINT   t = luaL_checknumber( lua, 4);
-    pixCOLOR c = get_lua_color_arg(lua, 5);
+    pixINT x = luaL_checknumber(lua, 1);
+    pixINT y = luaL_checknumber(lua, 2);
+    pixINT r = luaL_checknumber(lua, 3);
+    pixINT t = luaL_checknumber(lua, 4);
+    pixU8  c = luaL_checknumber(lua, 5);
 
     draw_circle(x,y,r,t,c);
 
@@ -562,10 +537,10 @@ PIXAPI(circo)
 
 PIXAPI(circf)
 {
-    pixINT   x = luaL_checknumber( lua, 1);
-    pixINT   y = luaL_checknumber( lua, 2);
-    pixINT   r = luaL_checknumber( lua, 3);
-    pixCOLOR c = get_lua_color_arg(lua, 4);
+    pixINT x = luaL_checknumber(lua, 1);
+    pixINT y = luaL_checknumber(lua, 2);
+    pixINT r = luaL_checknumber(lua, 3);
+    pixU8  c = luaL_checknumber(lua, 5);
 
     // Set the thickness big enough to fill the circle.
     draw_circle(x,y,r,r+1,c);
@@ -575,10 +550,10 @@ PIXAPI(circf)
 
 PIXAPI(text)
 {
-    pixINT         x   = luaL_checknumber( lua, 1);
-    pixINT         y   = luaL_checknumber( lua, 2);
-    const pixCHAR* str = luaL_checkstring( lua, 3);
-    pixCOLOR       c   = get_lua_color_arg(lua, 4);
+    pixINT         x   = luaL_checknumber(lua, 1);
+    pixINT         y   = luaL_checknumber(lua, 2);
+    const pixCHAR* str = luaL_checkstring(lua, 3);
+    pixU8          c   = luaL_checknumber(lua, 4);
 
     pixINT sx = x;
     pixINT sy = y;

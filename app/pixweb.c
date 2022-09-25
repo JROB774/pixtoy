@@ -128,6 +128,13 @@ PIXINTERNAL pixVOID main_loop(pixVOID)
     pixU32* pixels = pixctx.screen->pixels;
     pixINT pitch = pixctx.screen->pitch;
 
+    // Map the indexed screen pixels to actual RGBA color pixels.
+    pixU8* screen = pix_app_get_screen();
+    for(pixINT i=0; i<(PIXSCRW*PIXSCRH); ++i)
+    {
+        pixels[i] = PIXPAL[screen[i]];
+    }
+
     SDL_SetRenderDrawColor(pixctx.render, 0,0,0,255);
     SDL_RenderClear(pixctx.render);
     SDL_UpdateTexture(pixctx.target, NULL, pixels, pitch);
@@ -175,7 +182,7 @@ pixINT main(pixINT argc, pixCHAR** argv)
     if(!pixctx.target)
         sdl_fatal_error("Failed to create target.");
 
-    pix_app_init(pixctx.screen->pixels);
+    pix_app_init();
 
     app_build();
     app_start();

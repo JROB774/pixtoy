@@ -3,19 +3,18 @@
 PIXINTERNAL struct pixAPP
 {
     lua_State* lua;
-    pixU32*    screen;
+    pixU8      screen[PIXSCRW*PIXSCRH];
     pixFLOAT   t;
     pixBOOL    playing;
     pixBOOL    built;
 }
 pixapp;
 
-PIXDEF pixVOID pix_app_init(pixU32* screen)
+PIXDEF pixVOID pix_app_init()
 {
     // @Improve: Add some error reporting if this fails...
     pixapp.lua = luaL_newstate();
-    pixapp.screen = screen;
-
+    memset(pixapp.screen, 0, sizeof(pixapp.screen));
     pix_api_register(pixapp.lua);
 }
 
@@ -23,7 +22,6 @@ PIXDEF pixVOID pix_app_quit(pixVOID)
 {
     lua_close(pixapp.lua);
     pixapp.lua = NULL;
-    pixapp.screen = NULL;
 }
 
 PIXDEF pixVOID pix_app_tick(pixFLOAT dt)
@@ -83,7 +81,7 @@ PIXDEF pixBOOL pix_app_is_paused(pixVOID)
     return (!pixapp.playing && pixapp.built);
 }
 
-PIXDEF pixU32* pix_app_get_screen(pixVOID)
+PIXDEF pixU8* pix_app_get_screen(pixVOID)
 {
     return pixapp.screen;
 }
