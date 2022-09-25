@@ -22,7 +22,10 @@
     </div>
     <div class="editor-container">
       <div id="error"></div>
-      <div id="editor">function draw()
+      <div id="editor">-- clear screen once
+clrs(0)
+
+function draw()
   -- draw background noise
   for _=0,500,1 do
     r=rand(127)
