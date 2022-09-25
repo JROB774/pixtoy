@@ -22,11 +22,40 @@ html, body
   width: 100%;
   padding: 0;
   margin: 0;
+  background: var(--mdcolor);
 }
 
 table, th, td
 {
   border: 1px solid black;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+  margin: 0;
+  font-weight: normal;
+}
+
+h2
+{
+  padding-bottom: 16px;
+}
+
+h3
+{
+  font-size: 1em;
+  padding: 4px 0px
+}
+
+hr
+{
+  border: 2px solid var(--xdcolor);
+  margin-bottom: 32px;
+}
+
+.title
+{
+  text-align: center;
 }
 
 .canvas-container
@@ -48,6 +77,67 @@ table, th, td
   width: 50%;
   float: left;
   text-align: center;
+}
+
+.container
+{
+  display: block;
+  box-sizing: border-box;
+  min-height: 100%;
+  height: auto;
+  width: 40%;
+  padding: 12px 24px;
+  margin: 0 auto;
+  color: var(--xdcolor);
+  background: var(--mlcolor);
+  -webkit-box-shadow: 8px 0px rgba(0,0,0,0.4), -8px 0px rgba(0,0,0,0.4);
+  -moz-box-shadow: 8px 0px rgba(0,0,0,0.4), -8px 0px rgba(0,0,0,0.4);
+  box-shadow: 8px 0px rgba(0,0,0,0.4), -8px 0px rgba(0,0,0,0.4);
+}
+
+.api-header
+{
+  font-family: "Emulogic", monospace;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  padding: 4px 16px;
+  border: none;
+  text-align: left;
+  outline: none;
+  color: var(--xlcolor);
+  background: var(--mdcolor);
+}
+.api-header:hover
+{
+  color: var(--xdcolor);
+  background: var(--xlcolor);
+}
+
+.api-header:hover + .api-content
+{
+  border-right: 4px solid var(--xlcolor);
+  border-left: 4px solid var(--xlcolor);
+  border-bottom: 0px solid var(--xlcolor);
+}
+
+.api-content
+{
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 0px 12px;
+  margin-bottom: 4px;
+  max-height: 0;
+  border-right: 4px solid var(--mdcolor);
+  border-left: 4px solid var(--mdcolor);
+  border-bottom: 0px solid var(--mdcolor);
+  transition: max-height 0.2s ease-out, border-bottom-width 0.2s ease-out;
+}
+
+.api-content p
+{
+  padding: 4px 4px 8px 4px;
+  margin: 0;
 }
 
 .button
