@@ -28,6 +28,7 @@ html, body
 table, th, td
 {
   border: 1px solid black;
+  margin: 4px 4px 8px 4px;
 }
 
 h1, h2, h3, h4, h5, h6
@@ -47,10 +48,22 @@ h3
   padding: 4px 0px
 }
 
+h4
+{
+  font-size: 1em;
+  padding: 0px 0px
+}
+
 hr
 {
   border: 2px solid var(--xdcolor);
   margin-bottom: 32px;
+}
+
+.syntax
+{
+  padding: 8px 8px 8px 4px;
+  margin: 0;
 }
 
 .title
@@ -125,9 +138,10 @@ hr
 {
   overflow: hidden;
   box-sizing: border-box;
-  padding: 0px 12px;
+  padding: 0px 8px;
   margin-bottom: 4px;
   max-height: 0;
+  color: var(--mdcolor);
   border-right: 4px solid var(--mdcolor);
   border-left: 4px solid var(--mdcolor);
   border-bottom: 0px solid var(--mdcolor);
@@ -136,8 +150,20 @@ hr
 
 .api-content p
 {
-  padding: 4px 4px 8px 4px;
+  padding: 4px 8px 12px 8px;
   margin: 0;
+}
+
+.api-content hr
+{
+  border: 2px solid var(--mdcolor);
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+
+.api-content h4
+{
+  color: var(--xdcolor);
 }
 
 .button

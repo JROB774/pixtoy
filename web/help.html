@@ -33,38 +33,251 @@
       <h3>Drawing</h3>
       <button type="button" class="api-header">clrs</button>
       <div class="api-content">
+        <h3 class="syntax">clrs(c)</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>c</td>
+            <td>clear color</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <p>None</p>
+        <h4>Description</h4>
         <p>Clears the entire screen with the specified color.</p>
       </div>
       <button type="button" class="api-header">pset</button>
       <div class="api-content">
+        <h3 class="syntax">pset(x,y,c)</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>x coordinate</td>
+          </tr>
+          <tr>
+            <td>y</td>
+            <td>y coordinate</td>
+          </tr>
+          <tr>
+            <td>c</td>
+            <td>draw color</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <p>None</p>
+        <h4>Description</h4>
         <p>Sets the pixel at x,y to the specified color.</p>
       </div>
       <button type="button" class="api-header">pget</button>
       <div class="api-content">
+        <h3 class="syntax">pget(x,y) => c</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>x coordinate</td>
+          </tr>
+          <tr>
+            <td>y</td>
+            <td>y coordinate</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>c</td>
+            <td>pixel color</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Gets the color value at the pixel coordinate x,y.</p>
       </div>
       <button type="button" class="api-header">line</button>
       <div class="api-content">
+        <h3 class="syntax">line(x1,y1,x2,y2,c)</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x1</td>
+            <td>start x coordinate</td>
+          </tr>
+          <tr>
+            <td>y1</td>
+            <td>start y coordinate</td>
+          </tr>
+          <tr>
+            <td>x2</td>
+            <td>end x coordinate</td>
+          </tr>
+          <tr>
+            <td>y2</td>
+            <td>end y coordinate</td>
+          </tr>
+          <tr>
+            <td>c</td>
+            <td>draw color</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <p>None</p>
+        <h4>Description</h4>
         <p>Draws a line starting at x1,y1 and ending at x2,y2, in the specified color.</p>
       </div>
       <button type="button" class="api-header">recto</button>
       <div class="api-content">
+        <h3 class="syntax">recto(x,y,w,h,c)</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>x coordinate</td>
+          </tr>
+          <tr>
+            <td>y</td>
+            <td>y coordinate</td>
+          </tr>
+          <tr>
+            <td>w</td>
+            <td>width</td>
+          </tr>
+          <tr>
+            <td>h</td>
+            <td>height</td>
+          </tr>
+          <tr>
+            <td>c</td>
+            <td>draw color</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <p>None</p>
+        <h4>Description</h4>
         <p>Draws a box outline of size w,h at coordinates x,y in the specified color.</p>
       </div>
       <button type="button" class="api-header">rectf</button>
       <div class="api-content">
-      <p>Draws a filled box of size w,h at coordinates x,y in the specified color.</p>
+        <h3 class="syntax">rectf(x,y,w,h,c)</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>x coordinate</td>
+          </tr>
+          <tr>
+            <td>y</td>
+            <td>y coordinate</td>
+          </tr>
+          <tr>
+            <td>w</td>
+            <td>width</td>
+          </tr>
+          <tr>
+            <td>h</td>
+            <td>height</td>
+          </tr>
+          <tr>
+            <td>c</td>
+            <td>draw color</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <p>None</p>
+        <h4>Description</h4>
+        <p>Draws a filled box of size w,h at coordinates x,y in the specified color.</p>
       </div>
       <button type="button" class="api-header">circo</button>
       <div class="api-content">
+        <h3 class="syntax">circo(x,y,r,t,c)</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>x coordinate</td>
+          </tr>
+          <tr>
+            <td>y</td>
+            <td>y coordinate</td>
+          </tr>
+          <tr>
+            <td>r</td>
+            <td>radius</td>
+          </tr>
+          <tr>
+            <td>t</td>
+            <td>thickness</td>
+          </tr>
+          <tr>
+            <td>c</td>
+            <td>draw color</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <p>None</p>
+        <h4>Description</h4>
         <p>Draws a circle outline centered at x,y in the specified color.</p>
       </div>
       <button type="button" class="api-header">circf</button>
       <div class="api-content">
+        <h3 class="syntax">circf(x,y,r,c)</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>x coordinate</td>
+          </tr>
+          <tr>
+            <td>y</td>
+            <td>y coordinate</td>
+          </tr>
+          <tr>
+            <td>r</td>
+            <td>radius</td>
+          </tr>
+          <tr>
+            <td>c</td>
+            <td>draw color</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <p>None</p>
+        <h4>Description</h4>
         <p>Draws a filled circle centered at x,y in the specified color.</p>
       </div>
       <button type="button" class="api-header">text</button>
       <div class="api-content">
+        <h3 class="syntax">text(x,y,t,c)</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>x coordinate</td>
+          </tr>
+          <tr>
+            <td>y</td>
+            <td>y coordinate</td>
+          </tr>
+          <tr>
+            <td>t</td>
+            <td>text</td>
+          </tr>
+          <tr>
+            <td>c</td>
+            <td>draw color</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <p>None</p>
+        <h4>Description</h4>
         <p>
           Draws the desired text starting at x,y in the specified color. Use the
           special character '\n' to insert new lines and the special character '\t'
@@ -74,18 +287,90 @@
       <h3>Math</h3>
       <button type="button" class="api-header">abs</button>
       <div class="api-content">
+        <h3 class="syntax">abs(x) => y</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>number to operate on</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>absolute value of x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Returns the absolute value of the argument x.</p>
       </div>
       <button type="button" class="api-header">acos</button>
       <div class="api-content">
+        <h3 class="syntax">acos(x) => y</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>number to operate on</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>arc cosine of x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Returns the arc cosine of the argument x.</p>
       </div>
       <button type="button" class="api-header">asin</button>
       <div class="api-content">
+        <h3 class="syntax">asin(x) => y</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>number to operate on</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>arc sine of x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Returns the arc sine of the argument x.</p>
       </div>
       <button type="button" class="api-header">atan</button>
       <div class="api-content">
+        <h3 class="sytntax">atan(y[,x]) => z</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>the y coordinate</td>
+          </tr>
+          <tr>
+            <td>x</td>
+            <td>the x coordinate</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>z</td>
+            <td>arc tangent of y/x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>
           Returns the arc tangent of y/x. If the optional x parameter is not
           provided then the x value is automatically filled in equal to 1.
@@ -93,6 +378,23 @@
       </div>
       <button type="button" class="api-header">round</button>
       <div class="api-content">
+        <h3 class="syntax">round(x) => y</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>number to round</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>rounded value of x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>
           Returns the result of rounding x to the nearest whole number. If the
           decimal portion of x is less than 0.5 then the value will be rounded
@@ -101,62 +403,341 @@
       </div>
       <button type="button" class="api-header">ceil</button>
       <div class="api-content">
+        <h3 class="syntax">ceil(x) => y</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>number to round</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>rounded value of x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Returns the result of rounding x up to the nearest whole number.</p>
       </div>
       <button type="button" class="api-header">floor</button>
       <div class="api-content">
+        <h3 class="syntax">floor(x) => y</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>number to round</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>rounded value of x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Returns the result of rounding x down to the nearest whole number.</p>
       </div>
       <button type="button" class="api-header">deg</button>
       <div class="api-content">
+        <h3 class="syntax">deg(r) => d</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>r</td>
+            <td>radians to convert</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>d</td>
+            <td>r converted to degrees</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Converts the radians value r to the equivalent value in degrees.</p>
       </div>
       <button type="button" class="api-header">rad</button>
       <div class="api-content">
+        <h3 class="syntax">rad(d) => r</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>d</td>
+            <td>degrees to convert</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>r</td>
+            <td>d converted to radians</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Converts the degrees value d to the equivalent value in radians.</p>
       </div>
       <button type="button" class="api-header">exp</button>
       <div class="api-content">
+        <h3 class="syntax">exp(x) => y</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>number to operate on</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>exponential of x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Calculates the base-e exponential of the value x.</p>
       </div>
       <button type="button" class="api-header">fmod</button>
       <div class="api-content">
+        <h3 class="syntax">fmod(n,d) => r</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>n</td>
+            <td>numerator</td>
+          </tr>
+          <tr>
+            <td>d</td>
+            <td>denominator</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>r</td>
+            <td>remainder of n/d</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Returns the remainder of the operation n/d.</p>
       </div>
       <button type="button" class="api-header">modf</button>
       <div class="api-content">
+        <h3 class="syntax">modf(x) => i,f</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>number to operate on</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>i</td>
+            <td>integeral part of x</td>
+          </tr>
+          <tr>
+            <td>f</td>
+            <td>fractional part of x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Splits x into its separate integral and fractional components.</p>
       </div>
       <button type="button" class="api-header">log</button>
       <div class="api-content">
+        <h3 class="syntax">log(x) => y</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>number to operate on</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>logarithm of x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Calculates the base-e logarithm of the value x.</p>
       </div>
       <button type="button" class="api-header">min</button>
       <div class="api-content">
+        <h3 class="syntax">min(a,b) => c</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>a</td>
+            <td>first number</td>
+          </tr>
+          <tr>
+            <td>b</td>
+            <td>second number</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>c</td>
+            <td>smallest of the two arguments</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Takes in arguments a,b and returns the smaller of the two values.</p>
       </div>
       <button type="button" class="api-header">max</button>
       <div class="api-content">
+        <h3 class="syntax">max(a,b) => c</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>a</td>
+            <td>first number</td>
+          </tr>
+          <tr>
+            <td>b</td>
+            <td>second number</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>c</td>
+            <td>largest of the two arguments</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Takes in arguments a,b and returns the larger of the two values.</p>
       </div>
       <button type="button" class="api-header">sqrt</button>
       <div class="api-content">
+        <h3 class="syntax">sqrt(x) => y</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>number to operate on</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>square root of x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Calculates the square root of the value x.</p>
       </div>
       <button type="button" class="api-header">cos</button>
       <div class="api-content">
+        <h3 class="syntax">cos(x) => y</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>number to operate on</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>cosine of x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Returns the cosine of the argument x.</p>
       </div>
       <button type="button" class="api-header">sin</button>
       <div class="api-content">
+        <h3 class="syntax">sin(x) => y</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>number to operate on</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>sine of x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Returns the sine of the argument x.</p>
       </div>
       <button type="button" class="api-header">tan</button>
       <div class="api-content">
+        <h3 class="syntax">tan(x) => y</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>number to operate on</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>tangent of x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Returns the tangent of the argument x.</p>
       </div>
       <button type="button" class="api-header">clamp</button>
       <div class="api-content">
+        <h3 class="syntax">clamp(x,l,h) => y</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>value to clamp</td>
+          </tr>
+          <tr>
+            <td>l</td>
+            <td>lower bound</td>
+          </tr>
+          <tr>
+            <td>h</td>
+            <td>upper bound</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>clamped value</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>
           Returns the value of x clamped within the lower and upper bounds. If x
           is greater than the upper bound, then h is returned. If x is lower than
@@ -166,6 +747,18 @@
       <h3>Random</h3>
       <button type="button" class="api-header">seed</button>
       <div class="api-content">
+        <h3 class="syntax">seed([x])</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>new seed value</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <p>None</p>
+        <h4>Description</h4>
         <p>
           Calculates a new random number generation seed. If x is provided then
           that value becomes the new seed. If no arguments are provided then the
@@ -174,6 +767,27 @@
       </div>
       <button type="button" class="api-header">rand</button>
       <div class="api-content">
+        <h3 class="syntax">rand([x[,y]]) => z</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>lower/upper bound</td>
+          </tr>
+          <tr>
+            <td>y</td>
+            <td>upper bound</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>z</td>
+            <td>random number</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>
           Generates a new random number within the specified range. If no arguments
           are provided then a random value between 0 and the maximum random value
@@ -185,6 +799,27 @@
       <h3>Bitwise</h3>
       <button type="button" class="api-header">band</button>
       <div class="api-content">
+        <h3 class="syntax">band(a,b) => c</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>a</td>
+            <td>first integer number</td>
+          </tr>
+          <tr>
+            <td>b</td>
+            <td>second integer number</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>c</td>
+            <td>result of a AND b</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>
           Takes the arguments a,b and returns the result of performing the
           bitwise AND operation on the two values. Both arguments are expected to
@@ -193,6 +828,27 @@
       </div>
       <button type="button" class="api-header">bor</button>
       <div class="api-content">
+        <h3 class="syntax">bor(a,b) => c</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>a</td>
+            <td>first integer number</td>
+          </tr>
+          <tr>
+            <td>b</td>
+            <td>second integer number</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>c</td>
+            <td>result of a OR b</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>
           Takes the arguments a,b and returns the result of performing the
           bitwise OR operation on the two values. Both arguments are expected to
@@ -201,6 +857,27 @@
       </div>
       <button type="button" class="api-header">bxor</button>
       <div class="api-content">
+        <h3 class="syntax">bxor(a,b) => c</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>a</td>
+            <td>first integer number</td>
+          </tr>
+          <tr>
+            <td>b</td>
+            <td>second integer number</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>c</td>
+            <td>result of a XOR b</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>
           Takes the arguments a,b and returns the result of performing the
           bitwise XOR operation on the two values. Both arguments are expected to
@@ -209,6 +886,23 @@
       </div>
       <button type="button" class="api-header">bnot</button>
       <div class="api-content">
+        <h3 class="syntax">bnot(x) => y</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>an integer number</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>y</td>
+            <td>result of NOT x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>
           Takes the argument x and returns the result of performing the bitwise
           NOT operation on the value. The argument is expected to be an integer,
@@ -218,6 +912,23 @@
       <h3>Misc</h3>
       <button type="button" class="api-header">chr</button>
       <div class="api-content">
+        <h3 class="syntax">chr(x) => c</h3>
+        <hr/>
+        <h4>Arguments</h4>
+        <table>
+          <tr>
+            <td>x</td>
+            <td>a numeric ASCII code</td>
+          </tr>
+        </table>
+        <h4>Returns</h4>
+        <table>
+          <tr>
+            <td>c</td>
+            <td>character representation of x</td>
+          </tr>
+        </table>
+        <h4>Description</h4>
         <p>Converts the ASCII code x to its character representation and returns it.</p>
       </div>
     </div>
