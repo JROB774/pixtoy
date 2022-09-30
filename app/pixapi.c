@@ -268,9 +268,9 @@ PIXAPI(tan)
 PIXAPI(clamp)
 {
     pixFLOAT x = luaL_checknumber(lua, 1);
-    pixFLOAT y = luaL_checknumber(lua, 2);
-    pixFLOAT z = luaL_checknumber(lua, 3);
-    x = PIXCLAMP(x,y,z);
+    pixFLOAT l = luaL_checknumber(lua, 2);
+    pixFLOAT u = luaL_checknumber(lua, 3);
+    x = PIXCLAMP(x,l,u);
     lua_pushnumber(lua, x);
     return 1;
 }

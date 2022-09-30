@@ -32,7 +32,7 @@ PIXAPI(sqrt ); // x       -> y   :: returns the square root of x
 PIXAPI(cos  ); // x       -> y   :: returns cosine of x
 PIXAPI(sin  ); // x       -> y   :: returns sine of x
 PIXAPI(tan  ); // x       -> y   :: returns tan of x
-PIXAPI(clamp); // x,l,h   -> y   :: returns x clamped between l and h
+PIXAPI(clamp); // x,l,u   -> y   :: returns x clamped between l and u
 PIXAPI(seed ); // [x]            :: uses current time or x as new random seed
 PIXAPI(rand ); // [x,[y]] -> z   :: generate a random number within a range
 // DRAW //////
