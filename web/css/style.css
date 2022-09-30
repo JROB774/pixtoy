@@ -215,6 +215,18 @@ td.arg-name
   background: var(--mdcolor);
 }
 
+.button#nksoftworks
+{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.button#nksoftworks img
+{
+  padding-right: 8px;
+}
+
 #canvas
 {
   display: block;
