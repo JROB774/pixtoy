@@ -6,7 +6,7 @@
 PIXTOY is a fun and simple web toy for creating miniature pixelated graphics
 effects using the Lua programming language. The app exposes a small set of
 simple primitive drawing functions, as well as some other utility functions
-(maths, bitwise ops, etc.) to allow the creation of the effects.
+(maths, bitwise ops, etc.) to allow for the creation of these effects.
 
 You can see an example of a PIXTOY program by going to the [main page here](https://www.nksoftworks.com/pixtoy/).
 
