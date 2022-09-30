@@ -31,7 +31,7 @@
           Started</a> page for that! It is a very simple language (especially in the context of PIXTOY)
           and very fun to learn and use.
         </p>
-        <h3>Layout</h3>
+        <h3>Website Layout</h3>
         <p>
           When you first arrive at the PIXTOY homepage you will be greeted with a screen that looks
           somewhat like this:
@@ -50,9 +50,39 @@
           Get familiar with this workspace and play around with the buttons, once you're ready we can
           start writing some actual code!
         </p>
-        <h3>Creating</h3>
+        <h3>Program Structure</h3>
         <p>
-          ......
+          Here is a breakdown of the basic structure of a PIXTOY program:
+        </p>
+        <img class="help-image" src="img/help/template.png"/>
+        <p>
+          Neither of these components are mandatory, you could write a program that just runs through
+          once to draw a scene and does not need a DRAW function; or you could write a program that
+          only uses a DRAW function and never has any startup code - it's entirely up to you!
+        </p>
+        <p>
+          It is worth nothing that, unlike normal Lua, PIXTOY does not care about case-sensitivity,
+          this is done to make things a bit simpler (and because the font of PIXTOY, Emulogic, is all
+          uppercase anyway).
+        </p>
+        <h3>Color Palette</h3>
+        <p>
+          PIXTOY has a number of drawing functions available for creating interesting visuals, all of
+          these functinos do not take in colors how you might expect. For example calling CLRS to clear
+          the screen with a value of 6 will result in the screen being filled with this green color:
+        </p>
+        <img class="help-image" src="img/help/clear.png"/>
+        <p>
+          Why is this? It is because PIXTOY uses a color palette! There are 16 unique colors available
+          in PIXTOY, each mapping to a number from 0-15, you can use these different colors in any of
+          the draw functions by simply passing in the associated number. Here is a handy reference of
+          all the colors in PIXTOY and what numbers they map to:
+        </p>
+        <img class="help-image" src="img/help/palette.png"/>
+        <p>
+          It's worth mentioning that the palette used by PIXTOY is
+          <a href="https://lospec.com/palette-list/sweetie-16" target="_blank">Sweetie 16</a> by
+          <a href="https://grafxkid.tumblr.com/" target="_blank">Grafxkid</a>!
         </p>
       </div>
       <hr/>
