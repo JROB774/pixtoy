@@ -161,7 +161,7 @@ pixINT main(pixINT argc, pixCHAR** argv)
     pixINT ww = PIXSCRW*6;
     pixINT wh = PIXSCRH*6;
 
-    pixctx.window = SDL_CreateWindow("pixtoy", 0,0,ww,wh, SDL_WINDOW_SHOWN);
+    pixctx.window = SDL_CreateWindow("PIXTOY", 0,0,ww,wh, SDL_WINDOW_SHOWN);
     if(!pixctx.window)
         sdl_fatal_error("Failed to create window.");
     pixctx.render = SDL_CreateRenderer(pixctx.window, -1, 0);
