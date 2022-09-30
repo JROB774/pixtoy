@@ -3,10 +3,10 @@
 ![build](https://github.com/jrob774/pixtoy/actions/workflows/build.yaml/badge.svg)
 ![deploy](https://github.com/jrob774/pixtoy/actions/workflows/deploy.yaml/badge.svg)
 
-PIXTOY is a fun and simple web toy for creating miniature pixelated graphics effects
-using the Lua programming language. The app exposes a small set of simple primitive
-drawing functions, as well as some other utility functions (maths, bitwise ops, etc.)
-to allow the creation of the effects.
+PIXTOY is a fun and simple web toy for creating miniature pixelated graphics
+effects using the Lua programming language. The app exposes a small set of
+simple primitive drawing functions, as well as some other utility functions
+(maths, bitwise ops, etc.) to allow the creation of the effects.
 
 You can see an example of a PIXTOY program by going to the [main page here](https://www.nksoftworks.com/pixtoy/).
 
@@ -38,9 +38,8 @@ build        :: build the actual PIXTOY C web app for local execution
 
 ## Attribution
 
-The palette used in PIXTOY is the **[Sweetie 16](https://lospec.com/palette-list/sweetie-16)**
-palette developed by **[Grafxkid](https://grafxkid.tumblr.com/)**.
+The palette used in PIXTOY is the **[Sweetie 16](https://lospec.com/palette-list/sweetie-16)** palette, developed by **[Grafxkid](https://grafxkid.tumblr.com/)**.
 
 ## License
 
-The project's code is available under the **[MIT License](https://github.com/JROB774/pixtoy/blob/master/LICENSE)**.
+The project's code is available under the **[MIT License](https://github.com/JROB774/pixtoy/blob/master/LICENSE)**, Copyright (C) Joshua Robertson 2022.
